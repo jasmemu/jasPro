@@ -13,11 +13,11 @@
           <el-input v-model="formData.name" placeholder="请输入姓名" clearable :style="{width: '100%'}" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" >
-          <el-input v-model="formData.password" placeholder="请输入密码"  readonly clearable :style="{width: '100%'}" size="mini">
+          <el-input v-model="formData.period" placeholder="请输入密码" readonly clearable :style="{width: '100%'}" size="mini">
           </el-input>
         </el-form-item>
         <el-form-item label="电话" prop="phone">
-          <el-input v-model="formData.phone" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
+          <el-input v-model="formData.credit" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="formData.email" placeholder="请输入邮箱" clearable :style="{width: '100%'}" size="mini"></el-input>
@@ -33,8 +33,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="入学时间" prop="enrollment">
-          <el-date-picker v-model="formData.enrollment" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                          :style="{width: '100%'}" placeholder="请选择入学时间"  size="mini"></el-date-picker>
+          <el-date-picker v-model="formData.beginDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                          :style="{width: '100%'}" placeholder="请选择入学时间" size="mini"></el-date-picker>
         </el-form-item>
         <el-form-item label="年级" prop="sGrade">
           <el-select v-model="formData.sGrade" placeholder="请选择年级" clearable :style="{width: '100%'}" size="mini">
@@ -70,12 +70,12 @@ import axios from 'axios'
         formData: {
           sNo: undefined,
           name: undefined,
-          password: '123456',
-          phone: undefined,
+          period: '123456',
+          credit: undefined,
           email: undefined,
           identify: undefined,
           speId: undefined,
-          enrollment: null,
+          beginDate: null,
           sGrade: undefined,
           sClass: undefined,
         },
@@ -98,7 +98,7 @@ import axios from 'axios'
             message: '姓名不能为空',
             trigger: 'blur'
           }],
-          password: [{
+          period: [{
             required: true,
             message: '请输入密码',
             trigger: 'blur'
@@ -107,7 +107,7 @@ import axios from 'axios'
             message: '密码不能为空',
             trigger: 'blur'
           }],
-          phone: [{
+          credit: [{
             required: true,
             message: '请输入电话',
             trigger: 'blur'
@@ -143,7 +143,7 @@ import axios from 'axios'
             message: '请选择专业',
             trigger: 'change'
           }],
-          enrollment: [{
+          beginDate: [{
             required: true,
             message: '请选择入学时间',
             trigger: 'change'
@@ -202,21 +202,26 @@ import axios from 'axios'
     watch: {},
     created() {
         var _this =this
-        var s=this.$route.params.sNoFromM   //从StuMainDiv的修改跳来的
-        var s2 = this.$route.params.sNoFromV //从ViewStuInfo的修改跳来的
+        var s=this.$route.params.sNo
+        var s2 = this.$route.params.stuNo
+      console.log("s=="+s)
+        console.log('s2=='+s2)
+
         var sNo ='';
         if(s!=undefined){
           sNo =s
         }else if(s2!=undefined){
           sNo =s2
         }
+      console.log('sNo=='+sNo)
 
-        if(sNo == ''){  //添加学生信息  从StuMainDiv的添加按钮挑来的
+        if(sNo == ''){  //添加学生信息
             this.showH5a = true
             this.showH5u = false
         }else {  //修改学生信息
             this.showH5u = true
             this.showH5a = false
+          console.log('sNo2=='+sNo)
             axios.get('http://localhost:8080/jas/mport/stu/getStuBySno/'+ sNo).then(function (resp) {
                 console.log(resp)
                 _this.formData = resp.data

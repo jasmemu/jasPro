@@ -4,14 +4,16 @@ import VueRouter from 'vue-router'
 import copy from "@/views/managerport/copy"
 //下列属于管理员端url
 import SysMainPage from "@/views/managerport/SysMainPage"
-import StuManage from "@/views/managerport/student/StuManage"
+import StuMainDiv from "@/views/managerport/student/StuMainDiv"
 import AddStuInfo from "@/views/managerport/student/AddStuInfo"
 import ViewStuInfo from "@/views/managerport/student/ViewStuInfo"
 
+import CourseMainDiv from "@/views/managerport/course/CourseMainDiv"
+import AddCourseInfo from "@/views/managerport/course/AddCourseInfo"
+import ViewCourseInfo from "@/views/managerport/course/ViewCourseInfo"
 
-import TeaInfoCheck from "@/views/managerport/teacher/TeaInfoCheck"
-import ImportCourseInfo from "@/views/managerport/course/ImportCourseInfo"
-import CourseInfoCheck from "@/views/managerport/course/CourseInfoCheck"
+
+
 //下列属于学生端url
 
 Vue.use(VueRouter)
@@ -28,9 +30,9 @@ const routes = [
     component: SysMainPage,
     children: [
       {
-        path: '/SysMainPage/StuManage',
-        name: 'StuManage',
-        component: StuManage
+        path: '/SysMainPage/StuMainDiv',
+        name: 'StuMainDiv',
+        component: StuMainDiv
       },
       {
         path: '/SysMainPage/AddStuInfo',
@@ -42,22 +44,22 @@ const routes = [
         name: 'ViewStuInfo',
         component: ViewStuInfo
       },
+      {
+        path: '/SysMainPage/CourseMainDiv',
+        name: 'CourseMainDiv',
+        component: CourseMainDiv
+      },
+      {
+        path: '/SysMainPage/AddCourseInfo',
+        name: 'AddCourseInfo',
+        component: AddCourseInfo
+      },
+      {
+        path: '/SysMainPage/ViewCourseInfo',
+        name: 'ViewCourseInfo',
+        component: ViewCourseInfo
+      }
 
-      {
-        path: '/SysMainPage/TeaInfoCheck',
-        name: 'TeaInfoCheck',
-        component: TeaInfoCheck
-      },
-      {
-        path: '/SysMainPage/ImportCourseInfo',
-        name: 'ImporCourseInfo',
-        component: ImportCourseInfo
-      },
-      {
-        path: '/SysMainPage/CourseInfoCheck',
-        name: 'CourseInfoCheck',
-        component: CourseInfoCheck
-      },
     ]
   },
 

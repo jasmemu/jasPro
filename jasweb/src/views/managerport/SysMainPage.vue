@@ -8,24 +8,23 @@
               <el-submenu index="1">
                 <template slot="title"><i class="el-icon-message"></i>学生管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuManage" >学生基本信息</router-link></el-menu-item>
-                  <el-menu-item index="1-2"><router-link tag="li" to="/SysMainPage/ImportStuInfo">导入学生信息</router-link></el-menu-item>
-                  <el-menu-item index="1-3"> <router-link tag="li"  to="/SysMainPage/StuInfoCheck" >学生信息查询</router-link></el-menu-item>
+                  <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuMainDiv" >学生信息</router-link></el-menu-item>
+                  <el-menu-item index="1-2"><router-link tag="li" to="">null</router-link></el-menu-item>
                 </el-menu-item-group>
 
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title"><i class="el-icon-menu"></i>教师管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/ImportTeaInfo">导入教师信息</router-link></el-menu-item>
-                  <el-menu-item index="2-2"><router-link tag="li" to="/SysMainPage/TeaInfoCheck">教师信息查询</router-link></el-menu-item>
+                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/ImportTeaInfo">教师信息</router-link></el-menu-item>
+                  <el-menu-item index="2-2"><router-link tag="li" to=""></router-link>null</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="3">
-                <template slot="title"><i class="el-icon-setting"></i>科目管理</template>
+                <template slot="title"><i class="el-icon-setting"></i>课程管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/ImportCourseInfo">导入科目信息</router-link></el-menu-item>
-                  <el-menu-item index="3-2"><router-link tag="li" to="/SysMainPage/CourseInfoCheck">科目信息查询</router-link></el-menu-item>
+                  <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv">课程信息</router-link></el-menu-item>
+                  <el-menu-item index="3-2"><router-link tag="li" to="">null</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>

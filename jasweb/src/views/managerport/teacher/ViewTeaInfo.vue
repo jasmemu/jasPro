@@ -16,13 +16,13 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="密码" prop="password">
-                        <el-input v-model="formData.password" placeholder="请输入密码" readonly clearable
+                        <el-input v-model="formData.period" placeholder="请输入密码" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="手机号" prop="phone">
-                        <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
+                        <el-input v-model="formData.credit" placeholder="请输入手机号" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
@@ -46,7 +46,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="入学时间" prop="enrollment">
-                        <el-input v-model="formData.enrollment" placeholder="请输入入学时间" readonly clearable
+                        <el-input v-model="formData.beginDate" placeholder="请输入入学时间" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
@@ -83,12 +83,12 @@
                 rules: {
                     sNo: [],
                     name: [],
-                    password: [],
-                    phone: [],
+                    period: [],
+                    credit: [],
                     speId: [],
                     email: [],
                     sClass: [],
-                    enrollment: [],
+                    beginDate: [],
                     sGrade: [],
                     identify: [],
                 },
@@ -104,10 +104,10 @@
         methods: {
             alterStu() {
                 var sNo  =this.formData.sNo
-                this.$router.push({name:'AddStuInfo',params:{sNoFromV: sNo}})
+                this.$router.push({name:'AddStuInfo',params:{stuNo: sNo}})
             },
             goBack() {
-               this.$router.push("/SysMainPage/StuMainDiv")
+               this.$router.push("/SysMainPage/StuManage")
             },
         }
     }
