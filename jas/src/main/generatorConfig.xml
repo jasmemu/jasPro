@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <!-- 这里选择的是去掉注释,因为mybatis生成的注释非常繁琐 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库的配置信息 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://39.101.178.153:3306/jas" userId="three"
+                        password="123456"/>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+                    NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类存放的包-->
+        <javaModelGenerator  targetPackage="com.zyg.jas.common.pojo" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成xml存放的包 -->
+<!--        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\java">-->
+<!--            <property name="enableSubPackages" value="false"/>-->
+<!--        </sqlMapGenerator>-->
+
+        <!-- mapper接口生成的位置-->
+<!--        <javaClientGenerator targetPackage="mapper" targetProject=".\src\main\java" type="XMLMAPPER">-->
+<!--            <property name="enableSubPackages" value="false"/>-->
+<!--        </javaClientGenerator>-->
+
+        <!-- 需要逆向生成哪些表 -->
+        <table tableName="committee"/>
+        <table tableName="course"/>
+        <table tableName="homework"/>
+        <table tableName="notice"/>
+        <table tableName="resources"/>
+        <table tableName="SC"/>
+        <table tableName="score"/>
+        <table tableName="student"/>
+        <table tableName="sys_manager"/>
+        <table tableName="TC"/>
+        <table tableName="teacher"/>
+        <table tableName="specialty"/>
+    </context>
+
+</generatorConfiguration>
+
+
+
+
+        <!--
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE generatorConfiguration
+                PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+                "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        <generatorConfiguration>
+
+            &lt;!&ndash; classPathEntry:数据库的 JDBC驱动的jar 包地址
+             这里需要一个mysql的驱动包,去随便找一个驱动包就可以,指定路径
+             &ndash;&gt;
+            <classPathEntry
+                    location="D:\\DevelopDir\developbase\maven\apache-maven-3.6.0\repo\mysql\mysql-connector-java\6.0.2\mysql-connector-java-6.0.2.jar" />
+            <context id="caigouTables" targetRuntime="MyBatis3">
+                <commentGenerator>
+                    &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;
+                    &lt;!&ndash; 这里选择的是去掉注释,因为mybatis生成的注释非常繁琐 &ndash;&gt;
+                    <property name="suppressAllComments" value="true" />
+                </commentGenerator>
+
+                &lt;!&ndash;数据库连接的信息：驱动类、连接地址、用户名、密码 &ndash;&gt;
+
+                <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                                connectionURL="jdbc:mysql://39.101.178.153:3306/jas" userId="three"
+                                password="123456">
+                </jdbcConnection>
+                &lt;!&ndash; orcal数据库 注意这里使用orcal数据库 上面驱动包也必须指定为 orcal的驱动&ndash;&gt;
+
+                &lt;!&ndash; <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg"
+                userId="yycg"
+                password="yycg">
+                </jdbcConnection> &ndash;&gt;
+
+                &lt;!&ndash; 默认 false，把 JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把 JDBC DECIMAL 和
+                NUMERIC 类型解析为java.math.BigDecimal &ndash;&gt;
+                <javaTypeResolver>
+                    <property name="forceBigDecimals" value="false" />
+                </javaTypeResolver>
+
+                &lt;!&ndash; targetProject:生成 POJO 类的位置 src/main/java/com.pyg.pojo &ndash;&gt;
+                <javaModelGenerator   targetPackage="com.zyg.jas.common.pojo" targetProject="./src/main/java">
+                    &lt;!&ndash; enableSubPackages:是否让schema 作为包的后缀 &ndash;&gt;
+                    <property name="enableSubPackages" value="true" />
+                    &lt;!&ndash; 从数据库返回的值被清理前后的空格 &ndash;&gt;
+                    <property name="trimStrings" value="true" />
+                </javaModelGenerator>
+
+
+
+                &lt;!&ndash; 需要逆向生成哪些表 &ndash;&gt;
+                <table tableName="committee"/>
+                <table tableName="course"/>
+                <table tableName="homework"/>
+                <table tableName="notice"/>
+                <table tableName="resources"/>
+                <table tableName="SC"/>
+                <table tableName="score"/>
+                <table tableName="student"/>
+                <table tableName="sys_manager"/>
+                <table tableName="TC"/>
+                <table tableName="teacher"/>
+            </context>
+        </generatorConfiguration>
+
+
+
+
+
+
+
+
+        -->
