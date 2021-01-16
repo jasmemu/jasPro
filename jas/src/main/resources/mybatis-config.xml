@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--        打印sql日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <!--开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <!-- 为实体类起别名（不然在mapper文件中返回值要写完整类名） -->
+    <typeAliases>
+        <package name="com.zyg.jas.common.pojo"/>
+    </typeAliases>
+
+</configuration>

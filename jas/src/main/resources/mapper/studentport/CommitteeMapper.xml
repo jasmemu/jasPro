@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.CommitteeDao">
+
+    <resultMap id="commiMap" type="com.zyg.jas.common.pojo.Committee">
+        <id property="comId" column="Com_id" />
+        <result property="password" column="password" />
+        <result property="name" column="name"/>
+    </resultMap>
+    <select id="getCommittees" resultMap="commiMap">
+		select * from committee;
+	</select>
+
+
+</mapper>
