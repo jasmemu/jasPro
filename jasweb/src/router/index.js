@@ -12,6 +12,10 @@ import CourseMainDiv from "@/views/managerport/course/CourseMainDiv"
 import AddCourseInfo from "@/views/managerport/course/AddCourseInfo"
 import ViewCourseInfo from "@/views/managerport/course/ViewCourseInfo"
 
+import TeaMainDiv from "@/views/managerport/teacher/TeaMainDiv"
+import AddTeaInfo from "@/views/managerport/teacher/AddTeaInfo"
+import ViewTeaInfo from "@/views/managerport/teacher/ViewTeaInfo"
+
 
 
 //下列属于学生端url
@@ -58,6 +62,21 @@ const routes = [
         path: '/SysMainPage/ViewCourseInfo',
         name: 'ViewCourseInfo',
         component: ViewCourseInfo
+      },
+      {
+        path: '/SysMainPage/TeaMainDiv',
+        name: 'TeaMainDiv',
+        component: TeaMainDiv
+      },
+      {
+        path: '/SysMainPage/AddTeaInfo',
+        name: 'AddTeaInfo',
+        component: AddTeaInfo
+      },
+      {
+        path: '/SysMainPage/ViewTeaInfo',
+        name: 'ViewTeaInfo',
+        component: ViewTeaInfo
       }
 
     ]
