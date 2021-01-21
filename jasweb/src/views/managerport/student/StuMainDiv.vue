@@ -8,9 +8,9 @@
                 <div style="float: left;margin-left: 20px">
                     学号:<input type="text"  v-model="formForSearch.sNo">
                 </div>
-                <div style="float: left;margin-left: 20px">
-                    身份证号:<input type="text"  v-model="formForSearch.identify">
-                </div>
+<!--                <div style="float: left;margin-left: 20px">-->
+<!--                    身份证号:<input type="text"  v-model="formForSearch.identify">-->
+<!--                </div>-->
                 <div>
                     <input type="button"  value="查找" style="margin-left: 30px" @click="search()">
                 </div>
@@ -99,8 +99,9 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="135">
                     <template slot-scope="scope">
+                        <el-button @click="viewBySno(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="alertBySno(scope.row)" type="text" size="small">修改</el-button>
                         <el-button @click="deleteBySno(scope.row)" type="text" size="small">删除</el-button>
                     </template>
@@ -199,6 +200,15 @@ import axios from 'axios'
             alertBySno(row) {
                alert(row.sNo)
                 this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
+            },
+            viewBySno(row){
+                console.log(row)
+                var _this = this
+                axios.get('http://localhost:8080/jas/mport/stu/getStuBySno/'+ row.sNo).then(function (resp) {
+                    var stuPojo = resp.data
+                    _this.$router.push({name: 'ViewStuInfo',params: {stu: stuPojo}})
+                })
+                // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
             deleteBySno(row){
                 var de;

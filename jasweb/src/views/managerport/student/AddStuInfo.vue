@@ -48,6 +48,20 @@
                        :value="item.value" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
+<!--        <el-form-item label="所选课程" prop="courses">-->
+<!--          <el-checkbox-group v-model="formData.courses" size="medium">-->
+<!--              <el-checkbox v-for="(item, index) in chCourseOptions" :key="index" :label="item.value"-->
+<!--                           :disabled="item.disabled">{{item.label}}</el-checkbox>-->
+<!--          </el-checkbox-group>-->
+<!--        </el-form-item>-->
+
+          <div  style="margin-left: 70px">
+              课程：
+              <el-checkbox-group v-model="formData.courses">
+                  <el-checkbox :label="item" v-for="(item,index) in courseOption" :key="index" ></el-checkbox>
+              </el-checkbox-group>
+          </div>
+
         <el-form-item size="small" style="margin-left: 250px">
           <el-button type="primary" @click="submitForm">提交</el-button>
           <el-button @click="resetForm">重置</el-button>
@@ -65,6 +79,7 @@ import axios from 'axios'
     props: [],
     data() {
       return {
+          courseOption: [],
           showH5a: true,
           showH5u: true,
         formData: {
@@ -78,6 +93,7 @@ import axios from 'axios'
           enrollment: null,
           sGrade: undefined,
           sClass: undefined,
+          courses: []
         },
         rules: {
           sNo: [{
@@ -196,12 +212,28 @@ import axios from 'axios'
           "label": "2班",
           "value": 2
         }],
+        //     [{
+        //    "label": "选项一",
+        //    "value": 1
+        // }, {
+        //     "label": "选项二",
+        //     "value": 2
+        // }],
       }
     },
     computed: {},
     watch: {},
     created() {
         var _this =this
+        axios.get('http://localhost:8080/jas/mport/course/getAllCourse/1/30').then(function (resp) { //获取所有课程
+            if (resp.data!==null&&resp.data!=''){
+                console.log(resp.data)
+                for(var i=0;i<resp.data.length;i++){
+                    _this.courseOption.push(resp.data[i].name)
+                }
+            }
+        })
+
         var s=this.$route.params.sNoFromM   //从StuMainDiv的修改跳来的
         var s2 = this.$route.params.sNoFromV //从ViewStuInfo的修改跳来的
         var sNo ='';
@@ -226,7 +258,7 @@ import axios from 'axios'
     },
     mounted() {
         var _this = this;
-        axios.get('http://localhost:8080/jas/mport/spe/getspecialties').then(function (resp) {
+        axios.get('http://localhost:8080/jas/mport/spe/getspecialties').then(function (resp) {  //获取所用专业
             // console.log(resp)
             if(resp.data!== null){
                 for (var i =0;i<resp.data.length;i++) {
@@ -248,6 +280,9 @@ import axios from 'axios'
         this.$refs['elForm'].validate(valid => {
           if (!valid) return
           // TODO 提交表单
+            console.log(this.formData)
+            console.log("集合")
+            console.log(this.formData.courses)
           axios.post('http://localhost:8080/jas/mport/stu/savestu', this.formData).then(function (resp) {
             if (resp.data === 'success') {
                 alert("提交成功")

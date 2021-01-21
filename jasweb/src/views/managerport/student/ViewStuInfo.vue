@@ -62,6 +62,12 @@
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
+                <div style="margin-left: 100px">
+                    已选课程
+                    <el-checkbox-group v-model="formData.courses">
+                        <el-checkbox :label="item" v-for="(item,index) in formData.courses" :key="index" onclick="return false;" ></el-checkbox>
+                    </el-checkbox-group>
+                </div>
                 <el-col :span="24">
                     <el-form-item size="large">
                         <el-button type="primary" @click="alterStu()">修改</el-button>
@@ -91,13 +97,14 @@
                     enrollment: [],
                     sGrade: [],
                     identify: [],
+                    courses: []
                 },
             }
         },
         computed: {},
         watch: {},
         created() {
-            this.formData = this.$route.params.stu
+            this.formData = this.$route.params.stu  //搜索按钮和查看按钮函数中的路由都有参数stu
             console.log(this.formData)
         },
         mounted() {},

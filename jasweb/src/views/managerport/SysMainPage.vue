@@ -4,24 +4,23 @@
         <el-header>系统管理员系统</el-header>
         <el-container >
           <el-aside :style="windowHeight" width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1', '3']">
+            <el-menu :default-openeds="['', '']">
               <el-submenu index="1">
-                <template slot="title"><i class="el-icon-message"></i>学生管理</template>
+                <template slot="title"><i class="el-icon-menu"></i>学生管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuMainDiv" >学生信息</router-link></el-menu-item>
                   <el-menu-item index="1-2"><router-link tag="li" to="">null</router-link></el-menu-item>
                 </el-menu-item-group>
-
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title"><i class="el-icon-menu"></i>教师管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/ImportTeaInfo">教师信息</router-link></el-menu-item>
+                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/TeaMainDiv">教师信息</router-link></el-menu-item>
                   <el-menu-item index="2-2"><router-link tag="li" to=""></router-link>null</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="3">
-                <template slot="title"><i class="el-icon-setting"></i>课程管理</template>
+                <template slot="title"><i class="el-icon-menu"></i>课程管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv">课程信息</router-link></el-menu-item>
                   <el-menu-item index="3-2"><router-link tag="li" to="">null</router-link></el-menu-item>

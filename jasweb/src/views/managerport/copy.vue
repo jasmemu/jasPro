@@ -1,74 +1,88 @@
 <template>
-  <div>
-    <!-- Form -->
-    <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+    <div>
+        <el-row :gutter="15">
+            <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
 
-    <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-upload
-                class="upload-demo"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                multiple
-                :limit="3"
-                :on-exceed="handleExceed"
-                :file-list="fileList">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
-  </div>
+                <el-col :span="12">
+                    <el-form-item label="教师编号" prop="tNo">
+                        <el-input v-model="formData.tNo" placeholder="教师编号" readonly clearable :style="{width: '100%'}">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="手机号" prop="phone">
+                        <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input v-model="formData.email" placeholder="请输入邮箱" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="身份证号" prop="identify">
+                        <el-input v-model="formData.identify" placeholder="请输入身份证号" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                </el-col>
+                <hr/>
+                <hr/>
+                <hr/>
+                <div style="margin-left: 100px">
+                    已选课程
+                    <el-checkbox-group v-model="chooseCourse">
+                        <el-checkbox :label="item" v-for="(item,index) in chooseCourse" :key="index" onclick="return false;" ></el-checkbox>
+                    </el-checkbox-group>
+                </div>
+                <el-col :span="24">
+                    <el-form-item size="large">
+                        <el-button type="primary" @click="alterStu()">修改</el-button>
+                        <el-button @click="goBack()">返回</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-form>
+        </el-row>
+    </div>
 </template>
-
-
 <script>
-import axios from 'axios'
-  export default {
-    data() {
-      return {
-        //文件上传===================
-        fileList: [],
-        //弹出框====================
-        dialogTableVisible: false,
-        dialogFormVisible: false,
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+    export default {
+        components: {},
+        props: [],
+        data() {
+            return {
+                chooseCourse: [],
+                formData: null,
+                sNo: ''
+            }
         },
-        formLabelWidth: '120px'
-      };
-    },
-    methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-        const formData = new FormData()
-        formData.append('file', file.raw)
-        axios.post('http://localhost:8080/jas/mport/stu/dealExcel',formData).then(function (resp) {
-          alert(resp.data)
-        })
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
-      }
+        computed: {},
+        watch: {},
+        created() {
+            this.formData = this.$route.params.tea
+            for (let i=0;i<this.formData.courses.length;i++){
+                this.chooseCourse.push(this.formData.courses[i].name)
+            }
+        },
+        mounted() {},
+        methods: {
+            alterStu() {
+                var tNo  =this.formData.tNo
+                this.$router.push({name:'AddTeaInfo',params:{tNoFromV: tNo}})
+            },
+            goBack() {
+                this.$router.push("/SysMainPage/TeaMainDiv")
+            },
+        }
     }
-  };
+
 </script>
+<style>
+</style>

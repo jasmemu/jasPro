@@ -81,8 +81,9 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="135">
                     <template slot-scope="scope">
+                        <el-button @click="viewByCourseId(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="alertByCourseId(scope.row)" type="text" size="small">修改</el-button>
                         <el-button @click="deleteByCourseId(scope.row)" type="text" size="small">删除</el-button>
                     </template>
@@ -169,6 +170,15 @@ import axios from 'axios'
             alertByCourseId(row) {
                alert(row.courseId)
                 this.$router.push({ name: 'AddCourseInfo', params: { courseIdFromM: row.courseId } })
+            },
+            viewByCourseId(row){
+                console.log(row)
+                var _this = this
+                axios.get('http://localhost:8080/jas/mport/course/getCourseById/'+ row.courseId).then(function (resp) {
+                    var coursePojo = resp.data
+                    _this.$router.push({name: 'ViewCourseInfo',params: {course: coursePojo}})
+                })
+                // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
             deleteByCourseId(row){
                 var de;
