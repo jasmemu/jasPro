@@ -35,9 +35,10 @@ http://www.springframework.org/schema/util/spring-util.xsd">
     <!-- 配置声明式事务 -->
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
-            <!-- 哪些方法需要有事务控制(StudentServiceImpl中saveStuFromExcel批量保存stu方法需要事务) -->
+            <!-- 哪些方法需要有事务控制(StudentServiceImpl中saveStuFromExcel批量保存stu方法需要事务...) -->
             <tx:method name="saveStuFromExcel"  />
             <tx:method name="saveCourseFromExcel"  />
+            <tx:method name="saveTeaFromExcel" />
         </tx:attributes>
     </tx:advice>
 

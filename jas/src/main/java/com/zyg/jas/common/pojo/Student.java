@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Student implements Serializable { //序列化二级缓存需要
     private String sNo;
@@ -28,6 +29,8 @@ public class Student implements Serializable { //序列化二级缓存需要
     private String sGrade;
 
     private Integer sClass;
+
+    private List<String> courses;  //学生所选课程名称
 
     public String getsNo() {
         return sNo;
@@ -109,6 +112,15 @@ public class Student implements Serializable { //序列化二级缓存需要
         this.sClass = sClass;
     }
 
+
+    public List<String> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<String> courses) {
+        this.courses = courses;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -122,6 +134,7 @@ public class Student implements Serializable { //序列化二级缓存需要
                 ", email='" + email + '\'' +
                 ", sGrade='" + sGrade + '\'' +
                 ", sClass=" + sClass +
+                ", courses=" + courses +
                 '}';
     }
 }

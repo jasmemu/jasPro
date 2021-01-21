@@ -1,18 +1,11 @@
 package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Sc  implements Serializable {
-    private String courseId;
+    private String courseId;  //不是课程id，而是课程名称（也唯一）
 
     private String sNo;
-
-    private Date startDate;
-
-    private Date endDate;
-
-    private Integer studyStatus;
 
     public String getCourseId() {
         return courseId;
@@ -30,27 +23,11 @@ public class Sc  implements Serializable {
         this.sNo = sNo == null ? null : sNo.trim();
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Integer getStudyStatus() {
-        return studyStatus;
-    }
-
-    public void setStudyStatus(Integer studyStatus) {
-        this.studyStatus = studyStatus;
+    @Override
+    public String toString() {
+        return "Sc{" +
+                "courseId='" + courseId + '\'' +
+                ", sNo='" + sNo + '\'' +
+                '}';
     }
 }

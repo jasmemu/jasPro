@@ -14,8 +14,15 @@ public class ExcelUtil {
     public static void main(String[] args) {
 
         // 此处为我创建Excel路径：E:/zhanhj/studysrc/jxl下
-        File file = new File("D:/readExcel.xlsx");
-        readExcel(file);
+        File file = new File("C:/Users/MING/Desktop/0实体信息表/学生信息.xls");
+        List<List> excelList = readExcel(file);
+        for (int i = 0; i < excelList.size(); i++) {
+            List list = (List) excelList.get(i);
+            for (int j = 0; j < list.size(); j++) {
+                System.out.print(list.get(j) + ",");
+            }
+            System.out.println();
+        }
     }
 
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象

@@ -1,9 +1,11 @@
 package com.zyg.jas.managerport.controller;
 
 
+import com.zyg.jas.common.pojo.Sc;
 import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.common.tool.util.MultipartFileToFile;
+import com.zyg.jas.managerport.service.ScService;
 import com.zyg.jas.managerport.service.impl.StudentServiceImpl;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,20 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private StudentServiceImpl studentService;
+    @Autowired
+    private ScService scService;
 
+    @RequestMapping("/test")
+    @ResponseBody
+    public String g(@RequestBody List<Integer> list){
+        System.out.println(list.toString());
+        return "success";
+    }
     @RequestMapping("/savestu")  //添加一个学生
     @ResponseBody
     public String send(@RequestBody Student student){
+        System.out.println("接收到的学生信息");
+        System.out.println(student);
         int r =this.studentService.addStudent(student);
         if (r==1){
             return "success";
@@ -43,8 +55,8 @@ public class StudentController {
     @ResponseBody
     public List<Student> getAllStu(@PathVariable("pageNo") Integer pageNo,@PathVariable("pageSize") Integer pageSize){
         List<Student> students = this.studentService.getAllStu(pageNo,pageSize);
-        System.out.println("学生");
-        System.out.println(students);
+//        System.out.println("学生");
+//        System.out.println(students);
         return students;
     }
     @RequestMapping("/getStuTotal") //获取student表所有记录
@@ -53,10 +65,12 @@ public class StudentController {
         return String.valueOf(this.studentService.getStuTotal());
     }
 
-    @RequestMapping("/getStuBySno/{sNo}") //获取student表所有记录
+    @RequestMapping("/getStuBySno/{sNo}") //根据学号获取student并带有课程
     @ResponseBody
     public Student getStuBySno(@PathVariable("sNo") String sNo){
         Student student = this.studentService.getStuBySno(sNo);
+        List<String> courses =  this.scService.getCourseBySno(sNo);
+        student.setCourses(courses);
         return student;
     }
 
@@ -70,10 +84,12 @@ public class StudentController {
     @ResponseBody
     public Student getStuForSearch(@RequestBody Student student){
         Student stu = this.studentService.getStuForSearch(student);
+        List<String> courses = this.scService.getCourseBySno(stu.getsNo());
+        stu.setCourses(courses);
         return stu;
     }
 
-    @RequestMapping("/dealExcel") //根据sNo删除一条记录
+    @RequestMapping("/dealExcel") //处理上传的Excel文件
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         System.out.println("接收到的Excel");

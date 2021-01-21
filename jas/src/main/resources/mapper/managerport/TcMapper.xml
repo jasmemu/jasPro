@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.TcDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="tcMap" type="com.zyg.jas.common.pojo.Tc">
+        <id property="tcId" column="tc_id" />
+        <result property="courseId" column="course_id"/>
+        <result property="tNo" column="t_no"/>
+    </resultMap>
+    <insert id="insertToTc" parameterType="com.zyg.jas.common.pojo.Tc">
+        insert into  TC(tc_id,course_id, t_no)
+        values (#{tcId},#{courseId},#{tNo});
+    </insert>
+
+    <select id="selectCourseByTno" resultType="java.lang.String">
+		select course_id from TC where t_no = #{tNo};
+	</select>
+
+    <delete id="deleteTcByTno" parameterType="String">
+        delete from TC where t_no = #{tNo}
+    </delete>
+    
+
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.ScDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="ScMap" type="com.zyg.jas.common.pojo.Sc">
+        <id property="courseId" column="course_id" />
+        <result property="sNo" column="s_no"/>
+    </resultMap>
+    <insert id="insertToSc" parameterType="com.zyg.jas.common.pojo.Sc">
+        insert into  SC(course_id, s_no)
+        values (#{courseId},#{sNo});
+    </insert>
+
+    <select id="selectCourseBySno" resultType="java.lang.String">
+		select course_id from SC where s_no = #{sNo};
+	</select>
+    
+
+
+</mapper>

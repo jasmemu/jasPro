@@ -1,6 +1,7 @@
 package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Teacher implements Serializable {
     private String tNo;
@@ -11,7 +12,11 @@ public class Teacher implements Serializable {
 
     private String identify;
 
-    private String sex;
+    private String phone;
+
+    private String email;
+
+    private List<Course> courses; //所教课程
 
     public String gettNo() {
         return tNo;
@@ -45,11 +50,40 @@ public class Teacher implements Serializable {
         this.identify = identify == null ? null : identify.trim();
     }
 
-    public String getSex() {
-        return sex;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "tNo='" + tNo + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", identify='" + identify + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", courses=" + courses +
+                '}';
     }
 }

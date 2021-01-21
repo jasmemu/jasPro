@@ -4,8 +4,10 @@ package com.zyg.jas.managerport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zyg.jas.common.pojo.Sc;
 import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.ExcelUtil;
+import com.zyg.jas.managerport.dao.ScDao;
 import com.zyg.jas.managerport.dao.StudentDao;
 import com.zyg.jas.managerport.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentDao studentDao;
 
+    @Autowired
+    private ScDao scDao;
+
 //    public void setStudentDao(StudentDao studentDao) {
 //       this.studentDao=studentDao;
 //    }
@@ -33,10 +38,19 @@ public class StudentServiceImpl implements StudentService {
     public int addStudent(Student student) {
         Student stu = this.studentDao.selectStuBySno(student.getsNo());
         int r;
+        //向学生表添加记录
         if (stu == null){  //不存在这个学号，执行添加
             r = this.studentDao.insertStudent(student);
         }else { //存在这个学号，执行跟新
             r=this.studentDao.updateStudent(student);
+        }
+        //向Sc表添加记录
+        int cLen = student.getCourses().size();
+        for (int i=0;i<cLen;i++){
+            Sc sc = new Sc();
+            sc.setCourseId(student.getCourses().get(i));
+            sc.setsNo(student.getsNo());
+            this.scDao.insertToSc(sc);
         }
         return r;
     }
@@ -47,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
         List<Student> list = this.studentDao.selectAllStu();
         System.out.println("学生list");
         System.out.println(list);
-        PageInfo page = new PageInfo(list);
+       // PageInfo page = new PageInfo(list);
        return list;
     }
 
@@ -75,6 +89,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> dealExcelForStudents(MultipartFile file) {
         List<Student> studentList = new ArrayList<Student>();
+        List<Sc> scList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
@@ -125,14 +140,25 @@ public class StudentServiceImpl implements StudentService {
                         e.printStackTrace();
                     }
                     stu.setEnrollment(dateTime);
-
+                }else {
+                    Sc sc =new Sc();
+                    sc.setsNo(stu.getsNo());
+                    System.out.println("课程：" + list.get(j).toString());
+                    sc.setCourseId(list.get(j).toString());
+                    scList.add(sc);
                 }
             }
             stu.setPassword("123456"); //学生设置默认登录密码
             studentList.add(stu);
         }
-        for (int y=0;y<studentList.size();y++){
-            System.out.println(studentList.get(y).toString());
+//        for (int y=0;y<studentList.size();y++){
+//            System.out.println(studentList.get(y).toString());
+//        }
+//        for(int j=0;j<scList.size();j++){
+//            System.out.println(scList.get(j).toString());
+//        }
+        for(int j=0;j<scList.size();j++){
+            this.scDao.insertToSc(scList.get(j));
         }
         return studentList;
     }

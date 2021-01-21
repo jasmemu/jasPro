@@ -1,16 +1,23 @@
 package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Tc  implements Serializable {
-    private String courseId;
+
+    private  String tcId;
+
+    private String courseId;  //courseId是课程名称
 
     private String tNo;
 
-    private Date startDate;
 
-    private Date endDate;
+    public String getTcId() {
+        return tcId;
+    }
+
+    public void setTcId(String tcId) {
+        this.tcId = tcId;
+    }
 
     public String getCourseId() {
         return courseId;
@@ -28,19 +35,12 @@ public class Tc  implements Serializable {
         this.tNo = tNo == null ? null : tNo.trim();
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    @Override
+    public String toString() {
+        return "Tc{" +
+                "tcId='" + tcId + '\'' +
+                ", courseId='" + courseId + '\'' +
+                ", tNo='" + tNo + '\'' +
+                '}';
     }
 }
