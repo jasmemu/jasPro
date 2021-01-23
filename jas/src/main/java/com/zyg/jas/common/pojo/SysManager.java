@@ -17,6 +17,18 @@ public class SysManager implements Serializable {
 
     private String identify;
 
+    public SysManager() { }
+
+    public SysManager(String id, String name, String phone, String account, String password, String email, String identify) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.account = account;
+        this.password = password;
+        this.email = email;
+        this.identify = identify;
+    }
+
     public String getId() {
         return id;
     }
@@ -71,5 +83,18 @@ public class SysManager implements Serializable {
 
     public void setIdentify(String identify) {
         this.identify = identify == null ? null : identify.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "SysManager{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", identify='" + identify + '\'' +
+                '}';
     }
 }

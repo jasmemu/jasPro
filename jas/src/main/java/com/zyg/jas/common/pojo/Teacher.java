@@ -16,7 +16,27 @@ public class Teacher implements Serializable {
 
     private String email;
 
-    private List<Course> courses; //所教课程
+    private List<Course> courses; //教师的课程
+
+    public Teacher() { }
+
+    public Teacher(String tNo, String password, String name, String identify, String phone, String email, List<Course> courses) {
+        this.tNo = tNo;
+        this.password = password;
+        this.name = name;
+        this.identify = identify;
+        this.phone = phone;
+        this.email = email;
+        this.courses = courses;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 
     public String gettNo() {
         return tNo;
@@ -55,7 +75,7 @@ public class Teacher implements Serializable {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getEmail() {
@@ -63,15 +83,7 @@ public class Teacher implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+        this.email = email == null ? null : email.trim();
     }
 
     @Override

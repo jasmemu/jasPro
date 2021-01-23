@@ -1,5 +1,8 @@
 package com.zyg.jas.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 
 public class Homework implements Serializable {
@@ -11,9 +14,28 @@ public class Homework implements Serializable {
 
     private String hUrl;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
+    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
     private String publishDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
+    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
     private String endDate;
+
+    private Integer id;
+
+    public Homework() {
+    }
+
+    public Homework(String hId, String comId, String courseId, String hUrl, String publishDate, String endDate, Integer id) {
+        this.hId = hId;
+        this.comId = comId;
+        this.courseId = courseId;
+        this.hUrl = hUrl;
+        this.publishDate = publishDate;
+        this.endDate = endDate;
+        this.id = id;
+    }
 
     public String gethId() {
         return hId;
@@ -61,5 +83,26 @@ public class Homework implements Serializable {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate == null ? null : endDate.trim();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Homework{" +
+                "hId='" + hId + '\'' +
+                ", comId='" + comId + '\'' +
+                ", courseId='" + courseId + '\'' +
+                ", hUrl='" + hUrl + '\'' +
+                ", publishDate='" + publishDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

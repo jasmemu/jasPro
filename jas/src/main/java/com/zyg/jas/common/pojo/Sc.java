@@ -2,10 +2,29 @@ package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
 
-public class Sc  implements Serializable {
-    private String courseId;  //不是课程id，而是课程名称（也唯一）
+public class Sc implements Serializable {
+    private Integer scId;
+
+    private String courseId;
 
     private String sNo;
+
+    public Sc() {
+    }
+
+    public Sc(Integer scId, String courseId, String sNo) {
+        this.scId = scId;
+        this.courseId = courseId;
+        this.sNo = sNo;
+    }
+
+    public Integer getScId() {
+        return scId;
+    }
+
+    public void setScId(Integer scId) {
+        this.scId = scId;
+    }
 
     public String getCourseId() {
         return courseId;
@@ -26,7 +45,8 @@ public class Sc  implements Serializable {
     @Override
     public String toString() {
         return "Sc{" +
-                "courseId='" + courseId + '\'' +
+                "scId=" + scId +
+                ", courseId='" + courseId + '\'' +
                 ", sNo='" + sNo + '\'' +
                 '}';
     }

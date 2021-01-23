@@ -2,20 +2,26 @@ package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
 
-public class Tc  implements Serializable {
+public class Tc implements Serializable {
+    private Integer tcId;
 
-    private  String tcId;
-
-    private String courseId;  //courseId是课程名称
+    private String courseId;
 
     private String tNo;
 
+    public Tc() { }
 
-    public String getTcId() {
+    public Tc(Integer tcId, String courseId, String tNo) {
+        this.tcId = tcId;
+        this.courseId = courseId;
+        this.tNo = tNo;
+    }
+
+    public Integer getTcId() {
         return tcId;
     }
 
-    public void setTcId(String tcId) {
+    public void setTcId(Integer tcId) {
         this.tcId = tcId;
     }
 
@@ -38,7 +44,7 @@ public class Tc  implements Serializable {
     @Override
     public String toString() {
         return "Tc{" +
-                "tcId='" + tcId + '\'' +
+                "tcId=" + tcId +
                 ", courseId='" + courseId + '\'' +
                 ", tNo='" + tNo + '\'' +
                 '}';

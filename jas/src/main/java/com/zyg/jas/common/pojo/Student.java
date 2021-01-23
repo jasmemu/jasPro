@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Student implements Serializable { //序列化二级缓存需要
+public class Student implements Serializable {
     private String sNo;
 
     private String name;
@@ -30,7 +30,25 @@ public class Student implements Serializable { //序列化二级缓存需要
 
     private Integer sClass;
 
-    private List<String> courses;  //学生所选课程名称
+    private List<Course> courses; //学生所选课程
+
+    public Student() {
+    }
+
+    public Student(String sNo, String name, String password, String phone, String identify, Integer speId, List<Course> courses, Date enrollment, String email, String sGrade, Integer sClass) {
+        this.sNo = sNo;
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.identify = identify;
+        this.speId = speId;
+        this.courses = courses;
+        this.enrollment = enrollment;
+        this.email = email;
+        this.sGrade = sGrade;
+        this.sClass = sClass;
+    }
+
 
     public String getsNo() {
         return sNo;
@@ -112,12 +130,11 @@ public class Student implements Serializable { //序列化二级缓存需要
         this.sClass = sClass;
     }
 
-
-    public List<String> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<String> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 

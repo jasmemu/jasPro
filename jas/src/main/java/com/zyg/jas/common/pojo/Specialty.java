@@ -7,6 +7,14 @@ public class Specialty implements Serializable {
 
     private String speName;
 
+    public Specialty() {
+    }
+
+    public Specialty(Integer speId, String speName) {
+        this.speId = speId;
+        this.speName = speName;
+    }
+
     public Integer getSpeId() {
         return speId;
     }

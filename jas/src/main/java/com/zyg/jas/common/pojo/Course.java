@@ -23,6 +23,18 @@ public class Course implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
     private Date endDate;
 
+    public Course() {
+    }
+
+    public Course(String courseId, String name, Integer period, Integer credit, Date beginDate, Date endDate) {
+        this.courseId = courseId;
+        this.name = name;
+        this.period = period;
+        this.credit = credit;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+    }
+
     public String getCourseId() {
         return courseId;
     }

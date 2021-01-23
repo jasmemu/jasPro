@@ -1,25 +1,52 @@
 package com.zyg.jas.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Score  implements Serializable {
-    private String hId;
+public class Score implements Serializable {
+    private Integer id;
+
+    private Integer hId;
 
     private String sNo;
 
     private Double score;
 
-    private Date correctdate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
+    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
+    private Date correctDate;
 
-    private String commitedjobUrl;
+    private String commitedJobUrl;
 
-    public String gethId() {
+    public Score() {
+    }
+
+    public Score(Integer id, Integer hId, String sNo, Double score, Date correctDate, String commitedJobUrl) {
+        this.id = id;
+        this.hId = hId;
+        this.sNo = sNo;
+        this.score = score;
+        this.correctDate = correctDate;
+        this.commitedJobUrl = commitedJobUrl;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer gethId() {
         return hId;
     }
 
-    public void sethId(String hId) {
-        this.hId = hId == null ? null : hId.trim();
+    public void sethId(Integer hId) {
+        this.hId = hId;
     }
 
     public String getsNo() {
@@ -38,19 +65,31 @@ public class Score  implements Serializable {
         this.score = score;
     }
 
-    public Date getCorrectdate() {
-        return correctdate;
+    public Date getCorrectDate() {
+        return correctDate;
     }
 
-    public void setCorrectdate(Date correctdate) {
-        this.correctdate = correctdate;
+    public void setCorrectDate(Date correctDate) {
+        this.correctDate = correctDate;
     }
 
-    public String getCommitedjobUrl() {
-        return commitedjobUrl;
+    public String getCommitedJobUrl() {
+        return commitedJobUrl;
     }
 
-    public void setCommitedjobUrl(String commitedjobUrl) {
-        this.commitedjobUrl = commitedjobUrl == null ? null : commitedjobUrl.trim();
+    public void setCommitedJobUrl(String commitedJobUrl) {
+        this.commitedJobUrl = commitedJobUrl == null ? null : commitedJobUrl.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "id=" + id +
+                ", hId=" + hId +
+                ", sNo='" + sNo + '\'' +
+                ", score=" + score +
+                ", correctDate=" + correctDate +
+                ", commitedJobUrl='" + commitedJobUrl + '\'' +
+                '}';
     }
 }
