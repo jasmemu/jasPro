@@ -39,12 +39,14 @@ http://www.springframework.org/schema/util/spring-util.xsd">
             <tx:method name="saveStuFromExcel"  />
             <tx:method name="saveCourseFromExcel"  />
             <tx:method name="saveTeaFromExcel" />
+            <tx:method name="saveCmtFromExcel" />
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
         <!-- 切点范围设置大一些 -->
         <aop:pointcut expression="execution(* com.zyg.jas.managerport.service.impl.*.*(..))"  id="mypoint" />
+<!--        <aop:pointcut expression="execution(* *..*ServiceImpl.*(..))"  id="mypoint" />-->
         <aop:advisor advice-ref="txAdvice" pointcut-ref="mypoint" />
     </aop:config>
     <!--不添加下方标签报：Bean named 'employeeServiceImpl' is expected to be of type 'com.xmm.service.impl.EmployeeServiceImpl' but was actually of type 'com.sun.proxy.$Proxy27'  -->

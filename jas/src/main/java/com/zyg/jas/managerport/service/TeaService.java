@@ -11,11 +11,11 @@ public interface TeaService {
     public Teacher getTeaByTno(String tNo);
 
     List<Teacher> getAllTea(Integer pageNo, Integer pageSize);
-    public long getStuTotal(); //获取记录总数
+    public Integer getTeaTotal(); //获取记录总数
 
     public Teacher getTeaForSearch(Teacher teacher);  //前端搜索框使用
 
-    public void deleteStuByTno(String tNo);
+    public void deleteTeaByTno(String tNo);
 
     public List<Teacher> dealExcelForTeas(MultipartFile file); //从上传的excel中获取teacher，保存到集合
 

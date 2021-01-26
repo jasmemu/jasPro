@@ -39,19 +39,25 @@ public class TeaController {
 
     @RequestMapping("/getAllTea/{pageNo}/{pageSize}") //获取student表所有记录
     @ResponseBody
-    public List<Teacher> getAllStu(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+    public List<Teacher> getAllTea(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
         List<Teacher> students = this.teaService.getAllTea(pageNo,pageSize);
         return students;
     }
     @RequestMapping("/getTeaTotal") //获取student表所有记录
     @ResponseBody
-    public String getStuTotal(){
-        return String.valueOf(this.teaService.getStuTotal());
+    public String getTeaTotal(){
+        Integer teaCount = this.teaService.getTeaTotal();
+        if (teaCount!=null){
+            return String.valueOf(teaCount);
+        }else {
+            return "";
+        }
+
     }
 
     @RequestMapping("/getTeaForSearch")
     @ResponseBody
-    public Teacher getStuForSearch(@RequestBody Teacher teacher){
+    public Teacher getTeaForSearch(@RequestBody Teacher teacher){
         Teacher tea = this.teaService.getTeaForSearch(teacher);
         if (tea!=null){
             List<String> courses = this.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
@@ -68,7 +74,7 @@ public class TeaController {
 
     @RequestMapping("/getTeaByTno/{tNo}") //根据学号获取student并带有课程
     @ResponseBody
-    public Teacher getStuBySno(@PathVariable("tNo") String tNo){
+    public Teacher getTeaByTno(@PathVariable("tNo") String tNo){
         Teacher teacher = this.teaService.getTeaByTno(tNo);
         if (teacher!=null){
             List<Course> courseList = new ArrayList<>();
@@ -85,8 +91,8 @@ public class TeaController {
 
     @RequestMapping("/deleteByTno/{tNo}") //根据sNo删除一条记录
     @ResponseBody
-    public void deleteBySno(@PathVariable("tNo") String tno){
-        this.teaService.deleteStuByTno(tno);
+    public void deleteByTno(@PathVariable("tNo") String tno){
+        this.teaService.deleteTeaByTno(tno);
     }
 
     @RequestMapping("/dealExcel") //处理上传的Excel文件

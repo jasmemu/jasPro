@@ -8,16 +8,16 @@
     <cache></cache>
 
     <resultMap id="studentMap" type="com.zyg.jas.common.pojo.Student">
-        <id property="sNo" column="S_no" />
-        <result property="name" column="name" />
-        <result property="password" column="password" />
-        <result property="phone" column="phone"/>
-        <result property="identify" column="identify"/>
+        <id property="sNo" column="s_no" />
+        <result property="name" column="s_name" />
+        <result property="password" column="s_password" />
+        <result property="phone" column="s_phone"/>
+        <result property="identify" column="s_identify"/>
         <result property="speId" column="spe_id" />
-        <result property="enrollment" column="enrollment"/>
-        <result property="email" column="email" />
-        <result property="sGrade" column="S_grade"/>
-        <result property="sClass" column="S_class" />
+        <result property="enrollment" column="s_enrollment"/>
+        <result property="email" column="s_email" />
+        <result property="sGrade" column="s_grade"/>
+        <result property="sClass" column="s_class" />
     </resultMap>
     <select id="selectAllStu" resultMap="studentMap">
 		select * from student
@@ -28,33 +28,33 @@
     </select>
 
     <select id="selectStuBySno" resultMap="studentMap" parameterType="String">
-        select * from student where S_no = #{sNo}
+        select * from student where s_no = #{sNo}
     </select>
 
     <insert id="insertStudent" parameterType="com.zyg.jas.common.pojo.Student">
-        insert into  student(S_no, name, password, phone, identify, spe_id, enrollment, email, S_grade, S_class)
+        insert into  student(s_no, s_name, s_password, s_phone, s_identify, spe_id, s_enrollment, s_email, s_grade, s_class)
         values (#{sNo},#{name},#{password},#{phone},#{identify},#{speId},#{enrollment},#{email},#{sGrade},#{sClass});
     </insert>
 
     <update id="updateStudent" parameterType="com.zyg.jas.common.pojo.Student">
-        update student set name=#{name},password=#{password},phone=#{phone},identify=#{identify},spe_id=#{speId},
-        enrollment=#{enrollment},email=#{email},S_grade=#{sGrade},S_class=#{sClass} where S_no = #{sNo}
+        update student set s_name=#{name},s_password=#{password},s_phone=#{phone},s_identify=#{identify},spe_id=#{speId},
+        s_enrollment=#{enrollment},s_email=#{email},s_grade=#{sGrade},s_class=#{sClass} where s_no = #{sNo}
     </update>
 
     <delete id="deleteBySno" parameterType="String">
-        delete from student where S_no = #{sNo}
+        delete from student where s_no = #{sNo}
     </delete>
 
     <select id="selectStuForSearch" parameterType="com.zyg.jas.common.pojo.Student"  resultMap="studentMap" >
           select * from student where 1=1
               <if test="sNo!=null and sNo!=''">
-                 and S_no=#{sNo}
+                 and s_no=#{sNo}
               </if>
               <if test="name!=null and name!=''">
-                  and name=#{name}
+                  and s_name=#{name}
               </if>
               <if test="identify!=null and identify!=''">
-                  and identify=#{identify}
+                  and s_identify=#{identify}
               </if>
     </select>
 

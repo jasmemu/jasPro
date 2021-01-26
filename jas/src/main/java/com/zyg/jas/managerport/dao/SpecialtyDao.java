@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface SpecialtyDao {
     public List<Specialty> selectAllSpeCialty();
+
+    Specialty selectSpeByName(String name);
+
+    Specialty selectSpeBySpeId(Integer speId);
 }

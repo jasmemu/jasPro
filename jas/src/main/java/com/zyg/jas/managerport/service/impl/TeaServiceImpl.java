@@ -58,8 +58,13 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
-    public long getStuTotal() {
-        return this.teaDao.selectCountOfTea();
+    public Integer getTeaTotal() {
+        Integer teaCount =  this.teaDao.selectCountOfTea();
+        if (teaCount!=null){
+            return teaCount;
+        }else {
+            return null;
+        }
     }
 
     @Override
@@ -68,7 +73,7 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
-    public void deleteStuByTno(String tNo) {
+    public void deleteTeaByTno(String tNo) {
         this.teaDao.deleteByTno(tNo); //删除teacher表中教师信息
         this.tcDao.deleteTcByTno(tNo); //删除tc表中教师教授的课程信息
     }

@@ -10,6 +10,8 @@ import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.ScDao;
 import com.zyg.jas.managerport.dao.StudentDao;
 import com.zyg.jas.managerport.service.StudentService;
+import org.apache.ibatis.logging.Log;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
 
     @Autowired
     private StudentDao studentDao;
@@ -45,10 +48,11 @@ public class StudentServiceImpl implements StudentService {
             r=this.studentDao.updateStudent(student);
         }
         //向Sc表添加记录
+        this.scDao.deleteScBySno(student.getsNo()); //插入和跟新学生所选课程（对sc进行插入和跟新时），先根据sNo删除sc表中的记录，再重新插入
         int cLen = student.getCourses().size();
         for (int i=0;i<cLen;i++){
             Sc sc = new Sc();
-            sc.setCourseId(student.getCourses().get(i));
+            sc.setCourseId(student.getCourses().get(i).getName());
             sc.setsNo(student.getsNo());
             this.scDao.insertToSc(sc);
         }
@@ -59,15 +63,18 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getAllStu(Integer pageNo,Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);  //startPage是告诉拦截器说我要开始分页了。分页参数是这两个。
         List<Student> list = this.studentDao.selectAllStu();
-        System.out.println("学生list");
-        System.out.println(list);
-       // PageInfo page = new PageInfo(list);
+        //PageInfo pageInfo = new PageInfo(list);
        return list;
     }
 
     @Override
-    public long getStuTotal() {
-        return this.studentDao.selectCountOfStu();
+    public Integer getStuTotal() {
+        Integer stuCount = this.studentDao.selectCountOfStu();
+        if (stuCount!=null){
+            return stuCount;
+        }else {
+            return null;
+        }
     }
 
     @Override

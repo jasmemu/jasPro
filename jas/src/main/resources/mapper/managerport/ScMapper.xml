@@ -19,6 +19,10 @@
     <select id="selectCourseBySno" resultType="java.lang.String">
 		select course_id from SC where s_no = #{sNo};
 	</select>
+
+    <delete id="deleteScBySno" parameterType="String">
+        delete from SC where s_no = #{sNo}
+    </delete>
     
 
 

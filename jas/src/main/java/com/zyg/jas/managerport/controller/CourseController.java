@@ -32,19 +32,24 @@ public class CourseController {
 
     @RequestMapping("/getAllCourse/{pageNo}/{pageSize}") //获取student表所有记录
     @ResponseBody
-    public List<Course> getAllStu(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+    public List<Course> getAllCourse(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
         List<Course> courses = this.courseService.getAllCourse(pageNo,pageSize);
         return courses;
     }
     @RequestMapping("/getCourseTotal") //获取student表所有记录
     @ResponseBody
-    public String getStuTotal(){
-        return String.valueOf(this.courseService.getCourseTotal());
+    public String getCourseTotal(){
+        Integer courseCount = this.courseService.getCourseTotal();
+        if (courseCount!=null){
+            return String.valueOf(courseCount);
+        }else {
+            return "";
+        }
     }
 
-    @RequestMapping("/getCourseById/{courseId}") //获取student表所有记录
+    @RequestMapping("/getCourseById/{courseId}")
     @ResponseBody
-    public Course getStuBySno(@PathVariable("courseId") String courseId){
+    public Course getCourseById(@PathVariable("courseId") String courseId){
         Course course = this.courseService.getCourseById(courseId);
 
         return course;
@@ -52,13 +57,13 @@ public class CourseController {
 
     @RequestMapping("/deleteByCourseId/{courseId}") //根据sNo删除一条记录
     @ResponseBody
-    public void deleteBySno(@PathVariable("courseId") String courseId){
+    public void deleteByCourseId(@PathVariable("courseId") String courseId){
         this.courseService.deleteCourseById(courseId);
     }
 
     @RequestMapping("/getCourseForSearch")
     @ResponseBody
-    public Course getStuForSearch(@RequestBody Course course){
+    public Course getCourseForSearch(@RequestBody Course course){
         Course c = this.courseService.getCourseForSearch(course);
         return c;
     }

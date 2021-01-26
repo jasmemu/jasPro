@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.CmtDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="cmtMap" type="com.zyg.jas.common.pojo.Committee">
+        <id property="comId" column="com_id" />
+        <result property="password" column="cmt_password"/>
+        <result property="name" column="cmt_name"/>
+        <result property="phone" column="cmt_phone"/>
+        <result property="cGrade" column="c_grade"/>
+        <result property="cClass" column="c_class"/>
+         <!-- association用于一对一（一个学委只能属于一个专业）       -->
+        <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
+            <result property="speId" column="spe_id"/>
+            <result property="speName" column="spe_name"/>
+        </association>
+        <!--collection用于映射一个集合（一个学委管理多门课程）-->
+        <collection property="courses" ofType="com.zyg.jas.common.pojo.Course" >
+            <id property="courseId" column="course_id" />
+            <result property="name" column="cs_name"/>
+            <result property="period" column="cs_period"/>
+            <result property="credit" column="cs_credit"/>
+            <result property="beginDate" column="begin_date"/>
+            <result property="endDate" column="end_date"/>
+        </collection>
+    </resultMap>
+    <update id="updateCmtById" parameterType="com.zyg.jas.common.pojo.Committee">
+        update committee set cmt_name=#{name},cmt_phone=#{phone},spe_id=#{specialty.speId},c_grade=#{cGrade},
+        c_class=#{cClass}  where  com_id=#{comId};
+    </update>
+    <select id="selectAllCmt" resultMap="cmtMap">
+	   SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
+       LEFT JOIN course cou1 ON cou1.cs_name = c1.course_id INNER JOIN
+       specialty spe1 ON spe1.spe_id = com1.spe_id;
+	</select>
+    <select id="selectCountOfCmt" resultType="Integer">
+        select count(*) from committee;
+    </select>
+
+    <insert id="insertCmt" parameterType="com.zyg.jas.common.pojo.Committee">
+        insert into  committee(com_id, cmt_password, cmt_name, cmt_phone, spe_id, c_grade,c_class)
+        values (#{comId},#{password},#{name},#{phone},#{specialty.speId},#{cGrade},#{cClass});
+    </insert>
+
+    <select id="selectCmtById" resultMap="cmtMap" parameterType="String">
+          SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
+        LEFT JOIN course cou1 ON cou1.cs_name = c1.course_id INNER JOIN specialty spe1 ON spe1.spe_id = com1.spe_id
+         where com1.com_id = #{id};
+    </select>
+
+    <delete id="deleteCmtById" parameterType="String" >
+        delete from committee where com_id = #{comId}
+    </delete>
+
+    <select id="selectCmtForSearch" parameterType="com.zyg.jas.common.pojo.Committee"  resultMap="cmtMap" >
+        SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
+        LEFT JOIN course cou1 ON cou1.cs_name = c1.course_id INNER JOIN specialty spe1 ON spe1.spe_id = com1.spe_id
+        where  1=1
+        <if test="specialty != null">
+            and com1.spe_id=#{specialty.speId}
+        </if>
+        <if test="cGrade != null and cGrade != ''">
+            and com1.c_grade=#{cGrade}
+        </if>
+        <if test="cClass != null">
+            and com1.c_class=#{cClass}
+        </if>
+    </select>
+
+
+
+</mapper>

@@ -67,14 +67,10 @@
             <array>
                 <bean class="com.github.pagehelper.PageHelper">
                     <property name="properties">
-                        <value>
-                            offsetAsPageNum=true        <!-- offset参数当成pageNum使用 -->
-                            rowBoundsWithCount=true     <!-- 进行count查询 -->
-                            pageSizeZero=true           <!-- pageSize=0查询全部 -->
-                            reasonable=true             <!-- 分页合理化参数 -->
-                            autoRuntimeDialect=true     <!-- 多数据源自动识别对应方言 -->
-                            <!-- 其它参数默认就好 -->
-                        </value>
+                        <props>
+                            <prop key="dialect">mysql</prop>
+                             <prop key="reasonable">true</prop>
+                          </props>
                     </property>
                 </bean>
             </array>

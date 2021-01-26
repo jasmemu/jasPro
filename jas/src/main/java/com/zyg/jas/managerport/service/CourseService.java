@@ -11,8 +11,8 @@ import java.util.List;
 public interface CourseService {
      int addCourse(Course course);
 
-     List<Course> getAllCourse(Integer pageNo,Integer pageSize);
-     public long getCourseTotal(); //获取记录总数
+     List<Course> getAllCourse(Integer pageNo, Integer pageSize);
+     public Integer getCourseTotal(); //获取记录总数
 
      public Course getCourseById(String id);
 

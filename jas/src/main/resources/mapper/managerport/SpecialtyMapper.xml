@@ -14,7 +14,17 @@
     <select id="selectAllSpeCialty" resultMap="specialtyMap">
 		select * from specialty;
 	</select>
-    
+    <select id="selectSpeByName" resultMap="specialtyMap" parameterType="String">
+		select spe_id,spe_name from specialty where  spe_name =#{name};
+	</select>
+
+    <select id="selectSpeBySpeId" resultMap="specialtyMap" parameterType="Integer">
+		select spe_id,spe_name from specialty where  spe_id =#{speId};
+	</select>
+
+
+
+
 
 
 </mapper>

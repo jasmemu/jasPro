@@ -45,8 +45,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public long getCourseTotal() {
-        return this.courseDao.selectCountOfCourse();
+    public Integer getCourseTotal() {
+        Integer courseCount = this.courseDao.selectCountOfCourse();
+        if (courseCount!=null){
+            return courseCount;
+        }else {
+            return null;
+        }
     }
 
     @Override

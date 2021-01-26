@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.controller;
 
 
+import com.zyg.jas.common.pojo.Course;
 import com.zyg.jas.common.pojo.Sc;
 import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.ExcelUtil;
@@ -31,18 +32,28 @@ public class StudentController {
     @Autowired
     private ScService scService;
 
-    @RequestMapping("/test")
+    @RequestMapping(value = "/test/{t}",method = RequestMethod.GET)
     @ResponseBody
-    public String g(@RequestBody List<Integer> list){
-        System.out.println(list.toString());
+    public String g(@PathVariable("t") Integer t) throws Exception{
+        System.out.println(t.toString());
+        if (t == 1){
+            String s = null;
+            System.out.println(s.length());
+        }else if (t==2){
+            String s2[] = {"1","2"};
+            System.out.println(s2[5]);
+        }else if (t==3){
+            System.out.println(10/0);
+        }
+
         return "success";
     }
-    @RequestMapping("/savestu")  //添加一个学生
+    @RequestMapping(value = "/savestu",method = RequestMethod.POST)  //添加一个学生
     @ResponseBody
     public String send(@RequestBody Student student){
         System.out.println("接收到的学生信息");
         System.out.println(student);
-        int r =this.studentService.addStudent(student);
+        Integer r =this.studentService.addStudent(student);
         if (r==1){
             return "success";
         }else{
@@ -51,30 +62,42 @@ public class StudentController {
     }
 
 
-    @RequestMapping("/getAllStu/{pageNo}/{pageSize}") //获取student表所有记录
+    @RequestMapping(value = "/getAllStu/{pageNo}/{pageSize}",method = RequestMethod.GET) //获取student表所有记录
     @ResponseBody
     public List<Student> getAllStu(@PathVariable("pageNo") Integer pageNo,@PathVariable("pageSize") Integer pageSize){
         List<Student> students = this.studentService.getAllStu(pageNo,pageSize);
-//        System.out.println("学生");
-//        System.out.println(students);
         return students;
     }
     @RequestMapping("/getStuTotal") //获取student表所有记录
     @ResponseBody
     public String getStuTotal(){
-        return String.valueOf(this.studentService.getStuTotal());
+        Integer stuCout = this.studentService.getStuTotal();
+        if (stuCout!=null){
+            return String.valueOf(stuCout);
+        }else {
+            return "";
+        }
+
     }
 
-    @RequestMapping("/getStuBySno/{sNo}") //根据学号获取student并带有课程
+    @RequestMapping(value = "/getStuBySno/{sNo}",method = RequestMethod.GET) //根据学号获取student并带有课程
     @ResponseBody
     public Student getStuBySno(@PathVariable("sNo") String sNo){
         Student student = this.studentService.getStuBySno(sNo);
-        List<String> courses =  this.scService.getCourseBySno(sNo);
-        student.setCourses(courses);
+        if (student!=null){
+            List<Course> courseList = new ArrayList<>();
+            List<String> courses = this.scService.getCourseBySno(student.getsNo());//.tcService.getCourseByTno(teacher.gettNo());
+            for (int i=0;i<courses.size();i++){
+                Course c = new Course();
+                c.setName(courses.get(i));
+                courseList.add(c);
+            }
+            student.setCourses(courseList);
+        }
         return student;
     }
 
-    @RequestMapping("/deleteBySno/{sNo}") //根据sNo删除一条记录
+    @RequestMapping(value = "/deleteBySno/{sNo}",method = RequestMethod.DELETE) //根据sNo删除一条记录
     @ResponseBody
     public void deleteBySno(@PathVariable("sNo") String sno){
         this.studentService.deleteStuBySno(sno);
@@ -84,12 +107,20 @@ public class StudentController {
     @ResponseBody
     public Student getStuForSearch(@RequestBody Student student){
         Student stu = this.studentService.getStuForSearch(student);
-        List<String> courses = this.scService.getCourseBySno(stu.getsNo());
-        stu.setCourses(courses);
+        if (stu!=null){
+            List<String> courses = this.scService.getCourseBySno(stu.getsNo());//.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
+            List<Course> c = new ArrayList<>();
+            for (int i=0;i<courses.size();i++){
+                Course cou = new Course();
+                cou.setName(courses.get(i));
+                c.add(cou);
+            }
+            stu.setCourses(c);
+        }
         return stu;
     }
 
-    @RequestMapping("/dealExcel") //处理上传的Excel文件
+    @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         System.out.println("接收到的Excel");

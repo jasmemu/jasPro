@@ -1,4 +1,4 @@
-/*
+package com.zyg.jas.studentport.service;/*
 package com.zyg.jas.studentport.service;
 
 import com.zyg.jas.common.pojo.Committee;

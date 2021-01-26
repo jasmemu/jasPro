@@ -9,9 +9,9 @@
 
     <resultMap id="courseMap" type="com.zyg.jas.common.pojo.Course">
         <id property="courseId" column="course_id" />
-        <result property="name" column="name"/>
-        <result property="period" column="period"/>
-        <result property="credit" column="credit"/>
+        <result property="name" column="cs_name"/>
+        <result property="period" column="cs_period"/>
+        <result property="credit" column="cs_credit"/>
         <result property="beginDate" column="begin_date"/>
         <result property="endDate" column="end_date"/>
     </resultMap>
@@ -23,7 +23,7 @@
     </select>
 
     <insert id="insertCourse" parameterType="com.zyg.jas.common.pojo.Course">
-        insert into  course(course_id, name, period, credit, begin_date, end_date)
+        insert into  course(course_id, cs_name, cs_period, cs_credit, begin_date, end_date)
         values (#{courseId},#{name},#{period},#{credit},#{beginDate},#{endDate});
     </insert>
 
@@ -36,7 +36,7 @@
     </delete>
 
     <update id="updateCourse" parameterType="com.zyg.jas.common.pojo.Course">
-        update course set name=#{name},period=#{period},credit=#{credit},begin_date=#{beginDate},
+        update course set cs_name=#{name},cs_period=#{period},cs_credit=#{credit},begin_date=#{beginDate},
         end_date=#{endDate}  where  course_id=#{courseId};
     </update>
 
@@ -47,7 +47,7 @@
             and course_id=#{courseId}
         </if>
         <if test="name!=null and name!=''">
-            and name=#{name}
+            and cs_name=#{name}
         </if>
     </select>
 

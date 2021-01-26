@@ -9,11 +9,11 @@
 
     <resultMap id="teaMap" type="com.zyg.jas.common.pojo.Teacher">
         <id property="tNo" column="t_no" />
-        <result property="password" column="password"/>
-        <result property="name" column="name"/>
-        <result property="identify" column="identify"/>
-        <result property="phone" column="phone"/>
-        <result property="email" column="email"/>
+        <result property="password" column="tea_password"/>
+        <result property="name" column="tea_name"/>
+        <result property="identify" column="tea_identify"/>
+        <result property="phone" column="tea_phone"/>
+        <result property="email" column="tea_email"/>
     </resultMap>
     <select id="selectAllTea" resultMap="teaMap">
 		select * from teacher
@@ -23,7 +23,7 @@
         select count(*) from teacher;
     </select>
     <insert id="insertToTeacher" parameterType="com.zyg.jas.common.pojo.Teacher">
-        insert into  teacher(t_no, password,name,identify,phone,email)
+        insert into  teacher(t_no, tea_password,tea_name,tea_identify,tea_phone,tea_email)
         values (#{tNo},#{password},#{name},#{identify},#{phone},#{email});
     </insert>
 
@@ -32,8 +32,8 @@
     </select>
 
     <update id="updateTea" parameterType="com.zyg.jas.common.pojo.Teacher">
-        update teacher set password=#{password},name=#{name},identify=#{identify},phone=#{phone},
-        email=#{email} where t_no = #{tNo}
+        update teacher set tea_password=#{password},tea_name=#{name},tea_identify=#{identify},tea_phone=#{phone},
+        tea_email=#{email} where t_no = #{tNo}
     </update>
 
 
@@ -43,7 +43,7 @@
             and t_no=#{tNo}
         </if>
         <if test="name!=null and name!=''">
-            and name=#{name}
+            and tea_name=#{name}
         </if>
     </select>
 

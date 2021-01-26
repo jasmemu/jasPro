@@ -11,8 +11,8 @@ import java.util.List;
 public interface StudentService {
      int addStudent(Student student);
 
-     List<Student> getAllStu(Integer pageNo,Integer pageSize);
-     public long getStuTotal(); //获取记录总数
+     List<Student> getAllStu(Integer pageNo, Integer pageSize);
+     public Integer getStuTotal(); //获取记录总数
 
      public Student getStuBySno(String sNo);
 

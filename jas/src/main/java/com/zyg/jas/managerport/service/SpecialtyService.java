@@ -8,4 +8,6 @@ public interface SpecialtyService {
     public List<Specialty> getAllSpecialty();
 
 
+
+
 }

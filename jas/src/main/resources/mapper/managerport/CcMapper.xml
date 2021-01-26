@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.CCDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="ccMap" type="com.zyg.jas.common.pojo.CC">
+        <id property="id" column="id" />
+        <result property="comId" column="com_id"/>
+        <result property="courseId" column="course_id"/>
+    </resultMap>
+    <insert id="insertToCc" parameterType="com.zyg.jas.common.pojo.CC">
+        insert into  CC(com_id, course_id)
+        values (#{comId},#{courseId});
+    </insert>
+
+    <select id="selectCourseByComId" resultType="java.lang.String">
+		select course_id from CC where com_id = #{comId};
+	</select>
+
+    <delete id="deleteCcByComid" parameterType="String">
+        delete from CC where com_id = #{comId};
+    </delete>
+    
+
+
+</mapper>
