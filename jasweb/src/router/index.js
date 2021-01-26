@@ -2,31 +2,60 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import copy from "@/views/managerport/copy"
-//下列属于管理员端url
-import SysMainPage from "@/views/managerport/SysMainPage"
-import StuMainDiv from "@/views/managerport/student/StuMainDiv"
-import AddStuInfo from "@/views/managerport/student/AddStuInfo"
-import ViewStuInfo from "@/views/managerport/student/ViewStuInfo"
+import EnterPage from "@/views/EnterPage"
+// 下列属于管理员端url
+   // 系统管理员
+import SysMainPage from "@/views/managerport/sysmodule/SysMainPage"
+import StuMainDiv from "@/views/managerport/sysmodule/student/StuMainDiv"
+import AddStuInfo from "@/views/managerport/sysmodule/student/AddStuInfo"
+import ViewStuInfo from "@/views/managerport/sysmodule/student/ViewStuInfo"
 
-import CourseMainDiv from "@/views/managerport/course/CourseMainDiv"
-import AddCourseInfo from "@/views/managerport/course/AddCourseInfo"
-import ViewCourseInfo from "@/views/managerport/course/ViewCourseInfo"
+import CourseMainDiv from "@/views/managerport/sysmodule/course/CourseMainDiv"
+import AddCourseInfo from "@/views/managerport/sysmodule/course/AddCourseInfo"
+import ViewCourseInfo from "@/views/managerport/sysmodule/course/ViewCourseInfo"
 
-import TeaMainDiv from "@/views/managerport/teacher/TeaMainDiv"
-import AddTeaInfo from "@/views/managerport/teacher/AddTeaInfo"
-import ViewTeaInfo from "@/views/managerport/teacher/ViewTeaInfo"
+import TeaMainDiv from "@/views/managerport/sysmodule/teacher/TeaMainDiv"
+import AddTeaInfo from "@/views/managerport/sysmodule/teacher/AddTeaInfo"
+import ViewTeaInfo from "@/views/managerport/sysmodule/teacher/ViewTeaInfo"
+
+import CmtMainDiv from "@/views/managerport/sysmodule/committee/CmtMainDiv"
+import AddCmtInfo from "@/views/managerport/sysmodule/committee/AddCmtInfo"
+import ViewCmtInfo from "@/views/managerport/sysmodule/committee/ViewCmtInfo"
+import ViewCmtDetail from "@/views/managerport/sysmodule/committee/ViewCmtDetail"
+
+  //下列属于管理员端url
+import CmtMainPage from "@/views/managerport/cmtmodule/CmtMainPage"
 
 
 
 //下列属于学生端url
+import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
 
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/copy',
     name: 'copy',
     component: copy
+  },
+  {
+    path: '*',
+    redirect: '/enter'
+  },
+  {
+    path: '/enter',
+    name: 'EnterPage',
+    component: EnterPage
+  },
+  {
+    path: '/CmtMainPage',
+    name: 'CmtMainPage',
+    component: CmtMainPage
+  },
+  {
+    path: '/StudentMainPage',
+    name: 'StudentMainPage',
+    component: StudentMainPage
   },
   {
     path: '/SysMainPage',
@@ -77,6 +106,26 @@ const routes = [
         path: '/SysMainPage/ViewTeaInfo',
         name: 'ViewTeaInfo',
         component: ViewTeaInfo
+      },
+      {
+        path: '/SysMainPage/CmtMainDiv',
+        name: 'CmtMainDiv',
+        component: CmtMainDiv
+      },
+      {
+        path: '/SysMainPage/AddCmtInfo',
+        name: 'AddCmtInfo',
+        component: AddCmtInfo
+      },
+      {
+        path: '/SysMainPage/ViewCmtInfo',
+        name: 'ViewCmtInfo',
+        component: ViewCmtInfo
+      },
+      {
+        path: '/SysMainPage/ViewCmtDetail',
+        name: 'ViewCmtDetail',
+        component: ViewCmtDetail
       }
 
     ]
