@@ -56,6 +56,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
     export default {
         components: {},
         props: [],
@@ -77,7 +78,6 @@
             }
         },
         mounted() {
-
         },
         methods: {
             alterCmt() {
@@ -91,5 +91,5 @@
     }
 
 </script>
-<style scoped>
+<style lang="scss" scoped>
 </style>

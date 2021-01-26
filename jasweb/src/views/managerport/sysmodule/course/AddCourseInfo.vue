@@ -121,8 +121,6 @@ import axios from 'axios'
         var _this =this
         var s=this.$route.params.courseIdFromM  //从**MainDiv的修改跳来的
         var s2 = this.$route.params.courseIdFromV //从View**Info的修改跳来的
-      console.log("s=="+s)
-        console.log('s2=='+s2)
 
         var courseId ='';
         if(s!=undefined){
@@ -130,7 +128,6 @@ import axios from 'axios'
         }else if(s2!=undefined){
           courseId =s2
         }
-      console.log('courseId=='+courseId)
 
         if(courseId == ''){  //添加课程信息
             this.showH5a = true
@@ -138,9 +135,7 @@ import axios from 'axios'
         }else {  //修改学生信息
             this.showH5u = true
             this.showH5a = false
-          console.log('courseId=='+courseId)
             axios.get('http://localhost:8080/jas/mport/course/getCourseById/'+ courseId).then(function (resp) {
-                console.log(resp)
                 _this.formData = resp.data
             })
         }
@@ -151,7 +146,6 @@ import axios from 'axios'
 
     methods: {
       submitForm() {
-          console.log(this.formData)
         this.$refs['elForm'].validate(valid => {
           if (!valid) return
           // TODO 提交表单

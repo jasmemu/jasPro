@@ -64,8 +64,8 @@
                 </el-col>
                 <div style="margin-left: 100px">
                     已选课程
-                    <el-checkbox-group v-model="formData.courses">
-                        <el-checkbox :label="item" v-for="(item,index) in formData.courses" :key="index" onclick="return false;" ></el-checkbox>
+                    <el-checkbox-group v-model="chooseCourse">
+                        <el-checkbox :label="item" v-for="(item,index) in chooseCourse" :key="index" onclick="return false;" ></el-checkbox>
                     </el-checkbox-group>
                 </div>
                 <el-col :span="24">
@@ -85,6 +85,7 @@
         data() {
             return {
                 formData: null,
+                chooseCourse: [],
                 sNo: '',
                 rules: {
                     sNo: [],
@@ -105,7 +106,9 @@
         watch: {},
         created() {
             this.formData = this.$route.params.stu  //搜索按钮和查看按钮函数中的路由都有参数stu
-            console.log(this.formData)
+            for (let i=0;i<this.formData.courses.length;i++){
+                this.chooseCourse.push(this.formData.courses[i].name)
+            }
         },
         mounted() {},
         methods: {
@@ -120,5 +123,5 @@
     }
 
 </script>
-<style>
+<style scoped>
 </style>

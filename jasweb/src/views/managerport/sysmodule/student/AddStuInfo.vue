@@ -57,7 +57,7 @@
 
           <div  style="margin-left: 70px">
               课程：
-              <el-checkbox-group v-model="formData.courses">
+              <el-checkbox-group v-model="chooseCourse">
                   <el-checkbox :label="item" v-for="(item,index) in courseOption" :key="index" ></el-checkbox>
               </el-checkbox-group>
           </div>
@@ -79,9 +79,10 @@ import axios from 'axios'
     props: [],
     data() {
       return {
-          courseOption: [],
-          showH5a: true,
-          showH5u: true,
+        courseOption: [],
+        chooseCourse: [],
+        showH5a: true,
+        showH5u: true,
         formData: {
           sNo: undefined,
           name: undefined,
@@ -227,7 +228,6 @@ import axios from 'axios'
         var _this =this
         axios.get('http://localhost:8080/jas/mport/course/getAllCourse/1/30').then(function (resp) { //获取所有课程
             if (resp.data!==null&&resp.data!=''){
-                console.log(resp.data)
                 for(var i=0;i<resp.data.length;i++){
                     _this.courseOption.push(resp.data[i].name)
                 }
@@ -250,8 +250,11 @@ import axios from 'axios'
             this.showH5u = true
             this.showH5a = false
             axios.get('http://localhost:8080/jas/mport/stu/getStuBySno/'+ sNo).then(function (resp) {
-                console.log(resp)
                 _this.formData = resp.data
+                _this.chooseCourse= [];
+                for (let i=0;i<resp.data.courses.length;i++){
+                 _this.chooseCourse.push(resp.data.courses[i].name)
+                }
             })
         }
 
@@ -276,13 +279,17 @@ import axios from 'axios'
 
     methods: {
       submitForm() {
-          console.log(this.formData)
+        alert(this.chooseCourse.length)
+        const len =this.chooseCourse.length
+        this.formData.courses = [];
+        for(let i=0;i<len;i++){
+          let course ={courseId: null, name: null, period: null, credit: null, beginDate: null, endDate: null}
+          course.name = this.chooseCourse[i]
+          this.formData.courses.push(course)
+        }
         this.$refs['elForm'].validate(valid => {
           if (!valid) return
           // TODO 提交表单
-            console.log(this.formData)
-            console.log("集合")
-            console.log(this.formData.courses)
           axios.post('http://localhost:8080/jas/mport/stu/savestu', this.formData).then(function (resp) {
             if (resp.data === 'success') {
                 alert("提交成功")

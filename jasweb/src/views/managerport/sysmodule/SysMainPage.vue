@@ -3,27 +3,34 @@
       <el-container>
         <el-header>系统管理员系统</el-header>
         <el-container >
-          <el-aside :style="windowHeight" width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['', '']">
+          <el-aside :style="windowHeight"  width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1','2','3','4']">
               <el-submenu index="1">
                 <template slot="title"><i class="el-icon-menu"></i>学生管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuMainDiv" >学生信息</router-link></el-menu-item>
-                  <el-menu-item index="1-2"><router-link tag="li" to="">null</router-link></el-menu-item>
+                  <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuMainDiv" activeClass="myClass" >学生信息</router-link></el-menu-item>
+<!--                  <el-menu-item index="1-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title"><i class="el-icon-menu"></i>教师管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/TeaMainDiv">教师信息</router-link></el-menu-item>
-                  <el-menu-item index="2-2"><router-link tag="li" to=""></router-link>null</el-menu-item>
+                  <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/TeaMainDiv"  activeClass="myClass">教师信息</router-link></el-menu-item>
+<!--                  <el-menu-item index="2-2"><router-link tag="li" to=""></router-link>null</el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="3">
                 <template slot="title"><i class="el-icon-menu"></i>课程管理</template>
                 <el-menu-item-group>
-                  <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv">课程信息</router-link></el-menu-item>
-                  <el-menu-item index="3-2"><router-link tag="li" to="">null</router-link></el-menu-item>
+                  <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv"  activeClass="myClass">课程信息</router-link></el-menu-item>
+<!--                  <el-menu-item index="3-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
+                </el-menu-item-group>
+              </el-submenu>
+              <el-submenu index="4">
+                <template slot="title"><i class="el-icon-menu"></i>学委管理</template>
+                <el-menu-item-group>
+                  <el-menu-item index="4-1"><router-link tag="li" to="/SysMainPage/CmtMainDiv"  activeClass="myClass">学委信息</router-link></el-menu-item>
+<!--                  <el-menu-item index="4-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -61,7 +68,10 @@
     }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped >
+  .myClass{
+   color: #060d9c;
+  }
   .el-header, .el-footer {
     background-color: #B3C0D1;
     color: #333;
@@ -72,8 +82,8 @@
   .el-aside {
     background-color: #D3DCE6;
     color: #333;
-    text-align: center;
-    line-height: 200px;
+    text-align: left;
+    line-height: 50px;
   }
 
   .el-main {

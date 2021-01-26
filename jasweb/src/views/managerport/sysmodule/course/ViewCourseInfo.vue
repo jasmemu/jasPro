@@ -75,7 +75,6 @@
         watch: {},
         created() {
             this.formData = this.$route.params.course
-            console.log(this.formData)
         },
         mounted() {},
         methods: {
@@ -90,5 +89,5 @@
     }
 
 </script>
-<style>
+<style scoped>
 </style>

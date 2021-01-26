@@ -138,7 +138,6 @@ import axios from 'axios'
                 console.log(file, fileList);
             },
             handlePreview(file) {
-                console.log(file);
                 const formData = new FormData()
                 formData.append('file', file.raw)
                 axios.post('http://localhost:8080/jas/mport/tea/dealExcel',formData).then(function (resp) {
@@ -161,11 +160,9 @@ import axios from 'axios'
                 })
             },
             alertByTno(row) {
-               alert(row.tNo)
                 this.$router.push({ name: 'AddTeaInfo', params: { tNoFromM: row.tNo } })
             },
             viewByTno(row){
-                console.log(row)
                 var _this = this
                 axios.get('http://localhost:8080/jas/mport/tea/getTeaByTno/'+ row.tNo).then(function (resp) {
                     var teaPojo = resp.data
@@ -182,7 +179,6 @@ import axios from 'axios'
                     type: 'warning'
                 }).then(() => {
                     axios.get('http://localhost:8080/jas/mport/tea//deleteByTno/'+row.tNo).then(function (resp) {
-                      console.log("删除"+row.sNo)
                     });
                     this.$message({
                         type: 'success',
@@ -209,7 +205,6 @@ import axios from 'axios'
                     var teaPojo = null;
                     axios.post('http://localhost:8080/jas/mport/tea/getTeaForSearch',this.formForSearch).then(function (resp) {
                         teaPojo = resp.data
-                        console.log(teaPojo)
                         if (teaPojo !==''){
                             _this.$router.push({name: 'ViewTeaInfo',params: {tea: teaPojo}})
                         } else {

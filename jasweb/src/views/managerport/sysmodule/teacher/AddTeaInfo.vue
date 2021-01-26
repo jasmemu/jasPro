@@ -126,7 +126,6 @@ import axios from 'axios'
         var _this =this
         axios.get('http://localhost:8080/jas/mport/course/getAllCourse/1/30').then(function (resp) { //获取所有课程
           if (resp.data!==null&&resp.data!=''){
-            console.log(resp.data)
             for(var i=0;i<resp.data.length;i++){
               _this.courseOption.push(resp.data[i].name)
             }
@@ -135,16 +134,12 @@ import axios from 'axios'
 
       var s=this.$route.params.tNoFromM   //从StuMainDiv的修改跳来的
       var s2 = this.$route.params.tNoFromV //从ViewStuInfo的修改跳来的
-        console.log("s=="+s)
-        console.log('s2=='+s2)
-
         var tNo ='';
         if(s!=undefined){
           tNo =s
         }else if(s2!=undefined){
           tNo =s2
         }
-      console.log('tNo=='+tNo)
 
         if(tNo == ''){  //添加学生信息
             this.showH5a = true
@@ -152,9 +147,7 @@ import axios from 'axios'
         }else {  //修改学生信息
             this.showH5u = true
             this.showH5a = false
-            console.log('tNo2=='+tNo)
             axios.get('http://localhost:8080/jas/mport/tea/getTeaByTno/'+ tNo).then(function (resp) {
-                console.log(resp)
                 _this.formData = resp.data
                 _this.chooseCourse= [];
                 for (let i=0;i<resp.data.courses.length;i++){
@@ -179,7 +172,6 @@ import axios from 'axios'
             course.name = this.chooseCourse[i]
             this.formData.courses.push(course)
         }
-        console.log(this.formData)
         this.$refs['elForm'].validate(valid => {
           if (!valid) return
           // TODO 提交表单
