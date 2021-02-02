@@ -5,8 +5,8 @@
                 <h2>计算机学院作业辅助系统</h2>
             </div>
             <div>
-                <router-link tag="a"  to="/SysMainPage" style="float: right;margin-bottom: 0px" >系统管理员登录</router-link>
-                <router-link tag="a"  to="/CmtMainPage" style="float: right;margin-right: 20px;margin-bottom: 0px">课程管理员登录</router-link>
+                <router-link tag="a"  to="/SysLogin" style="float: right;margin-bottom: 0px" >系统管理员登录</router-link>
+                <router-link tag="a"  to="/CmtLogin" style="float: right;margin-right: 20px;margin-bottom: 0px">课程管理员登录</router-link>
                 <router-link tag="a"  to="/StudentMainPage" style="float: right; margin-right: 20px;margin-bottom: 0px">学生登录</router-link>
             </div>
         </el-header>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import enterImage from "@/assets/enter.jpeg"
+import enterImage from "@/assets/enter.jpeg"
     export default {
         name: "",
         data() {
@@ -29,6 +29,11 @@
                 enterImage : enterImage,
                 windowHeight:{height:document.documentElement.clientHeight -120 +'px'}  //获取屏幕高度
             }
+        },
+        create(){
+
+        },
+        mounted() {
         }
     }
 </script>
