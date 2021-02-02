@@ -18,7 +18,7 @@ public interface StudentDao {
 
     public void deleteBySno(String sNo); //根据sno删除一条记录
 
-    public Student selectStuForSearch(Student student); //前端搜索框使用
+    public List<Student> selectStuForSearch(Student student); //前端搜索框使用
 
 
 }

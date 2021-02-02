@@ -57,19 +57,31 @@ public class TeaController {
 
     @RequestMapping("/getTeaForSearch")
     @ResponseBody
-    public Teacher getTeaForSearch(@RequestBody Teacher teacher){
-        Teacher tea = this.teaService.getTeaForSearch(teacher);
-        if (tea!=null){
-            List<String> courses = this.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
-            List<Course> c = new ArrayList<>();
-            for (int i=0;i<courses.size();i++){
-                Course cou = new Course();
-                cou.setName(courses.get(i));
-                c.add(cou);
-            }
-            tea.setCourses(c);
+    public List< Teacher> getTeaForSearch(@RequestBody Teacher teacher){
+        List<Teacher> teaList = this.teaService.getTeaForSearch(teacher);
+        if (teaList.size()>0){
+           for (int j=0;j<teaList.size();j++){
+               List<String> courses = this.tcService.getCourseByTno(teaList.get(j).gettNo()); //查询到的时该编号教师所教授的所有课程名称
+               List<Course> c = new ArrayList<>();
+               for (int i=0;i<courses.size();i++){
+                   Course cou = new Course();
+                   cou.setName(courses.get(i));
+                   c.add(cou);
+               }
+               teaList.get(j).setCourses(c);
+           }
+
+
+//            List<String> courses = this.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
+//            List<Course> c = new ArrayList<>();
+//            for (int i=0;i<courses.size();i++){
+//                Course cou = new Course();
+//                cou.setName(courses.get(i));
+//                c.add(cou);
+//            }
+//            tea.setCourses(c);
         }
-        return tea;
+        return  teaList;
     }
 
     @RequestMapping("/getTeaByTno/{tNo}") //根据学号获取student并带有课程

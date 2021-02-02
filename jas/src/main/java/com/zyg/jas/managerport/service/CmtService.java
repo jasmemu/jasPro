@@ -15,11 +15,17 @@ public interface CmtService {
     public List<Committee> getCmtForSearch(String speName,String cGrade,Integer cClass);  //前端搜索框使用
 
 
-    Committee getCmtBySpeId(String cmtId);
+    Committee getCmtByComIdWith(String cmtId);
+
+    Committee getCmtById(String id);
 
     void removeCmtByComId(String cmtId);
 
     List<Committee> dealExcelForCommittee(MultipartFile file);
 
     int saveCmtFromExcel(List<Committee> cmtList);
+
+    Committee getCmtByAccount(String LoginAccount,String loginPassword);
+
+    Integer saveCmtPersonal(Committee committee);
 }

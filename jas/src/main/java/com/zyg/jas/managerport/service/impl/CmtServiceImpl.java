@@ -41,7 +41,7 @@ public class CmtServiceImpl implements CmtService {
                 committee.setSpecialty(specialties.get(i));
             }
         }
-        Committee cmt = this.cmtDao.selectCmtById(committee.getComId());//studentDao.selectStuBySno(student.getsNo());
+        Committee cmt = this.cmtDao.selectCmtByIdWith(committee.getComId());//studentDao.selectStuBySno(student.getsNo());
         int r;
         //向学委表添加记录
         if (cmt == null){  //不存在这个学委，执行添加
@@ -64,6 +64,9 @@ public class CmtServiceImpl implements CmtService {
     @Override
     public List<Committee> getAllCmt(Integer pageNo, Integer pageSize) {
         List<Committee> committeeList = this.cmtDao.selectAllCmt();
+        for (Committee c: committeeList){
+            logger.info(c.toString());
+        }
         List<Committee> committees = new ArrayList<>();
         for (int i=1;i<6;i++){
             if (pageNo*pageSize-i<committeeList.size()){
@@ -71,8 +74,6 @@ public class CmtServiceImpl implements CmtService {
             }
 
         }
-
-
         return committees;
     }
 
@@ -103,8 +104,13 @@ public class CmtServiceImpl implements CmtService {
     }
 
     @Override
-    public Committee getCmtBySpeId(String cmtId) {
-        return this.cmtDao.selectCmtById(cmtId);
+    public Committee getCmtByComIdWith(String cmtId) {
+        return this.cmtDao.selectCmtByIdWith(cmtId);
+    }
+
+    @Override
+    public Committee getCmtById(String id) {
+        return this.cmtDao.selectCmtById(id);
     }
 
     @Override
@@ -141,6 +147,8 @@ public class CmtServiceImpl implements CmtService {
                    committee.setName(list.get(j).toString());
                 }else if (j==5){
                    committee.setPhone(list.get(j).toString());
+                }else if (j==6){
+                    committee.setEmail(list.get(j).toString());
                 }else {
                     CC cc =new CC();
                     cc.setComId(committee.getComId());
@@ -173,7 +181,7 @@ public class CmtServiceImpl implements CmtService {
         }
         int res=0;
         for (int i =0 ;i<cmtList.size();i++){
-            Committee c = this.cmtDao.selectCmtById(cmtList.get(i).getComId());
+            Committee c = this.cmtDao.selectCmtByIdWith(cmtList.get(i).getComId());
             if (c == null){
                 this.cmtDao.insertCmt(cmtList.get(i));
             }else {
@@ -183,4 +191,22 @@ public class CmtServiceImpl implements CmtService {
         }
         return res;
     }
+
+    @Override
+    public Committee getCmtByAccount(String loginAccount, String loginPassword) {
+
+        Committee committee = this.cmtDao.selectCmtByAccount(loginAccount);
+        if (committee.getPassword().equals(loginPassword)){
+            return committee;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public Integer saveCmtPersonal(Committee committee) {
+        return this.cmtDao.updateCmtPersonal(committee);
+    }
+
+
 }

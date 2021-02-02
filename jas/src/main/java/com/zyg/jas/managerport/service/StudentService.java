@@ -18,7 +18,7 @@ public interface StudentService {
 
      public void deleteStuBySno(String sNo);
 
-     public Student getStuForSearch(Student student);  //前端搜索框使用
+     public List<Student> getStuForSearch(Student student);  //前端搜索框使用
 
      public List<Student> dealExcelForStudents(MultipartFile file); //从上传的excel中获取studnet，保存记录
 

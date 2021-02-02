@@ -16,5 +16,5 @@ public interface TeaDao {
     public void deleteByTno(String tNo); //根据tno删除一条记录
 
 
-    public Teacher selectTeaForSearch(Teacher teacher); //前端搜索框使用
+    public List<Teacher> selectTeaForSearch(Teacher teacher); //前端搜索框使用
 }

@@ -88,9 +88,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStuForSearch(Student student) {
-        Student stu = this.studentDao.selectStuForSearch(student);
-        return  stu;
+    public List<Student> getStuForSearch(Student student) {
+        List<Student> stuList = this.studentDao.selectStuForSearch(student);
+        return  stuList;
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface TeaService {
     List<Teacher> getAllTea(Integer pageNo, Integer pageSize);
     public Integer getTeaTotal(); //获取记录总数
 
-    public Teacher getTeaForSearch(Teacher teacher);  //前端搜索框使用
+    public List<Teacher> getTeaForSearch(Teacher teacher);  //前端搜索框使用
 
     public void deleteTeaByTno(String tNo);
 

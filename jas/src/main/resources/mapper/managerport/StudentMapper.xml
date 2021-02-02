@@ -53,9 +53,6 @@
               <if test="name!=null and name!=''">
                   and s_name=#{name}
               </if>
-              <if test="identify!=null and identify!=''">
-                  and s_identify=#{identify}
-              </if>
     </select>
 
 

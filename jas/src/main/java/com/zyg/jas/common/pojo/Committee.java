@@ -12,6 +12,8 @@ public class Committee implements Serializable {
 
     private String phone;
 
+    private String email;
+
     private  Specialty specialty;
     
     private String cGrade;
@@ -22,11 +24,12 @@ public class Committee implements Serializable {
     public Committee() {
     }
 
-    public Committee(String comId, String password, String name, String phone, Specialty specialty, String cGrade, Integer cClass, List<Course> courses) {
+    public Committee(String comId, String password, String name, String phone, String email, Specialty specialty, String cGrade, Integer cClass, List<Course> courses) {
         this.comId = comId;
         this.password = password;
         this.name = name;
         this.phone = phone;
+        this.email = email;
         this.specialty = specialty;
         this.cGrade = cGrade;
         this.cClass = cClass;
@@ -97,6 +100,14 @@ public class Committee implements Serializable {
         this.courses = courses;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Committee{" +
@@ -104,6 +115,7 @@ public class Committee implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 ", specialty=" + specialty +
                 ", cGrade='" + cGrade + '\'' +
                 ", cClass=" + cClass +

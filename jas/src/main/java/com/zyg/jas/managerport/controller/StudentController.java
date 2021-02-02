@@ -105,19 +105,29 @@ public class StudentController {
 
     @RequestMapping("/getStuForSearch") //根据搜索框查找一条记录
     @ResponseBody
-    public Student getStuForSearch(@RequestBody Student student){
-        Student stu = this.studentService.getStuForSearch(student);
-        if (stu!=null){
-            List<String> courses = this.scService.getCourseBySno(stu.getsNo());//.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
-            List<Course> c = new ArrayList<>();
-            for (int i=0;i<courses.size();i++){
-                Course cou = new Course();
-                cou.setName(courses.get(i));
-                c.add(cou);
+    public List<Student> getStuForSearch(@RequestBody Student student){
+        List<Student> stuList = this.studentService.getStuForSearch(student);
+        if (stuList.size()>0){
+            for (int j=0;j<stuList.size();j++){
+                List<String> courses = this.scService.getCourseBySno(stuList.get(j).getsNo());//.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
+                List<Course> c = new ArrayList<>();
+                for (int i=0;i<courses.size();i++){
+                    Course cou = new Course();
+                    cou.setName(courses.get(i));
+                    c.add(cou);
+                }
+                stuList.get(j).setCourses(c);
             }
-            stu.setCourses(c);
-        }
-        return stu;
+//            List<String> courses = this.scService.getCourseBySno(stu.getsNo());//.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
+//            List<Course> c = new ArrayList<>();
+//            for (int i=0;i<courses.size();i++){
+//                Course cou = new Course();
+//                cou.setName(courses.get(i));
+//                c.add(cou);
+//            }
+//            stu.setCourses(c);
+       }
+        return stuList;
     }
 
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件

@@ -68,7 +68,7 @@ public class TeaServiceImpl implements TeaService {
     }
 
     @Override
-    public Teacher getTeaForSearch(Teacher teacher) {
+    public List<Teacher> getTeaForSearch(Teacher teacher) {
         return this.teaDao.selectTeaForSearch(teacher);
     }
 

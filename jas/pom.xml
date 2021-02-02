@@ -187,6 +187,22 @@
       <version>5.0.9.RELEASE</version>
     </dependency>
 
+    <!--发送邮件-->
+    <!--spring发送邮件依赖spring.version=4.3.8.RELEASE-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.3.8.RELEASE</version>
+    </dependency>
+
+    <!-- Javamail API -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.5</version>
+    </dependency>
+
+
 
   </dependencies>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.NoticeDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="noticeMap" type="com.zyg.jas.common.pojo.Notice">
+        <id property="id" column="id" />
+        <result property="comId" column="com_id"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="content" column="notice_content"/>
+        <result property="noticeTitle" column="notice_title"/>
+    </resultMap>
+
+    <insert id="insertNotice" parameterType="com.zyg.jas.common.pojo.Notice">
+         insert  into notice(com_id, publish_date, notice_content, notice_title)
+          values (#{comId},#{publishDate},#{content},#{noticeTitle});
+    </insert>
+
+
+    <select id="selectTotal" resultType="Integer" parameterType="String">
+        select count(*) from notice where com_id = #{cmtId};
+    </select>
+
+    <select id="selectAllNotice" resultMap="noticeMap" parameterType="String">
+        select * from notice where com_id = #{cmtId}
+    </select>
+    
+
+
+</mapper>

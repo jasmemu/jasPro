@@ -12,6 +12,7 @@
         <result property="password" column="cmt_password"/>
         <result property="name" column="cmt_name"/>
         <result property="phone" column="cmt_phone"/>
+        <result property="email" column="cmt_email"/>
         <result property="cGrade" column="c_grade"/>
         <result property="cClass" column="c_class"/>
          <!-- association用于一对一（一个学委只能属于一个专业）       -->
@@ -29,10 +30,26 @@
             <result property="endDate" column="end_date"/>
         </collection>
     </resultMap>
+
+    <delete id="deleteCmtById" parameterType="String" >
+        delete from committee where com_id = #{comId}
+    </delete>
+
     <update id="updateCmtById" parameterType="com.zyg.jas.common.pojo.Committee">
         update committee set cmt_name=#{name},cmt_phone=#{phone},spe_id=#{specialty.speId},c_grade=#{cGrade},
-        c_class=#{cClass}  where  com_id=#{comId};
+        c_class=#{cClass}, cmt_email=#{email} ,cmt_password =#{password} where  com_id=#{comId};
     </update>
+
+    <update id="updateCmtPersonal" parameterType="com.zyg.jas.common.pojo.Committee">
+        update committee set cmt_name=#{name},cmt_phone=#{phone},
+        cmt_email=#{email} ,cmt_password =#{password} where  com_id=#{comId};
+    </update>
+
+    <insert id="insertCmt" parameterType="com.zyg.jas.common.pojo.Committee">
+        insert into  committee(com_id, cmt_password, cmt_name, cmt_phone, spe_id, c_grade,c_class,cmt_email)
+        values (#{comId},#{password},#{name},#{phone},#{specialty.speId},#{cGrade},#{cClass},#{email});
+    </insert>
+
     <select id="selectAllCmt" resultMap="cmtMap">
 	   SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
        LEFT JOIN course cou1 ON cou1.cs_name = c1.course_id INNER JOIN
@@ -42,20 +59,15 @@
         select count(*) from committee;
     </select>
 
-    <insert id="insertCmt" parameterType="com.zyg.jas.common.pojo.Committee">
-        insert into  committee(com_id, cmt_password, cmt_name, cmt_phone, spe_id, c_grade,c_class)
-        values (#{comId},#{password},#{name},#{phone},#{specialty.speId},#{cGrade},#{cClass});
-    </insert>
-
-    <select id="selectCmtById" resultMap="cmtMap" parameterType="String">
+    <select id="selectCmtByIdWith" resultMap="cmtMap" parameterType="String">
           SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
         LEFT JOIN course cou1 ON cou1.cs_name = c1.course_id INNER JOIN specialty spe1 ON spe1.spe_id = com1.spe_id
          where com1.com_id = #{id};
     </select>
 
-    <delete id="deleteCmtById" parameterType="String" >
-        delete from committee where com_id = #{comId}
-    </delete>
+    <select id="selectCmtById" resultMap="cmtMap" parameterType="String">
+        select * from committee where com_id =#{cmtid};
+    </select>
 
     <select id="selectCmtForSearch" parameterType="com.zyg.jas.common.pojo.Committee"  resultMap="cmtMap" >
         SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
@@ -70,6 +82,10 @@
         <if test="cClass != null">
             and com1.c_class=#{cClass}
         </if>
+    </select>
+
+    <select id="selectCmtByAccount" parameterType="String" resultMap="cmtMap">
+        select com_id,cmt_name,cmt_password from committee where com_id = #{comId}
     </select>
 
 

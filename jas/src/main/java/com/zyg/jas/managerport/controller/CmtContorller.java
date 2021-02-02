@@ -31,12 +31,23 @@ public class CmtContorller {
     @Autowired
     private SpecialtyService specialtyService;
 
-    @RequestMapping(value = "/saveCmt",method = RequestMethod.POST)  //添加一个学生
+
+    @RequestMapping(value = "/saveCmt",method = RequestMethod.POST)  //添加一个学委
     @ResponseBody
     public String send(@RequestBody Committee committee){
        logger.info("接收到的学委信息");
         logger.info(committee.toString());
         Integer r =this.cmtService.saveCmt(committee);
+        if (r==1){
+            return "success";
+        }else{
+            return "false";
+        }
+    }
+    @RequestMapping(value = "/updateCmt",method = RequestMethod.POST)  //学委修改个人可管理的信息
+    @ResponseBody
+    public String updateHandler(@RequestBody Committee committee){
+        Integer r =this.cmtService.saveCmtPersonal(committee);
         if (r==1){
             return "success";
         }else{
@@ -75,10 +86,19 @@ public class CmtContorller {
         return cmtList;
     }
 
-    @RequestMapping(value = "/getCmtByComId/{cmtId}",method = RequestMethod.GET)
+    // 根据cmtId获取学委带有课程的信息
+    @RequestMapping(value = "/getCmtByComId/{cmtComId}",method = RequestMethod.GET)
     @ResponseBody
-    public  Committee getCmtByComIdHandler(@PathVariable("cmtId") String cmtId){
-        Committee committee = this.cmtService.getCmtBySpeId(cmtId);
+    public  Committee getCmtByComIdWithHandler(@PathVariable("cmtComId") String cmtId){
+        Committee committee = this.cmtService.getCmtByComIdWith(cmtId);
+        return committee;
+    }
+
+    // 根据cmtId获取学委带有课程的信息
+    @RequestMapping(value = "/getCmtByComIdNoWith/{cmtComId}",method = RequestMethod.GET)
+    @ResponseBody
+    public  Committee getCmtByComIdHandler(@PathVariable("cmtComId") String cmtId){
+        Committee committee = this.cmtService.getCmtById(cmtId);
         return committee;
     }
 
@@ -91,11 +111,15 @@ public class CmtContorller {
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
-        System.out.println("接收到的Excel");
-        System.out.println(file.getOriginalFilename());
         List<Committee> cmtList = this.cmtService.dealExcelForCommittee(file);
         int sum = this.cmtService.saveCmtFromExcel(cmtList);
         return sum;
+    }
 
+    @RequestMapping(value = "login",method = RequestMethod.POST)
+    @ResponseBody
+    public Committee cmtLoginHandler(@RequestParam("loginAccount") String loginAccount, @RequestParam("loginPassword") String loginPassword){
+        Committee committee= this.cmtService.getCmtByAccount(loginAccount,loginPassword);
+        return committee;
     }
 }

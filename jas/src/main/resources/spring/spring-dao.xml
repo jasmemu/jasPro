@@ -68,7 +68,9 @@
                 <bean class="com.github.pagehelper.PageHelper">
                     <property name="properties">
                         <props>
+                            <!--设置数据库方言，告诉pageHelper当前使用的什么数据库-->
                             <prop key="dialect">mysql</prop>
+                            <!--配置页面的合理化修正，在1到总页数之间修正页面（如总共有20页，却要30页的内容，那就返回最后一页的内容）-->
                              <prop key="reasonable">true</prop>
                           </props>
                     </property>
