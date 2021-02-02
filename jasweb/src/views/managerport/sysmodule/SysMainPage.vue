@@ -1,7 +1,27 @@
 <template>
     <div>
       <el-container>
-        <el-header>系统管理员系统</el-header>
+        <el-header >
+          <div style="text-align: center">
+            <span style="font-size: 20px;font-weight: bold">系统管理员系统</span>
+          </div>
+          <div>
+            <div style="float: right">
+              <el-dropdown @command="handleCommand">
+              <span class="el-dropdown-link">
+                <span style="color: #060d9c;font-size: 20px">操作</span><i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="a">个人设置</el-dropdown-item>
+                  <el-dropdown-item command="b">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+            <div style="float: right;font-size: 20px;margin-right: 30px">
+              <span>{{sysName}},你好</span>
+            </div>
+          </div>
+        </el-header>
         <el-container >
           <el-aside :style="windowHeight"  width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu :default-openeds="['1','2','3','4']">
@@ -47,23 +67,33 @@
 <script>
     export default {
         name: "",
-      data() {
+         data() {
         return {
           chan: '',
+          sysName: '123',
+          squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
           windowHeight:{height:document.documentElement.clientHeight -80 +'px'}  //获取屏幕高度
         }
       },
-      methods: {
-        goStuAdd() {
-          this.$router.push({ name: 'ImporStuInfo'})
+      methods:{
+        handleCommand(command) {
+          // this.$message('click on item ' + command);
+          if (command == 'a'){
+            this.$router.push('/SetSysInfo')
+          }else {
+            sessionStorage.clear();
+            this.$router.push('/enter')
+          }
         }
+      },
+      created(){
+         this.sysName = sessionStorage.getItem('sysAccount')
       },
       mounted() {
         var myDate = new Date();
         var str = '';
         var str = myDate.getMinutes().toString()+myDate.getSeconds().toString();
         this.chan = str
-
       }
     }
 </script>
@@ -75,8 +105,6 @@
   .el-header, .el-footer {
     background-color: #B3C0D1;
     color: #333;
-    text-align: center;
-    line-height: 60px;
   }
 
   .el-aside {

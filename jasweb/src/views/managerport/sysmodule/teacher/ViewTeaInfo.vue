@@ -1,92 +1,164 @@
 <template>
     <div>
-        <el-row :gutter="15">
-            <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-
-                <el-col :span="12">
-                    <el-form-item label="教师编号" prop="tNo">
-                        <el-input v-model="formData.tNo" placeholder="教师编号" readonly clearable :style="{width: '100%'}">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="姓名" prop="name">
-                        <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="手机号" prop="phone">
-                        <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="formData.email" placeholder="请输入邮箱" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="身份证号" prop="identify">
-                        <el-input v-model="formData.identify" placeholder="请输入身份证号" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="" prop="identify">
-                        <el-input v-model="kong" placeholder="" readonly clearable disabled
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <div style="margin-left: 100px">
-                    已选课程
-                    <el-checkbox-group v-model="chooseCourse">
-                        <el-checkbox :label="item" v-for="(item,index) in chooseCourse" :key="index" onclick="return false;" ></el-checkbox>
-                    </el-checkbox-group>
-                </div>
-                <el-col :span="50">
-                    <el-form-item size="large">
-                        <el-button type="primary" @click="alterStu()">修改</el-button>
-                        <el-button @click="goBack()">返回</el-button>
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </el-row>
+        <div>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 100%">
+                <el-table-column
+                        fixed
+                        prop="tNo"
+                        label="教师编号"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="姓名"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="phone"
+                        label="手机号"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="email"
+                        label="邮箱"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="identify"
+                        label="身份证号"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="200">
+                    <template slot-scope="scope">
+                        <el-button @click="viewByTno(scope.row)" type="text" size="small">查看</el-button>
+                        <el-button @click="alertByTno(scope.row)" type="text" size="small">修改</el-button>
+                        <el-button @click="deleteByTno(scope.row)" type="text" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
 </template>
+
 <script>
+    import axios from 'axios'
     export default {
-        components: {},
-        props: [],
+        name: "",
         data() {
             return {
-                kong: null,
-                chooseCourse: [],
-                formData: null,
-                sNo: ''
+                //文件上传===================
+                fileList: [],
+                //弹出框====================
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                },
+                formLabelWidth: '120px',
+                //table内容
+                pageSize: 5,//每页几个记录
+                total: 10, //共有多少记录 （通过total/pageSize字段计算页数）
+                formForSearch: {
+                    tNo: '',
+                    name: ''
+                },
+                windowHeight:{height:document.documentElement.clientHeight -80 -100 +'px'},
+                tableData: null
             }
         },
-        computed: {},
-        watch: {},
-        created() {
-            this.formData = this.$route.params.tea
-            for (let i=0;i<this.formData.courses.length;i++){
-                this.chooseCourse.push(this.formData.courses[i].name)
-            }
-        },
-        mounted() {},
         methods: {
-            alterStu() {
-                var tNo  =this.formData.tNo
-                this.$router.push({name:'AddTeaInfo',params:{tNoFromV: tNo}})
+            alertByTno(row) {
+                this.$router.push({ name: 'AddTeaInfo', params: { tNoFromM: row.tNo } })
             },
-            goBack() {
-                this.$router.push("/SysMainPage/TeaMainDiv")
+            viewByTno(row){
+                var _this = this
+                axios.get('http://localhost:8080/jas/mport/tea/getTeaByTno/'+ row.tNo).then(function (resp) {
+                    var teaPojo = resp.data
+                    _this.$router.push({name: 'ViewTeaDetail',params: {tea: teaPojo}})
+                })
+                // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
+            deleteByTno(row){
+                // var de;
+                // var _this = this;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get('http://localhost:8080/jas/mport/tea//deleteByTno/'+row.tNo).then(function (resp) {
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    location.reload();
+
+                }).catch(() => {
+                    alert("我去")
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+
+            goAddTea(){
+                this.$router.push({name: 'AddTeaInfo'})
+            },
+            //sear中的
+            search() {
+                if (this.formForSearch.tNo!='' || this.formForSearch.name!=''){
+                    var _this = this
+                    var teaPojo = null;
+                    axios.post('http://localhost:8080/jas/mport/tea/getTeaForSearch',this.formForSearch).then(function (resp) {
+                        teaPojo = resp.data
+                        if (teaPojo !==''){
+                            _this.$router.push({name: 'ViewTeaInfo',params: {tea: teaPojo}})
+                        } else {
+                            alert("无")
+                        }
+                    })
+                }else {
+                    alert("输入查询条件")
+                }
+
+            }
+        },
+        created(){
+            const _this =this
+            var searchTea = this.$route.params.searchTeaP  //搜索按钮传的参数
+            // console.log(searchTea)
+            axios.post('http://localhost:8080/jas/mport/tea/getTeaForSearch',searchTea).then(function (resp) {
+                if (resp.data.length>0){
+                    _this.tableData = resp.data
+                } else {
+                    alert("无")
+                }
+            })
         }
     }
-
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
+    .el-main[data-v-9d9380ac] {
+        /* background-color: #E9EEF3; */
+        color: #333;
+        /*text-align: left;*/
+        /* line-height: 160px; */
+    }
+
 </style>

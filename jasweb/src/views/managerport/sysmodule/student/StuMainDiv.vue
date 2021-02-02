@@ -202,7 +202,7 @@ import axios from 'axios'
                 axios.get('http://localhost:8080/jas/mport/stu/getStuBySno/'+ row.sNo).then(function (resp) {
                     let stuPojo = resp.data
                     console.log(stuPojo)
-                    _this.$router.push({name: 'ViewStuInfo',params: {stu: stuPojo}})
+                    _this.$router.push({name: 'ViewStuDetail',params: {stu: stuPojo}})
                 })
                 // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
@@ -236,17 +236,11 @@ import axios from 'axios'
             },
             //sear中的
             search() {
-                if (this.formForSearch.sNo!='' || this.formForSearch.name!='' || this.formForSearch.identify!=''){
-                    var _this = this
-                    var stuPojo = null;
-                    axios.post('http://localhost:8080/jas/mport/stu/getStuForSearch',this.formForSearch).then(function (resp) {
-                        stuPojo = resp.data
-                        if (stuPojo !==''){
-                            _this.$router.push({name: 'ViewStuInfo',params: {stu: stuPojo}})
-                        } else {
-                            alert("无")
-                        }
-                    })
+                if (this.formForSearch.sNo!='' || this.formForSearch.name!=''){
+                    var searchPojo = {};
+                    searchPojo.sNo = this.formForSearch.sNo
+                    searchPojo.name = this.formForSearch.name
+                    this.$router.push({name: 'ViewStuInfo',params: {searchParams: searchPojo}})
                 }else {
                     alert("输入查询条件")
                 }

@@ -1,127 +1,176 @@
 <template>
     <div>
-        <el-row :gutter="15">
-            <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-                <el-col :span="12">
-                    <el-form-item label="学号" prop="sNo">
-                        <el-input v-model="formData.sNo" placeholder="学号" readonly clearable :style="{width: '100%'}">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="姓名" prop="name">
-                        <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}">
-                        </el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="密码" prop="password">
-                        <el-input v-model="formData.password" placeholder="请输入密码" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="手机号" prop="phone">
-                        <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="专业" prop="speId">
-                        <el-input v-model="formData.speId" placeholder="请输入专业" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="formData.email" placeholder="请输入邮箱" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="班级" prop="sClass">
-                        <el-input v-model="formData.sClass" placeholder="请输入班级" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="入学时间" prop="enrollment">
-                        <el-input v-model="formData.enrollment" placeholder="请输入入学时间" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="年级" prop="sGrade">
-                        <el-input v-model="formData.sGrade" placeholder="请输入年级" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="身份证号" prop="identify">
-                        <el-input v-model="formData.identify" placeholder="请输入身份证号" readonly clearable
-                                  :style="{width: '100%'}"></el-input>
-                    </el-form-item>
-                </el-col>
-                <div style="margin-left: 100px">
-                    已选课程
-                    <el-checkbox-group v-model="chooseCourse">
-                        <el-checkbox :label="item" v-for="(item,index) in chooseCourse" :key="index" onclick="return false;" ></el-checkbox>
-                    </el-checkbox-group>
-                </div>
-                <el-col :span="24">
-                    <el-form-item size="large">
-                        <el-button type="primary" @click="alterStu()">修改</el-button>
-                        <el-button @click="goBack()">返回</el-button>
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </el-row>
+        <div>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 100%">
+                <el-table-column
+                        fixed
+                        prop="sNo"
+                        label="学号"
+                        width="150">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="姓名"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="phone"
+                        label="手机号"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="email"
+                        label="邮箱"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="identify"
+                        label="身份证号"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="specialty"
+                        label="专业"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="sGrade"
+                        label="年级"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="sClass"
+                        label="班级"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="enrollment"
+                        label="入学时间"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="135">
+                    <template slot-scope="scope">
+                        <el-button @click="viewBySno(scope.row)" type="text" size="small">查看</el-button>
+                        <el-button @click="alertBySno(scope.row)" type="text" size="small">修改</el-button>
+                        <el-button @click="deleteBySno(scope.row)" type="text" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
 </template>
+
 <script>
+    import axios from 'axios'
     export default {
-        components: {},
-        props: [],
+        name: "",
         data() {
             return {
-                formData: null,
-                chooseCourse: [],
-                sNo: '',
-                rules: {
-                    sNo: [],
-                    name: [],
-                    password: [],
-                    phone: [],
-                    speId: [],
-                    email: [],
-                    sClass: [],
-                    enrollment: [],
-                    sGrade: [],
-                    identify: [],
-                    courses: []
+                //文件上传===================
+                fileList: [],
+                //弹出框====================
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
                 },
+                formLabelWidth: '120px',
+                //table内容
+                pageSize: 5,//每页几个记录
+                total: 10, //共有多少记录 （通过total/pageSize字段计算页数）
+                formForSearch: {
+                    sNo: '',
+                    name: '',
+                    identify: ''
+                },
+                windowHeight:{height:document.documentElement.clientHeight -80 -100 +'px'},
+                tableData: null
             }
         },
-        computed: {},
-        watch: {},
-        created() {
-            this.formData = this.$route.params.stu  //搜索按钮和查看按钮函数中的路由都有参数stu
-            for (let i=0;i<this.formData.courses.length;i++){
-                this.chooseCourse.push(this.formData.courses[i].name)
-            }
-        },
-        mounted() {},
         methods: {
-            alterStu() {
-                var sNo  =this.formData.sNo
-                this.$router.push({name:'AddStuInfo',params:{sNoFromV: sNo}})
+            //table中的
+            alertBySno(row) {
+                this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
-            goBack() {
-               this.$router.push("/SysMainPage/StuMainDiv")
+            viewBySno(row){
+                let _this = this
+                axios.get('http://localhost:8080/jas/mport/stu/getStuBySno/'+ row.sNo).then(function (resp) {
+                    let stuPojo = resp.data
+                    console.log(stuPojo)
+                    _this.$router.push({name: 'ViewStuDetail',params: {stu: stuPojo}})
+                })
+                // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
+            deleteBySno(row){
+                var de;
+                var _this = this;
+                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.delete('http://localhost:8080/jas/mport/stu//deleteBySno/'+row.sNo).then(function (resp) {
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    location.reload();
+
+                }).catch(() => {
+                    alert("我去")
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            }
+
+        },
+        created(){
+            var _this =this
+            var searchStu = this.$route.params.searchParams  //搜索按钮传的参数
+            axios.post('http://localhost:8080/jas/mport/stu/getStuForSearch',searchStu).then(function (resp) {
+                if (resp.data.length>0){
+                    _this.tableData = resp.data
+                    for(var i = 0 ;i<resp.data.length;i++){
+                        if(resp.data[i].speId === 1){
+                            _this.tableData[i].specialty = "计算机科学与技术系"
+                        }else if(resp.data[i].speId ===2){
+                            _this.tableData[i].specialty = "网络工程系"
+                        }else if(resp.data[i].speId === 3){
+                            _this.tableData[i].specialty = "软件工程系"
+                        }else if(resp.data[i].speId === 4){
+                            _this.tableData[i].specialty = "计算机基础教学部"
+                        }
+                    }
+                } else {
+                    alert("无")
+                }
+            })
         }
     }
-
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
+    .el-main[data-v-9d9380ac] {
+        /* background-color: #E9EEF3; */
+        color: #333;
+        /*text-align: left;*/
+        /* line-height: 160px; */
+    }
+
 </style>

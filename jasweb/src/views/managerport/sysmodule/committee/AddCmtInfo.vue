@@ -19,6 +19,9 @@
         <el-form-item label="电话" prop="phone">
           <el-input v-model="formData.phone" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
         </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="formData.email" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
+        </el-form-item>
         <el-form-item label="专业" prop="">
           <el-select v-model="formData.specialty.speName" placeholder="请选择专业" clearable :style="{width: '100%'}" size="mini">
             <el-option v-for="(item, index) in speIdOptions" :key="index" :label="item.label"
@@ -71,6 +74,7 @@
           name: undefined,
           password: '123456',
           phone: undefined,
+          email: undefined,
           speId: undefined,
           cGrade: undefined,
           cClass: undefined,
@@ -115,6 +119,15 @@
           }, {
             pattern: /0?(13|14|15|18|17)[0-9]{9}/,
             message: '请输入正确的手机号',
+            trigger: 'blur'
+          }],
+          email: [{
+            required: true,
+            message: '请输入邮箱',
+            trigger: 'blur'
+          }, {
+            pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
+            message: '请输入正确的邮箱',
             trigger: 'blur'
           }],
           speName: [{

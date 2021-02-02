@@ -166,7 +166,7 @@ import axios from 'axios'
                 var _this = this
                 axios.get('http://localhost:8080/jas/mport/tea/getTeaByTno/'+ row.tNo).then(function (resp) {
                     var teaPojo = resp.data
-                    _this.$router.push({name: 'ViewTeaInfo',params: {tea: teaPojo}})
+                    _this.$router.push({name: 'ViewTeaDetail',params: {tea: teaPojo}})
                 })
                 // this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })
             },
@@ -201,16 +201,10 @@ import axios from 'axios'
             //sear中的
             search() {
                 if (this.formForSearch.tNo!='' || this.formForSearch.name!=''){
-                    var _this = this
-                    var teaPojo = null;
-                    axios.post('http://localhost:8080/jas/mport/tea/getTeaForSearch',this.formForSearch).then(function (resp) {
-                        teaPojo = resp.data
-                        if (teaPojo !==''){
-                            _this.$router.push({name: 'ViewTeaInfo',params: {tea: teaPojo}})
-                        } else {
-                            alert("无")
-                        }
-                    })
+                   var searchTea = {};
+                    searchTea.tNo = this.formForSearch.tNo
+                    searchTea.name = this.formForSearch.name
+                    this.$router.push({name: 'ViewTeaInfo',params: {searchTeaP: searchTea}})
                 }else {
                     alert("输入查询条件")
                 }

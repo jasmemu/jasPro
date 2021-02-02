@@ -67,7 +67,7 @@
                         fixed
                         prop="specialty.speName"
                         label="专业"
-                        width="270"
+                        width="180"
                         text-align="center">
                 </el-table-column>
                 <el-table-column
@@ -83,7 +83,7 @@
                 <el-table-column
                         prop="comId"
                         label="学号"
-                        width="200">
+                        width="180">
                 </el-table-column>
                 <el-table-column
                         prop="name"
@@ -93,6 +93,11 @@
                 <el-table-column
                         prop="phone"
                         label="手机号"
+                        width="170">
+                </el-table-column>
+                <el-table-column
+                        prop="email"
+                        label="邮箱"
                         width="170">
                 </el-table-column>
                 <el-table-column

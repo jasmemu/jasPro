@@ -3,8 +3,8 @@
         <el-row :gutter="15">
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-col :span="12">
-                    <el-form-item label="学号" prop="comId">
-                        <el-input v-model="formData.comId" placeholder="学号" readonly clearable :style="{width: '100%'}">
+                    <el-form-item label="学号" prop="sNo">
+                        <el-input v-model="formData.sNo" placeholder="学号" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -15,8 +15,20 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+                    <el-form-item label="密码" prop="password">
+                        <el-input v-model="formData.password" placeholder="请输入密码" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
                     <el-form-item label="手机号" prop="phone">
                         <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="专业" prop="speId">
+                        <el-input v-model="formData.speId" placeholder="请输入专业" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
@@ -27,39 +39,38 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="专业" prop="speName">
-                        <el-input v-model="formData.specialty.speName" placeholder="请输入专业" readonly clearable
+                    <el-form-item label="班级" prop="sClass">
+                        <el-input v-model="formData.sClass" placeholder="请输入班级" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="年级" prop="cGrade">
-                        <el-input v-model="formData.cGrade" placeholder="年级" readonly clearable :style="{width: '100%'}">
-                        </el-input>
+                    <el-form-item label="入学时间" prop="enrollment">
+                        <el-input v-model="formData.enrollment" placeholder="请输入入学时间" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="班级" prop="comId">
-                        <el-input v-model="formData.cClass" placeholder="班级" readonly clearable :style="{width: '100%'}">
-                        </el-input>
+                    <el-form-item label="年级" prop="sGrade">
+                        <el-input v-model="formData.sGrade" placeholder="请输入年级" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="" prop="kong">
-                        <el-input v-model="kong" placeholder="" readonly clearable :style="{width: '100%'}">
-                        </el-input>
+                    <el-form-item label="身份证号" prop="identify">
+                        <el-input v-model="formData.identify" placeholder="请输入身份证号" readonly clearable
+                                  :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
-
                 <div style="margin-left: 100px">
-                    管理课程
+                    已选课程
                     <el-checkbox-group v-model="chooseCourse">
                         <el-checkbox :label="item" v-for="(item,index) in chooseCourse" :key="index" onclick="return false;" ></el-checkbox>
                     </el-checkbox-group>
                 </div>
-                <el-col :span="50">
+                <el-col :span="24">
                     <el-form-item size="large">
-                        <el-button type="primary" @click="alterCmt()">修改</el-button>
+                        <el-button type="primary" @click="alterStu()">修改</el-button>
                         <el-button @click="goBack()">返回</el-button>
                     </el-form-item>
                 </el-col>
@@ -68,40 +79,49 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
     export default {
         components: {},
         props: [],
         data() {
             return {
-                kong: null,
-                chooseCourse: [],
                 formData: null,
-                sNo: ''
+                chooseCourse: [],
+                sNo: '',
+                rules: {
+                    sNo: [],
+                    name: [],
+                    password: [],
+                    phone: [],
+                    speId: [],
+                    email: [],
+                    sClass: [],
+                    enrollment: [],
+                    sGrade: [],
+                    identify: [],
+                    courses: []
+                },
             }
         },
         computed: {},
         watch: {},
         created() {
-            this.formData = this.$route.params.cmt
-            console.log(this.formData)
+            this.formData = this.$route.params.stu  //搜索按钮和查看按钮函数中的路由都有参数stu
             for (let i=0;i<this.formData.courses.length;i++){
                 this.chooseCourse.push(this.formData.courses[i].name)
             }
         },
-        mounted() {
-        },
+        mounted() {},
         methods: {
-            alterCmt() {
-                var speId  =this.formData.speId
-                this.$router.push({name:'AddCmtInfo',params:{speIdNoFromV: speId}})
+            alterStu() {
+                var sNo  =this.formData.sNo
+                this.$router.push({name:'AddStuInfo',params:{sNoFromV: sNo}})
             },
             goBack() {
-                this.$router.push("/SysMainPage/CmtMainDiv")
+                this.$router.push("/SysMainPage/StuMainDiv")
             },
         }
     }
 
 </script>
-<style lang="scss" scoped>
+<style scoped>
 </style>
