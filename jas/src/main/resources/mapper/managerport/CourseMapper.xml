@@ -18,6 +18,10 @@
     <select id="selectAllCourse" resultMap="courseMap">
 		select * from course
 	</select>
+
+    <select id="selectForName" resultMap="courseMap">
+        select course_id,cs_name from course;
+    </select>
     <select id="selectCountOfCourse" resultType="Integer">
         select count(*) from course;
     </select>

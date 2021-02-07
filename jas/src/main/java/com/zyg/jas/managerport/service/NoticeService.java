@@ -11,4 +11,10 @@ public interface NoticeService {
     List<Notice> getNoticeByCmtId(String cmtId,Integer pageNo,Integer pageSize);
 
     Integer getTotal(String cmtId);
+
+    Notice getNoticeByIdWith(Integer id);
+
+    Integer removeNoticeById(Integer id);
+
+    List<Notice> getNoticesForSearch(String cmtId,String publishDate,String noticeTitle);
 }

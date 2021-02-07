@@ -40,18 +40,19 @@
 <!--        </javaClientGenerator>-->
 
         <!-- 需要逆向生成哪些表 -->
-        <table tableName="committee"/>
-        <table tableName="course"/>
-        <table tableName="homework"/>
-        <table tableName="notice"/>
-        <table tableName="resources"/>
-        <table tableName="SC"/>
-        <table tableName="score"/>
-        <table tableName="student"/>
-        <table tableName="sys_manager"/>
-        <table tableName="TC"/>
-        <table tableName="teacher"/>
-        <table tableName="specialty"/>
+<!--        <table tableName="committee"/>-->
+<!--        <table tableName="course"/>-->
+<!--        <table tableName="homework"/>-->
+<!--        <table tableName="notice"/>-->
+<!--        <table tableName="resources"/>-->
+<!--        <table tableName="SC"/>-->
+<!--        <table tableName="score"/>-->
+<!--        <table tableName="student"/>-->
+<!--        <table tableName="sys_manager"/>-->
+<!--        <table tableName="TC"/>-->
+<!--        <table tableName="teacher"/>-->
+<!--        <table tableName="specialty"/>-->
+        <table tableName="leave_message"/>
     </context>
 
 </generatorConfiguration>

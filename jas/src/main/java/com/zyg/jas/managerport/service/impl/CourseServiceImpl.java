@@ -70,6 +70,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getForName() {
+        return this.courseDao.selectForName();
+    }
+
+    @Override
     public List<Course> dealExcelForCourse(MultipartFile file) {
         List<Course> courseList = new ArrayList<Course>();
         List excelList = ExcelUtil.getExcelData(file);

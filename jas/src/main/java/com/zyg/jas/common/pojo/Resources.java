@@ -7,11 +7,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Resources implements Serializable {
+
+    private Integer id;
+
     private String comId;
 
     private String resourceName;
 
-    private String resourceUrl;
+    private String resourceUrl; // 资料访问路径
+
+    private String resourcePath; // 资料存放路径
 
     @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
     @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
@@ -19,18 +24,9 @@ public class Resources implements Serializable {
 
     private String resourceType;
 
-    private Integer id;
+    private Committee committee;
 
     public Resources() {
-    }
-
-    public Resources(String comId, String resourceName, String resourceUrl, Date uploadTime, String resourceType, Integer id) {
-        this.comId = comId;
-        this.resourceName = resourceName;
-        this.resourceUrl = resourceUrl;
-        this.uploadTime = uploadTime;
-        this.resourceType = resourceType;
-        this.id = id;
     }
 
     public String getComId() {
@@ -81,15 +77,33 @@ public class Resources implements Serializable {
         this.id = id;
     }
 
+    public Committee getCommittee() {
+        return committee;
+    }
+
+    public void setCommittee(Committee committee) {
+        this.committee = committee;
+    }
+
+    public String getResourcePath() {
+        return resourcePath;
+    }
+
+    public void setResourcePath(String resourcePath) {
+        this.resourcePath = resourcePath;
+    }
+
     @Override
     public String toString() {
         return "Resources{" +
-                "comId='" + comId + '\'' +
+                "id=" + id +
+                ", comId='" + comId + '\'' +
                 ", resourceName='" + resourceName + '\'' +
                 ", resourceUrl='" + resourceUrl + '\'' +
+                ", resourcePath='" + resourcePath + '\'' +
                 ", uploadTime=" + uploadTime +
                 ", resourceType='" + resourceType + '\'' +
-                ", id=" + id +
+                ", committee=" + committee +
                 '}';
     }
 }

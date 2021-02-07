@@ -23,11 +23,12 @@ public class NoticeServiceImplTest {
 
     @Test
     public void insertNoticeTest(){
-        for (int i=0;i<100;i++){
+        for (int i=0;i<12;i++){
             Notice notice = new Notice();
             notice.setComId("201708044211");
             notice.setNoticeTitle("标题"+i);
-            notice.setContent("内容"+i +"!");
+            notice.setContent("公告内容"+i +"!"+"公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!" +
+                    "公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!");
             Date date = new Date(System.currentTimeMillis());
             notice.setPublishDate(date);
             this.noticeService.saveNotice(notice);

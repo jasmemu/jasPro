@@ -12,17 +12,19 @@ public interface CourseService {
      int addCourse(Course course);
 
      List<Course> getAllCourse(Integer pageNo, Integer pageSize);
-     public Integer getCourseTotal(); //获取记录总数
+     Integer getCourseTotal(); //获取记录总数
 
-     public Course getCourseById(String id);
+     Course getCourseById(String id);
 
-     public void deleteCourseById(String id);
+     Course getCourseForSearch(Course course);  //前端搜索框使用
 
-     public Course getCourseForSearch(Course course);  //前端搜索框使用
+     List<Course> getForName();
 
-     public List<Course> dealExcelForCourse(MultipartFile file);
+     void deleteCourseById(String id);
 
-     public int saveCourseFromExcel(List<Course> courseList); //将excel数据转为course对象后，存放在集合中开始保存
+     List<Course> dealExcelForCourse(MultipartFile file);
+
+     int saveCourseFromExcel(List<Course> courseList); //将excel数据转为course对象后，存放在集合中开始保存
 
 
 }

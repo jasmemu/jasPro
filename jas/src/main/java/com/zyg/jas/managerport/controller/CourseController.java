@@ -17,6 +17,12 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @RequestMapping(value = "/getNames",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Course> getNamesHandler(){
+        return this.courseService.getForName();
+    }
+
     @RequestMapping("/saveCourse")  //添加一个课程信息
     @ResponseBody
     public String saveCourseFromForm(@RequestBody Course course){

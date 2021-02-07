@@ -13,11 +13,22 @@
     <!-- 配置SpringMVC -->
     <!-- 1.开启SpringMVC注解驱动 (注释掉该标签，controller层的注解都无效，如注释掉后，访问出现404)-->
     <mvc:annotation-driven />
+<!--    <mvc:cors>-->
+<!--        <mvc:mapping path="/**" />-->
+<!--    </mvc:cors>-->
+
+<!--    <mvc:resources mapping="/crerources/**" location="/cresources/" />-->
+<!--    <mvc:resources mapping="/images/**" location="/images/" />-->
+
 
     <!-- 2.静态资源默认servlet配置-->
     <mvc:default-servlet-handler/>
     <!-- 配置全局异常处理器，且全局异常处理器只能有一个 -->
     <bean class="com.zyg.jas.common.tool.config.JasExceptResolver"></bean>
+
+
+
+
 
     <!-- 3.配置jsp 显示ViewResolver视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

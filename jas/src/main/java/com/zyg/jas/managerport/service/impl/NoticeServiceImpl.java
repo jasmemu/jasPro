@@ -7,7 +7,9 @@ import com.zyg.jas.managerport.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -29,5 +31,24 @@ public class NoticeServiceImpl implements NoticeService {
     public Integer getTotal(String cmtId) {
         Integer total = this.noticeDao.selectTotal(cmtId);
         return total;
+    }
+
+    @Override
+    public Notice getNoticeByIdWith(Integer id) {
+        return  this.noticeDao.selectByIdWith(id);
+    }
+
+    @Override
+    public Integer removeNoticeById(Integer id) {
+        return this.noticeDao.deleteById(id);
+    }
+
+    @Override
+    public List<Notice> getNoticesForSearch(String cmtId,String publishDate,String noticeTitle) {
+        Map paramsMap = new HashMap();
+        paramsMap.put("cmtId",cmtId);
+        paramsMap.put("publishDate",publishDate);
+        paramsMap.put("noticeTitle",noticeTitle);
+        return this.noticeDao.selectForSearch(paramsMap);
     }
 }

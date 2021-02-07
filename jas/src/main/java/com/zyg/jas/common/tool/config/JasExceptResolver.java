@@ -27,4 +27,10 @@ public class JasExceptResolver {
         logger.error("数学异常");
         logger.error(e.getMessage());
     }
+
+    @ExceptionHandler(java.lang.Exception.class)
+    private void test4(Exception e){
+        logger.error("出现异常");
+        logger.error(e.getMessage());
+    }
 }

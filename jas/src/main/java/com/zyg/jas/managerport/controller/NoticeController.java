@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.ls.LSException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,35 @@ public class NoticeController {
 
     @Autowired
     private NoticeService noticeService;
+
+    @RequestMapping(value = "/getNoticesForSearch",method = RequestMethod.POST)
+    @ResponseBody
+    public List<Notice> getNoticesForSearchhandler(@RequestParam("account")String cmtId,
+                                                   @RequestParam("publishDate") Date publishDate,
+                                                   @RequestParam("noticeTitle") String noticeTitle){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(publishDate);
+        List<Notice> notices = this.noticeService.getNoticesForSearch(cmtId,dateString ,noticeTitle);
+        return notices;
+    }
+
+    @RequestMapping(value = "/deleteNoticeById/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public String deleteHandler(@PathVariable("id") Integer id){
+        Integer r = this.noticeService.removeNoticeById(id);
+        if (r == 1){
+            return "success";
+        }else {
+            return "false";
+        }
+    }
+
+    @RequestMapping(value = "/getNoticeById/{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public Notice getNoticeByIdHandler(@PathVariable("id") Integer id){
+       Notice notice =  this.noticeService.getNoticeByIdWith(id);
+       return notice;
+    }
 
     @RequestMapping(value = "/saveNotice",method = RequestMethod.POST)
     @ResponseBody
