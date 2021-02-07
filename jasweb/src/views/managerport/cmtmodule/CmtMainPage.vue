@@ -41,13 +41,13 @@
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-menu"></i>资料管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv"  activeClass="myClass">资料信息</router-link></el-menu-item>
+                                <el-menu-item index="3-1"><router-link tag="li" to="/CmtMainPage/ResourceMainDiv"  activeClass="myClass">资料信息</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="4">
                             <template slot="title"><i class="el-icon-menu"></i>留言管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="4-1"><router-link tag="li" to="/SysMainPage/CmtMainDiv"  activeClass="myClass">留言信息</router-link></el-menu-item>
+                                <el-menu-item index="4-1"><router-link tag="li" to="/CmtMainPage/MessageMainDiv"  activeClass="myClass">留言信息</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                     </el-menu>

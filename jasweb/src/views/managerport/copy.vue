@@ -1,63 +1,162 @@
 <template>
     <div>
-        <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-            <el-form-item label="学委学号" prop="comId" v-show="false">
-                <el-input v-model="formData.comId" placeholder="请输入学委学号" clearable :style="{width: '100%'}">
-                </el-input>
-            </el-form-item>
+        <div  style="height: 50px">
+            <form>
+                <div style="float: left;margin-left: 20px">
+                    标题:
+                    <el-input style="width: auto"   v-model="formForSearch.resourceName"  size="small" placeholder="请输入内容"></el-input>
+                </div>
+                <div>
+                    <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
+                </div>
+            </form>
+        </div>
+        <hr>
 
-            <el-form-item label="发布日期" prop="publishDate" v-show="false">
-                <el-date-picker v-model="formData.publishDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                                :style="{width: '100%'}" placeholder="请选择发布日期" clearable></el-date-picker>
-            </el-form-item>
-            <el-form-item size="large">
-                <el-button type="primary" @click="submitForm">提交</el-button>
-                <el-button @click="resetForm">重置</el-button>
-            </el-form-item>
-        </el-form>
+        <div>
+            <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddResource()">添加</el-button>
+        </div>
+
+        <div>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 100%">
+                <el-table-column
+                        fixed
+                        label="序号"
+                        type="index"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="resourceName"
+                        label="资料名称"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="committee.name"
+                        label="发布人"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="uploadTime"
+                        label="发布日期"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="resourceType"
+                        label="类型"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="200">
+                    <template slot-scope="scope">
+                        <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="downloadByUrl(scope.row)" type="text" size="small">下载f</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <!--            <a  :href="" download="" class="download_btn">下载模板</a>-->
+
+            <div style="float: right;margin-top: 10px">
+                <el-pagination
+                        background
+                        layout="prev, pager, next"
+                        :page-size="pageSize"
+                        :total="total"
+                        @current-change="mypage">
+                </el-pagination>
+            </div>
+
+        </div>
     </div>
 </template>
+
 <script>
+    import axios from 'axios'
     export default {
-        components: {},
-        props: [],
+
+        name: "",
         data() {
             return {
-                formData: {
-                    comId: undefined,
-                    publishDate: null,
+                ur: 'http://localhost:8081/image/ff.html',
+                down: null,
+                account: sessionStorage.getItem("cmtComId"),
+                pageSize: 5,
+                total: 10,
+                formForSearch: {
+                    resourceName: ''
                 },
-                rules: {
-                    comId: [{
-                        required: true,
-                        message: '请输入学委学号',
-                        trigger: 'blur'
-                    }],
-                    publishDate: [{
-                        required: true,
-                        message: '请选择发布日期',
-                        trigger: 'change'
-                    }],
-                },
+                tableData: null
             }
         },
-        computed: {},
-        watch: {},
-        created() {},
-        mounted() {},
+        created(){
+            let _this = this
+            axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account+'/1/'+this.pageSize).then(function (resp) {
+                _this.tableData =resp.data
+            })
+            axios.get('http://localhost:8080/jas/mport/resource/getCount/'+this.account).then(function (resp) {
+                _this.total = resp.data
+            })
+
+        },
         methods: {
-            submitForm() {
-                this.$refs['elForm'].validate(valid => {
-                    if (!valid) return
-                    // TODO 提交表单
+            goAddResource(){
+                this.$router.push('/CmtMainPage/AddResourceInfo')
+            },
+            //table中的
+            mypage (currentpage) {
+                const _this = this
+                axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
+                    _this.tableData = resp.data
                 })
             },
-            resetForm() {
-                this.$refs['elForm'].resetFields()
+            // viewById(row){
+            //     this.$router.push({name:'ViewNoticeDetail',params:{noticeId:row.id}})
+            // },
+            deleteById(row){
+                var de;
+                var _this = this;
+                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var  that = this
+                    axios.get('http://localhost:8080/jas/mport/resource/deleteById/'+ row.id).then(function (resp) {
+                        if (resp.data == 1){
+                            alert('删除成功')
+                            location.reload();
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
+            downloadByUrl(row){
+                console.log(row)
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.resourceUrl
+                var x=url.indexOf('/');
+                for(var i=0;i<2;i++){
+                    x=url.indexOf('/',x+1);
+                }
+                var  endUrl =url.slice(x)
+                console.log(endUrl)
+                a.setAttribute('download',row.resourceName);// download属性
+                a.setAttribute('href',endUrl);// href链接
+                a.click();// 自执行点击事件
+            },
+
         }
     }
-
 </script>
-<style>
+<style scoped>
+
 </style>

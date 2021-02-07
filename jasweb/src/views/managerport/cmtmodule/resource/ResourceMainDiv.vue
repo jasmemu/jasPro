@@ -2,18 +2,9 @@
     <div>
         <div  style="height: 50px">
             <form>
-                <div style="float: left;margin-left: 20px" >
-                    发布日期:
-                    <el-date-picker
-                        v-model="formForSearch.publishDate"
-                        type="date"
-                        size="small"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                </div>
                 <div style="float: left;margin-left: 20px">
                     标题:
-                    <el-input style="width: auto"   v-model="formForSearch.noticeTitle"  size="small" placeholder="请输入内容"></el-input>
+                    <el-input style="width: auto"   v-model="formForSearch.resourceName"  size="small" placeholder="请输入内容"></el-input>
                 </div>
                 <div>
                     <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
@@ -23,7 +14,7 @@
         <hr>
 
         <div>
-            <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddNotice()">添加</el-button>
+            <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddResource()">添加</el-button>
         </div>
 
         <div>
@@ -38,19 +29,23 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="noticeTitle"
-                        label="标题"
+                        prop="resourceName"
+                        label="资料名称"
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="content"
-                        label="内容"
-                        show-overflow-tooltip
-                        width="400">
+                        prop="committee.name"
+                        label="发布人"
+                        width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="publishDate"
-                        label="日期"
+                        prop="uploadTime"
+                        label="发布日期"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="resourceType"
+                        label="类型"
                         width="200">
                 </el-table-column>
                 <el-table-column
@@ -58,11 +53,13 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
-                        <el-button @click="viewById(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="downloadByUrl(scope.row)" type="text" size="small">下载</el-button>
                     </template>
                 </el-table-column>
             </el-table>
+
+<!--            <a  :href="" download="" class="download_btn">下载模板</a>-->
 
             <div style="float: right;margin-top: 10px">
                 <el-pagination
@@ -81,48 +78,45 @@
 <script>
 import axios from 'axios'
     export default {
+
         name: "",
-        data(){
-            return{
+        data() {
+            return {
+                ur: 'http://localhost:8081/image/ff.html',
+                down: null,
                 account: sessionStorage.getItem("cmtComId"),
-                comId: '',
                 pageSize: 5,
                 total: 10,
                 formForSearch: {
-                    publishDate: '',
-                    noticeTitle: ''
+                    resourceName: ''
                 },
                 tableData: null
             }
         },
         created(){
-            this.comId =sessionStorage.getItem('cmtComId')
-            var that = this
-           axios.get('http://localhost:8080/jas/mport/notice/getTotal/'+this.comId).then(function (resp) {
-                     that.total = resp.data
-           })
-        },
-        mounted(){
-            var _this = this
-            axios.get('http://localhost:8080/jas/mport/notice/getAllNotice/'+ this.comId + '/1/5').then(function (resp) {
-                console.log(resp.data)
-                _this.tableData = resp.data
+            let _this = this
+            axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account+'/1/'+this.pageSize).then(function (resp) {
+              _this.tableData =resp.data
             })
+            axios.get('http://localhost:8080/jas/mport/resource/getCount/'+this.account).then(function (resp) {
+                _this.total = resp.data
+            })
+
         },
         methods: {
-            goAddNotice(){
-                this.$router.push('/CmtMainPage/AddNoticeInfo')
+            goAddResource(){
+                this.$router.push('/CmtMainPage/AddResourceInfo')
             },
             //table中的
             mypage (currentpage) {
                 const _this = this
-                axios.get('http://localhost:8080/jas/mport/notice/getAllNotice/'+this.comId +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
+                axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
                     _this.tableData = resp.data
                 })
             },
-            viewById(row){
-                this.$router.push({name:'ViewNoticeDetail',params:{noticeId:row.id}})
-            },
+            // viewById(row){
+            //     this.$router.push({name:'ViewNoticeDetail',params:{noticeId:row.id}})
+            // },
             deleteById(row){
                 var de;
                 var _this = this;
@@ -132,8 +126,8 @@ import axios from 'axios'
                     type: 'warning'
                 }).then(() => {
                     var  that = this
-                    axios.get('http://localhost:8080/jas/mport/notice/deleteNoticeById/'+ row.id).then(function (resp) {
-                        if (resp.data =='success'){
+                    axios.get('http://localhost:8080/jas/mport/resource/deleteById/'+ row.id).then(function (resp) {
+                        if (resp.data == 1){
                             alert('删除成功')
                             location.reload();
                         }
@@ -145,18 +139,27 @@ import axios from 'axios'
                     });
                 });
             },
+            downloadByUrl(row){
+                console.log(row)
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.resourceUrl
+                var x=url.indexOf('/');
+                for(var i=0;i<2;i++){
+                    x=url.indexOf('/',x+1);
+                }
+                var  endUrl =url.slice(x)
+                console.log(endUrl)
+                a.setAttribute('download',row.resourceName);// download属性
+                a.setAttribute('href',endUrl);// href链接
+                a.click();// 自执行点击事件
+            },
             search() {
-                if (this.formForSearch.publishDate!='' || this.formForSearch.noticeTitle!=''){
+                if (this.formForSearch.resourceName!=''){
                     var _this = this
-                    var form = new FormData()
-
-                    form.append('account',this.account)
-                    form.append('publishDate',this.formForSearch.publishDate)
-                    form.append('noticeTitle',this.formForSearch.noticeTitle)
-                    axios.post('http://localhost:8080/jas/mport/notice/getNoticesForSearch',form).then(function (resp) {
-                        const noticeList = resp.data
-                        if (noticeList.length > 0){
-                            _this.$router.push({name:'ViewNotice',params:{notices:noticeList}})
+                    axios.get('http://localhost:8080/jas/mport/resource/getForSearch/'+this.account+'/'+this.formForSearch.resourceName).then(function (resp) {
+                        const resources = resp.data
+                        if (resources.length > 0){
+                            _this.$router.push({name:'ViewResource',params:{resources:resources}})
                         } else {
                             alert("没有符合条件的查询")
                         }
@@ -171,6 +174,6 @@ import axios from 'axios'
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

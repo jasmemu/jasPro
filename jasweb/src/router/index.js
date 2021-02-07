@@ -28,15 +28,23 @@ import AddCmtInfo from "@/views/managerport/sysmodule/committee/AddCmtInfo"
 import ViewCmtInfo from "@/views/managerport/sysmodule/committee/ViewCmtInfo"
 import ViewCmtDetail from "@/views/managerport/sysmodule/committee/ViewCmtDetail"
 
-  //下列属于管理员端url
+  //下列属于课程管理员端url
 import CmtLogin from "@/views/managerport/cmtmodule/CmtLogin"
 import CmtMainPage from "@/views/managerport/cmtmodule/CmtMainPage"
+import SetCmtInfo from "@/views/managerport/cmtmodule/SetCmtInfo"
 
 import NoticeMainDiv from "@/views/managerport/cmtmodule/notice/NoticeMainDiv"
 import AddNoticeInfo from "@/views/managerport/cmtmodule/notice/AddNoticeInfo"
-import SetCmtInfo from "@/views/managerport/cmtmodule/SetCmtInfo"
+import ViewNotice from "@/views/managerport/cmtmodule/notice/ViewNotice"
+import ViewNoticeDetail from "@/views/managerport/cmtmodule/notice/ViewNoticeDetail"
 
+import ResourceMainDiv from "@/views/managerport/cmtmodule/resource/ResourceMainDiv"
+import AddResourceInfo from "@/views/managerport/cmtmodule/resource/AddResourceInfo"
+import ViewResource from "@/views/managerport/cmtmodule/resource/ViewResource"
 
+import MessageMainDiv from "@/views/managerport/cmtmodule/leavemessage/MessageMainDiv"
+import ViewMessageDetail from "@/views/managerport/cmtmodule/leavemessage/ViewMessageDetail"
+import ViewMessage from "@/views/managerport/cmtmodule/leavemessage/ViewMessage"
 
 
 //下列属于学生端url
@@ -79,6 +87,11 @@ const routes = [
     component: SetCmtInfo
   },
   {
+    path: '/StudentMainPage',
+    name: 'StudentMainPage',
+    component: StudentMainPage
+  },
+  {
     path: '/CmtMainPage',
     name: 'CmtMainPage',
     component: CmtMainPage,
@@ -93,13 +106,48 @@ const routes = [
         path: '/CmtMainPage/AddNoticeInfo',
         name: 'AddNoticeInfo',
         component: AddNoticeInfo
-      }
+      },
+      {
+        path: '/CmtMainPage/ViewNotice',
+        name: 'ViewNotice',
+        component: ViewNotice
+      },
+      {
+        path: '/CmtMainPage/ViewNoticeDetail',
+        name: 'ViewNoticeDetail',
+        component: ViewNoticeDetail
+      },
+      {
+        path: '/CmtMainPage/ResourceMainDiv',
+        name: 'ResourceMainDiv',
+        component: ResourceMainDiv
+      },
+      {
+        path: '/CmtMainPage/AddResourceInfo',
+        name: 'AddResourceInfo',
+        component: AddResourceInfo
+      },
+      {
+        path: '/CmtMainPage/ViewResource',
+        name: 'ViewResource',
+        component: ViewResource
+      },
+      {
+        path: '/CmtMainPage/MessageMainDiv',
+        name: 'MessageMainDiv',
+        component: MessageMainDiv
+      },
+      {
+        path: '/CmtMainPage/ViewMessageDetail',
+        name: 'ViewMessageDetail',
+        component: ViewMessageDetail
+      },
+      {
+        path: '/CmtMainPage/ViewMessage',
+        name: 'ViewMessage',
+        component: ViewMessage
+      },
     ]
-  },
-  {
-    path: '/StudentMainPage',
-    name: 'StudentMainPage',
-    component: StudentMainPage
   },
   {
     path: '/SysMainPage',
