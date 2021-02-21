@@ -1,2 +1,5 @@
 注意存留言的时，根据这个学生的专业年级班级去学委表查出学委学号，存留言时将学委号也存进留言表
 因为学委查看留言时是根据留言表中的学委号进行查询的
+
+
+[com.zyg.jas.common.tool.config.JasExceptResolver] [Current request is not a multipart request]异常使用
