@@ -1,162 +1,106 @@
 <template>
     <div>
-        <div  style="height: 50px">
-            <form>
-                <div style="float: left;margin-left: 20px">
-                    标题:
-                    <el-input style="width: auto"   v-model="formForSearch.resourceName"  size="small" placeholder="请输入内容"></el-input>
-                </div>
-                <div>
-                    <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
-                </div>
-            </form>
-        </div>
-        <hr>
-
-        <div>
-            <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddResource()">添加</el-button>
-        </div>
-
-        <div>
-            <el-table
-                    :data="tableData"
-                    border
-                    style="width: 100%">
-                <el-table-column
-                        fixed
-                        label="序号"
-                        type="index"
-                        width="200">
-                </el-table-column>
-                <el-table-column
-                        prop="resourceName"
-                        label="资料名称"
-                        width="200">
-                </el-table-column>
-                <el-table-column
-                        prop="committee.name"
-                        label="发布人"
-                        width="200">
-                </el-table-column>
-                <el-table-column
-                        prop="uploadTime"
-                        label="发布日期"
-                        width="200">
-                </el-table-column>
-                <el-table-column
-                        prop="resourceType"
-                        label="类型"
-                        width="200">
-                </el-table-column>
-                <el-table-column
-                        fixed="right"
-                        label="操作"
-                        width="200">
-                    <template slot-scope="scope">
-                        <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
-                        <el-button @click="downloadByUrl(scope.row)" type="text" size="small">下载f</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-
-            <!--            <a  :href="" download="" class="download_btn">下载模板</a>-->
-
-            <div style="float: right;margin-top: 10px">
-                <el-pagination
-                        background
-                        layout="prev, pager, next"
-                        :page-size="pageSize"
-                        :total="total"
-                        @current-change="mypage">
-                </el-pagination>
+            <div class="manage_tip">
+                <span class="title">表单在提交的时候进行验证</span>
             </div>
-
-        </div>
+            <el-form :model="registerUser" :rules="rules" class="registerForm" ref="registerForm" label-width="80px">
+                <el-form-item label="用户名" prop="name">
+                    <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱" prop="email">
+                    <el-input v-model="registerUser.email" placeholder="请输入邮箱"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input v-model="registerUser.password" placeholder="请输入密码" type="password"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="password2">
+                    <el-input v-model="registerUser.password2" placeholder="请确认密码" type="password"></el-input>
+                </el-form-item>
+                <el-form-item label="选择身份">
+                    <el-select v-model="registerUser.identity" placeholder="请选择身份">
+                        <el-option label="管理员" value="manager"></el-option>
+                        <el-option label="员工" value="employee"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary"  class="submit_btn" @click="submitForm('registerForm')">注 册</el-button>
+                </el-form-item>
+            </el-form>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
     export default {
-
-        name: "",
+        name: "register",
+        //    判断密码是否一致；
         data() {
+            var validatePass2 = (rule, value, callback) => {
+                if (value !== this.registerUser.password) {
+                    callback(new Error("两次输入密码不一致!"));
+                } else {
+                    callback();
+                }
+            };
             return {
-                ur: 'http://localhost:8081/image/ff.html',
-                down: null,
-                account: sessionStorage.getItem("cmtComId"),
-                pageSize: 5,
-                total: 10,
-                formForSearch: {
-                    resourceName: ''
+                registerUser: {
+                    name: "",
+                    email: "",
+                    password: "",
+                    password2: "",
+                    identity: ""
                 },
-                tableData: null
-            }
-        },
-        created(){
-            let _this = this
-            axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account+'/1/'+this.pageSize).then(function (resp) {
-                _this.tableData =resp.data
-            })
-            axios.get('http://localhost:8080/jas/mport/resource/getCount/'+this.account).then(function (resp) {
-                _this.total = resp.data
-            })
-
+               //    在return 后面；
+                rules: {
+                    // 要以数组形式展示
+                    name: [
+                        { required: true, message: "用户名不能为空", trigger: "change" },
+                        { min: 2, max: 30, message: "长度在 2 到 30 个字符", trigger: "blur" }
+                    ],
+                    email: [
+                        {
+                            type: "email",
+                            required: true,
+                            message: "邮箱格式不正确",
+                            trigger: "blur"
+                        }
+                    ],
+                    password: [
+                        { required: true, message: "密码不能为空", trigger: "blur" },
+                        { min: 6, max: 30, message: "长度在 6 到 30 个字符", trigger: "blur" }
+                    ],
+                    password2: [
+                        { required: true, message: "确认密码不能为空", trigger: "blur" },
+                        {
+                            min: 6,
+                            max: 30,
+                            message: "长度在 6 到 30 个字符",
+                            trigger: "blur"
+                        },
+                        { validator: validatePass2, trigger: "blur" }
+                    ]
+                }
+            };
         },
         methods: {
-            goAddResource(){
-                this.$router.push('/CmtMainPage/AddResourceInfo')
-            },
-            //table中的
-            mypage (currentpage) {
-                const _this = this
-                axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
-                    _this.tableData = resp.data
-                })
-            },
-            // viewById(row){
-            //     this.$router.push({name:'ViewNoticeDetail',params:{noticeId:row.id}})
-            // },
-            deleteById(row){
-                var de;
-                var _this = this;
-                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    var  that = this
-                    axios.get('http://localhost:8080/jas/mport/resource/deleteById/'+ row.id).then(function (resp) {
-                        if (resp.data == 1){
-                            alert('删除成功')
-                            location.reload();
-                        }
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+            submitForm(formName) {
+                this.$refs[formName].validate(valid => {
+                    if (valid) {
+                        this.$axios
+                            .post("/api/users/register", this.registerUser)
+                            .then(res => {
+                                // 注册成功
+                                this.$message({
+                                    message: "注册成功！",
+                                    type: "success"
+                                });
+                                // this.$router.push("/login");
+                            });
+                    } else {
+                        console.log("error submit!!");
+                        return false;
+                    }
                 });
-            },
-            downloadByUrl(row){
-                console.log(row)
-                const a = document.createElement('a'); // 创建a标签
-                let url = row.resourceUrl
-                var x=url.indexOf('/');
-                for(var i=0;i<2;i++){
-                    x=url.indexOf('/',x+1);
-                }
-                var  endUrl =url.slice(x)
-                console.log(endUrl)
-                a.setAttribute('download',row.resourceName);// download属性
-                a.setAttribute('href',endUrl);// href链接
-                a.click();// 自执行点击事件
-            },
-
+            }
         }
-    }
+    };
 </script>
-<style scoped>
-
-</style>
