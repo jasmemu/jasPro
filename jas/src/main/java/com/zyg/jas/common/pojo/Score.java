@@ -1,37 +1,30 @@
 package com.zyg.jas.common.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serializable;
 import java.util.Date;
 
-public class Score implements Serializable {
+public class Score {
     private Integer id;
 
     private Integer hId;
 
     private String sNo;
 
+    private String comId;
+
     private Double score;
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
-    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
+    private String comment;
+
     private Date correctDate;
 
     private String commitedJobUrl;
 
+    private String commitedJobPath;
+
     public Score() {
     }
 
-    public Score(Integer id, Integer hId, String sNo, Double score, Date correctDate, String commitedJobUrl) {
-        this.id = id;
-        this.hId = hId;
-        this.sNo = sNo;
-        this.score = score;
-        this.correctDate = correctDate;
-        this.commitedJobUrl = commitedJobUrl;
-    }
+
 
     public Integer getId() {
         return id;
@@ -57,12 +50,28 @@ public class Score implements Serializable {
         this.sNo = sNo == null ? null : sNo.trim();
     }
 
+    public String getComId() {
+        return comId;
+    }
+
+    public void setComId(String comId) {
+        this.comId = comId == null ? null : comId.trim();
+    }
+
     public Double getScore() {
         return score;
     }
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment == null ? null : comment.trim();
     }
 
     public Date getCorrectDate() {
@@ -81,15 +90,11 @@ public class Score implements Serializable {
         this.commitedJobUrl = commitedJobUrl == null ? null : commitedJobUrl.trim();
     }
 
-    @Override
-    public String toString() {
-        return "Score{" +
-                "id=" + id +
-                ", hId=" + hId +
-                ", sNo='" + sNo + '\'' +
-                ", score=" + score +
-                ", correctDate=" + correctDate +
-                ", commitedJobUrl='" + commitedJobUrl + '\'' +
-                '}';
+    public String getCommitedJobPath() {
+        return commitedJobPath;
+    }
+
+    public void setCommitedJobPath(String commitedJobPath) {
+        this.commitedJobPath = commitedJobPath == null ? null : commitedJobPath.trim();
     }
 }

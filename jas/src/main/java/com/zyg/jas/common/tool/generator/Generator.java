@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 //逆向工程启动
-//public class Generator {
-//    public static void main(String[] args) throws Exception{
-//        List<String> warnings = new ArrayList<>();
-//        boolean overwrite = true;
-//        //指定逆向工程配置文件
-//        File configFile = new File("src/main/generatorConfig.xml");
-//        ConfigurationParser cp = new ConfigurationParser(warnings);
-//        Configuration config = cp.parseConfiguration(configFile);
-//        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-//        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config,
-//                callback, warnings);
-//        myBatisGenerator.generate(null);
-//        System.out.println("结束");
-//    }
-//}
+public class Generator {
+    public static void main(String[] args) throws Exception{
+        List<String> warnings = new ArrayList<>();
+        boolean overwrite = true;
+        //指定逆向工程配置文件
+        File configFile = new File("src/main/generatorConfig.xml");
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config,
+                callback, warnings);
+        myBatisGenerator.generate(null);
+        System.out.println("结束");
+    }
+}

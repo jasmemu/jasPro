@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Homework implements Serializable {
@@ -20,13 +21,13 @@ public class Homework implements Serializable {
 
     private String hPath;
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
-    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
-    private Date publishDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai")//后台的时间 格式化 发送到前台
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")//接受前台的时间格式 传到后台的格式
+    private Timestamp publishDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
-    @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
-    private Date endDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai")//后台的时间 格式化 发送到前台
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")//接受前台的时间格式 传到后台的格式
+    private Timestamp endDate;
 
     private String mark;
 
@@ -35,19 +36,7 @@ public class Homework implements Serializable {
     }
 
 
-    public Homework(Integer hId, String hName, String comId, Committee committee, String courseId, Course course, String hUrl, String hPath, Date publishDate, Date endDate, String mark) {
-        this.hId = hId;
-        this.hName = hName;
-        this.comId = comId;
-        this.committee = committee;
-        this.courseId = courseId;
-        this.course = course;
-        this.hUrl = hUrl;
-        this.hPath = hPath;
-        this.publishDate = publishDate;
-        this.endDate = endDate;
-        this.mark = mark;
-    }
+
 
     public Integer gethId() {
         return hId;
@@ -81,19 +70,19 @@ public class Homework implements Serializable {
         this.hUrl = hUrl == null ? null : hUrl.trim();
     }
 
-    public Date getPublishDate() {
+    public Timestamp getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(Timestamp publishDate) {
         this.publishDate = publishDate;
     }
 
-    public Date getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

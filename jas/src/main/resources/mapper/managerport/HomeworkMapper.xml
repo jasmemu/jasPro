@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.HomeworkDao">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="jobMap" type="com.zyg.jas.common.pojo.Homework">
+        <id property="hId" column="h_id" />
+        <result property="hName" column="h_name"/>
+        <result property="comId" column="com_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="hUrl" column="h_url"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="hPath" column="h_path"/>
+        <result property="mark" column="mark"/>
+        <association property="course" javaType="com.zyg.jas.common.pojo.Course">
+            <id property="courseId" column="course_id" />
+            <result property="name" column="cs_name"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertJob" parameterType="com.zyg.jas.common.pojo.Homework">
+        insert into homework(h_name,com_id, course_id, h_url, publish_date, end_date,h_path,mark)
+        values (#{hName},#{comId},#{courseId},#{hUrl},#{publishDate},#{endDate},#{hPath},#{mark});
+    </insert>
+
+    <select id="selectJobs" resultMap="jobMap" parameterType="String">
+        select j.h_id,j.h_name,j.course_id, j.h_url,j.publish_date, j.end_date,j.mark,c.course_id,c.cs_name
+        from homework j inner join course c on j.course_id = c.course_id and j.com_id = #{comId}
+    </select>
+
+    <select id="selectCount" resultType="Integer" parameterType="String" >
+        select count(*) from homework where com_id = #{cmtId};
+    </select>
+
+    <select id="selectForSearch" resultMap="jobMap">
+         select j.h_id,j.h_name,j.course_id, j.h_url,j.publish_date, j.end_date,j.mark,c.course_id,c.cs_name
+        from homework j inner join course c on j.course_id = c.course_id and j.h_name like concat('%',#{hName},'%') and j.com_id = #{comId};
+    </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from homework where h_id = #{hId};
+    </delete>
+
+
+</mapper>

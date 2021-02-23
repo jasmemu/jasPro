@@ -3,7 +3,7 @@ package com.zyg.jas.common.pojo;
 import java.io.Serializable;
 
 public class SysManager implements Serializable {
-    private String id;
+    private Integer id;
 
     private String name;
 
@@ -19,7 +19,7 @@ public class SysManager implements Serializable {
 
     public SysManager() { }
 
-    public SysManager(String id, String name, String phone, String account, String password, String email, String identify) {
+    public SysManager(Integer id, String name, String phone, String account, String password, String email, String identify) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -29,12 +29,12 @@ public class SysManager implements Serializable {
         this.identify = identify;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
