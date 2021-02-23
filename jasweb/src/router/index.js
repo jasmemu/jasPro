@@ -46,6 +46,11 @@ import MessageMainDiv from "@/views/managerport/cmtmodule/leavemessage/MessageMa
 import ViewMessageDetail from "@/views/managerport/cmtmodule/leavemessage/ViewMessageDetail"
 import ViewMessage from "@/views/managerport/cmtmodule/leavemessage/ViewMessage"
 
+import JobMainDiv from "@/views/managerport/cmtmodule/publishjob/JobMainDiv"
+import AddJobInfo from "@/views/managerport/cmtmodule/publishjob/AddJobInfo"
+import ViewJob from "@/views/managerport/cmtmodule/publishjob/ViewJob"
+
+import CheckJobMainDiv from "@/views/managerport/cmtmodule/checkjob/CheckJobMainDiv"
 
 //下列属于学生端url
 import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
@@ -91,6 +96,7 @@ const routes = [
     name: 'StudentMainPage',
     component: StudentMainPage
   },
+  // 课程管理员下的路由
   {
     path: '/CmtMainPage',
     name: 'CmtMainPage',
@@ -147,8 +153,29 @@ const routes = [
         name: 'ViewMessage',
         component: ViewMessage
       },
+      {
+        path: '/CmtMainPage/JobMainDiv',
+        name: 'JobMainDiv',
+        component: JobMainDiv
+      },
+      {
+        path: '/CmtMainPage/AddJobInfo',
+        name: 'AddJobInfo',
+        component: AddJobInfo
+      },
+      {
+        path: '/CmtMainPage/ViewJob',
+        name: 'ViewJob',
+        component: ViewJob
+      },
+      {
+        path: '/CmtMainPage/CheckJobMainDiv',
+        name: 'CheckJobMainDiv',
+        component: CheckJobMainDiv
+      },
     ]
   },
+  // 系统管理员下的路由
   {
     path: '/SysMainPage',
     name: 'SysMainPage',

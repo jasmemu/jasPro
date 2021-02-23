@@ -35,7 +35,7 @@
                             <template slot="title"><i class="el-icon-menu"></i>作业管理</template>
                             <el-menu-item-group>
                                 <el-menu-item index="2-1"><router-link tag="li" to="/CmtMainPage/JobMainDiv"  activeClass="myClass">作业发布</router-link></el-menu-item>
-<!--                                <el-menu-item index="2-2"><router-link tag="li" to="/SysMainPage/eaMainDiv"  activeClass="myClass">作业评阅</router-link></el-menu-item>-->
+                                <el-menu-item index="2-2"><router-link tag="li" to="/CmtMainPage/CheckJobMainDiv"  activeClass="myClass">作业评阅</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">

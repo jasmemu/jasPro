@@ -3,17 +3,8 @@
         <div  style="height: 50px">
             <form>
                 <div style="float: left;margin-left: 20px" >
-                    发布日期:
-                    <el-date-picker
-                            v-model="formForSearch.publishDate"
-                            type="date"
-                            size="small"
-                            placeholder="选择日期">
-                    </el-date-picker>
-                </div>
-                <div style="float: left;margin-left: 20px">
-                    标题:
-                    <el-input style="width: auto"   v-model="formForSearch.noticeTitle"  size="small" placeholder="请输入内容"></el-input>
+                    作业名称:
+                    <el-input style="width: auto"      v-model="formForSearch.hName"  size="small" placeholder="请输入内容"></el-input>
                 </div>
                 <div>
                     <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
@@ -60,6 +51,7 @@
                 <el-table-column
                         prop="mark"
                         label="说明"
+                        show-overflow-tooltip
                         width="400">
                 </el-table-column>
                 <el-table-column
@@ -67,6 +59,7 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
+                        <el-button @click="downloadJob(scope.row)" type="text" size="small">下载</el-button>
                         <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
@@ -92,13 +85,11 @@
         name: "",
         data(){
             return{
-                comId: sessionStorage.getItem('cmtComId'),
-                comId: '',
                 pageSize: 5,
                 total: 10,
                 formForSearch: {
-                    publishDate: '',
-                    noticeTitle: ''
+                    hName: '',
+                    comId: sessionStorage.getItem('cmtComId')
                 },
                 tableData: null
             }
@@ -128,6 +119,20 @@
                     _this.tableData = resp.data
                 })
             },
+            downloadJob(row){
+                console.log(row)
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.hUrl
+                var x=url.indexOf('/');
+                for(var i=0;i<2;i++){
+                    x=url.indexOf('/',x+1);
+                }
+                var  endUrl =url.slice(x)
+                console.log(endUrl)
+                a.setAttribute('download',row.hName);// download属性
+                a.setAttribute('href',endUrl);// href链接
+                a.click();// 自执行点击事件
+            },
 
             deleteById(row){
                 var de;
@@ -152,17 +157,12 @@
                 });
             },
             search() {
-                if (this.formForSearch.publishDate!='' || this.formForSearch.noticeTitle!=''){
+                if (this.formForSearch.hName != ''){
                     var _this = this
-                    var form = new FormData()
-
-                    form.append('account',this.account)
-                    form.append('publishDate',this.formForSearch.publishDate)
-                    form.append('noticeTitle',this.formForSearch.noticeTitle)
-                    axios.post('http://localhost:8080/jas/mport/notice/getNoticesForSearch',form).then(function (resp) {
-                        const noticeList = resp.data
-                        if (noticeList.length > 0){
-                            _this.$router.push({name:'ViewNotice',params:{notices:noticeList}})
+                    axios.get('http://localhost:8080/jas/mport/homework/getJobForSearch/'+this.formForSearch.comId+'/'+this.formForSearch.hName).then(function (resp) {
+                        const jobList = resp.data
+                        if (jobList.length > 0){
+                            _this.$router.push({name:'ViewJob',params:{jobs:jobList}})
                         } else {
                             alert("没有符合条件的查询")
                         }

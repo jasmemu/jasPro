@@ -53,8 +53,8 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
-                        <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
                         <el-button @click="downloadByUrl(scope.row)" type="text" size="small">下载</el-button>
+                        <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>

@@ -18,6 +18,7 @@
             <el-table-column
                     prop="content"
                     label="内容"
+                    show-overflow-tooltip
                     width="400">
             </el-table-column>
             <el-table-column
