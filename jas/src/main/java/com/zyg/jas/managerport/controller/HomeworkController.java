@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 @CrossOrigin
@@ -21,6 +24,13 @@ public class HomeworkController {
     private Logger logger = LoggerFactory.getLogger(HomeworkController.class);
     @Autowired
     private HomeworkService homeworkService;
+
+    @RequestMapping(value = "/getJobForSearch/{comId}/{hName}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Homework> getJobForSearchHandler(@PathVariable("comId")String comId,@PathVariable("hName")String hName){
+        List<Homework> jobs = this.homeworkService.getForSearch(comId,hName);
+        return jobs;
+    }
 
     // 根据作业id删除作业记录，返回删除记录数
    @RequestMapping(value = "/deleteByhId/{hId}",method = RequestMethod.GET)
@@ -47,15 +57,24 @@ public class HomeworkController {
 
     @RequestMapping(value = "/saveJob",method = RequestMethod.POST)
     @ResponseBody
-    public Integer saveJobHandler(@RequestParam("jobFile")MultipartFile multipartFile,@RequestParam("comId") String comId, @RequestParam("courseId")String courseId,
-                                  @RequestParam("endDate")Date endDate,@RequestParam("mark") String mark)  {
+    public Integer saveJobHandler(@RequestParam("jobFile")MultipartFile multipartFile, @RequestParam("comId") String comId, @RequestParam("courseId")String courseId,
+                                  @RequestParam("endDate") Date endDate, @RequestParam("mark") String mark) throws ParseException {
         Homework homework = new Homework();
         homework.setCourseId(courseId);
         homework.setComId(comId);
-        homework.setEndDate(endDate);
+
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+//        Date now = new Date();
+        String nowTime = f.format(endDate);
+        Date date = f.parse(nowTime);
+        Timestamp time = new Timestamp(date.getTime());
+        homework.setEndDate(time);
+
         homework.setMark(mark);
         logger.info("学委"+comId);
         logger.info("课程"+courseId);
+        logger.info("截至时间"+endDate);
         logger.info("文件"+multipartFile.getOriginalFilename());
 
         try {

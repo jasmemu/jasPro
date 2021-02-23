@@ -12,11 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
@@ -44,13 +43,15 @@ public class HomeworkServiceImpl implements HomeworkService {
         multipartFile.transferTo(dest);
         // 保存数据
         homework.sethName(fileName);
-        homework.sethUrl(jobURL);
-        homework.sethPath(jobPath);
+        homework.sethUrl(jobURL+fileUUID);
+        homework.sethPath(dest.getAbsoluteFile().toString());
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         Date now = new Date();
         String nowTime = f.format(now);
         Date date = f.parse(nowTime);
-        homework.setPublishDate(date);
+        Timestamp time = new Timestamp(date.getTime());
+        homework.setPublishDate(time);
         return this.homeworkDao.insertJob(homework);
     }
 
@@ -69,5 +70,13 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public Integer removeJobById(Integer hId) {
         return this.homeworkDao.deleteById(hId);
+    }
+
+    @Override
+    public List<Homework> getForSearch(String comId,String hName) {
+        Map<String,String> map = new HashMap<>();
+        map.put("comId",comId);
+        map.put("hName",hName);
+        return this.homeworkDao.selectForSearch(map);
     }
 }
