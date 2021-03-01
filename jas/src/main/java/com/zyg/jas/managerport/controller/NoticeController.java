@@ -23,6 +23,7 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
+    // 根据cmtId,publishDate,noticeTitle搜索公告
     @RequestMapping(value = "/getNoticesForSearch",method = RequestMethod.POST)
     @ResponseBody
     public List<Notice> getNoticesForSearchhandler(@RequestParam("account")String cmtId,
@@ -34,6 +35,7 @@ public class NoticeController {
         return notices;
     }
 
+    // 根据公告id删除公告
     @RequestMapping(value = "/deleteNoticeById/{id}",method = RequestMethod.GET)
     @ResponseBody
     public String deleteHandler(@PathVariable("id") Integer id){
@@ -45,6 +47,7 @@ public class NoticeController {
         }
     }
 
+    // 根据公告id获取公告详情
     @RequestMapping(value = "/getNoticeById/{id}",method = RequestMethod.GET)
     @ResponseBody
     public Notice getNoticeByIdHandler(@PathVariable("id") Integer id){
@@ -52,6 +55,7 @@ public class NoticeController {
        return notice;
     }
 
+    // 添加一个公告
     @RequestMapping(value = "/saveNotice",method = RequestMethod.POST)
     @ResponseBody
     public String saveNotice(@RequestBody Notice notice){
@@ -65,6 +69,7 @@ public class NoticeController {
         }
     }
 
+    // 获取该学委发布的公告，分页显示
     @RequestMapping(value = "/getAllNotice/{cmtId}/{pageNo}/{pageSize}")
     @ResponseBody
     public List<Notice> getNoticeHandler(@PathVariable("cmtId") String cmtId,
@@ -73,6 +78,7 @@ public class NoticeController {
         return notices;
     }
 
+    // 获取该学委发布的公告数量
     @RequestMapping(value = "/getTotal/{cmtId}",method = RequestMethod.GET)
     @ResponseBody
     public Integer getTotalHandler(@PathVariable("cmtId") String cmtId){

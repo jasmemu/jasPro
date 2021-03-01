@@ -21,11 +21,6 @@ public class Score {
 
     private String commitedJobPath;
 
-    public Score() {
-    }
-
-
-
     public Integer getId() {
         return id;
     }

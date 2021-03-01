@@ -32,6 +32,7 @@ public class CmtContorller {
     private SpecialtyService specialtyService;
 
 
+    // 添加学委
     @RequestMapping(value = "/saveCmt",method = RequestMethod.POST)  //添加一个学委
     @ResponseBody
     public String send(@RequestBody Committee committee){
@@ -44,6 +45,7 @@ public class CmtContorller {
             return "false";
         }
     }
+    // 修改学委信息
     @RequestMapping(value = "/updateCmt",method = RequestMethod.POST)  //学委修改个人可管理的信息
     @ResponseBody
     public String updateHandler(@RequestBody Committee committee){
@@ -55,12 +57,14 @@ public class CmtContorller {
         }
     }
 
+    // 学委信息分页显示
     @RequestMapping(value = "/getAllCmt/{pageNo}/{pageSize}",method = RequestMethod.GET) //获取student表所有记录
     @ResponseBody
     public List<Committee> getAllCmt(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
         List<Committee> committees = this.cmtService.getAllCmt(pageNo,pageSize);
         return committees;
     }
+    // 获取学委总记录数
     @RequestMapping("/getCmtTotal") //获取student表所有记录
     @ResponseBody
     public String getCmtTotal(){
@@ -72,6 +76,7 @@ public class CmtContorller {
         }
     }
 
+    // 根据speName、cGrade、cClass搜索学委
     @RequestMapping("/getCmtForSearch") // 根据搜索框查找一条记录
     @ResponseBody
     public List<Committee> getStuForSearchHandler(@RequestParam("speName") String speName, @RequestParam("cGrade") String cGrade, @RequestParam("cClass") String cClass){
@@ -94,7 +99,7 @@ public class CmtContorller {
         return committee;
     }
 
-    // 根据cmtId获取学委带有课程的信息
+    // 根据cmtId获取学委信息
     @RequestMapping(value = "/getCmtByComIdNoWith/{cmtComId}",method = RequestMethod.GET)
     @ResponseBody
     public  Committee getCmtByComIdHandler(@PathVariable("cmtComId") String cmtId){
@@ -102,12 +107,14 @@ public class CmtContorller {
         return committee;
     }
 
+    // 根据学委学号删去学委
     @RequestMapping(value = "/deleteByComId/{cmtId}",method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteByComIdHandler(@PathVariable("cmtId") String cmtId){
         this.cmtService.removeCmtByComId(cmtId);
     }
 
+    // 上传excel中的学委信息
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
@@ -116,7 +123,8 @@ public class CmtContorller {
         return sum;
     }
 
-    @RequestMapping(value = "login",method = RequestMethod.POST)
+    // 根据loginAccount、loginPassword学委登录
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Committee cmtLoginHandler(@RequestParam("loginAccount") String loginAccount, @RequestParam("loginPassword") String loginPassword){
         Committee committee= this.cmtService.getCmtByAccount(loginAccount,loginPassword);

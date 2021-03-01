@@ -16,6 +16,7 @@ public class SpecialtyController {
     @Autowired
     private SpecialtyService specialtyService;
 
+    // 获取所有专业信息
     @RequestMapping("/getspecialties")
     @ResponseBody
     @CrossOrigin

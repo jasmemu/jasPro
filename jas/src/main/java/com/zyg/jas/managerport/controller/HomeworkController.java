@@ -25,6 +25,7 @@ public class HomeworkController {
     @Autowired
     private HomeworkService homeworkService;
 
+    // 根据comId和hName查找作业
     @RequestMapping(value = "/getJobForSearch/{comId}/{hName}",method = RequestMethod.GET)
     @ResponseBody
     public List<Homework> getJobForSearchHandler(@PathVariable("comId")String comId,@PathVariable("hName")String hName){
@@ -40,6 +41,7 @@ public class HomeworkController {
         return i;
     }
 
+    // 根据comId获取该学委发布的作业总数
     @RequestMapping(value = "/getCount/{cmtId}",method = RequestMethod.GET)
     @ResponseBody
     public Integer getCountHandler(@PathVariable("cmtId") String cmtId){
@@ -48,6 +50,7 @@ public class HomeworkController {
         return total;
     }
 
+    // 根据cmtId查找该学委发布的作业信息，分页显示
     @RequestMapping(value = "/getJobs/{cmtId}/{pageNo}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
     public List<Homework> getJobsHandler(@PathVariable("cmtId") String cmtId,@PathVariable("pageNo") Integer pageNo,
@@ -55,6 +58,7 @@ public class HomeworkController {
         return this.homeworkService.getAllJobs(cmtId,pageNo,pageSize);
     }
 
+    // 保存作业
     @RequestMapping(value = "/saveJob",method = RequestMethod.POST)
     @ResponseBody
     public Integer saveJobHandler(@RequestParam("jobFile")MultipartFile multipartFile, @RequestParam("comId") String comId, @RequestParam("courseId")String courseId,

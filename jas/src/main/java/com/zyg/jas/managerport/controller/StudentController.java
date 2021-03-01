@@ -48,7 +48,8 @@ public class StudentController {
 
         return "success";
     }
-    @RequestMapping(value = "/savestu",method = RequestMethod.POST)  //添加一个学生
+    //添加一个学生
+    @RequestMapping(value = "/savestu",method = RequestMethod.POST)
     @ResponseBody
     public String send(@RequestBody Student student){
         System.out.println("接收到的学生信息");
@@ -62,12 +63,14 @@ public class StudentController {
     }
 
 
+    // 获取学生信息，分页显示
     @RequestMapping(value = "/getAllStu/{pageNo}/{pageSize}",method = RequestMethod.GET) //获取student表所有记录
     @ResponseBody
     public List<Student> getAllStu(@PathVariable("pageNo") Integer pageNo,@PathVariable("pageSize") Integer pageSize){
         List<Student> students = this.studentService.getAllStu(pageNo,pageSize);
         return students;
     }
+    //获取学生的数量
     @RequestMapping("/getStuTotal") //获取student表所有记录
     @ResponseBody
     public String getStuTotal(){
@@ -80,7 +83,8 @@ public class StudentController {
 
     }
 
-    @RequestMapping(value = "/getStuBySno/{sNo}",method = RequestMethod.GET) //根据学号获取student并带有课程
+    // 根据学号获取student并带有课程信息
+    @RequestMapping(value = "/getStuBySno/{sNo}",method = RequestMethod.GET)
     @ResponseBody
     public Student getStuBySno(@PathVariable("sNo") String sNo){
         Student student = this.studentService.getStuBySno(sNo);
@@ -97,13 +101,15 @@ public class StudentController {
         return student;
     }
 
-    @RequestMapping(value = "/deleteBySno/{sNo}",method = RequestMethod.DELETE) //根据sNo删除一条记录
+    // 根据sNo删除一条记录
+    @RequestMapping(value = "/deleteBySno/{sNo}",method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteBySno(@PathVariable("sNo") String sno){
         this.studentService.deleteStuBySno(sno);
     }
 
-    @RequestMapping("/getStuForSearch") //根据搜索框查找一条记录
+    // 根据学号或姓名搜索学生
+    @RequestMapping("/getStuForSearch")
     @ResponseBody
     public List<Student> getStuForSearch(@RequestBody Student student){
         List<Student> stuList = this.studentService.getStuForSearch(student);
@@ -130,6 +136,7 @@ public class StudentController {
         return stuList;
     }
 
+    // 上传excel文件，存储学生信息
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {

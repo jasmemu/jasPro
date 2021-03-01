@@ -24,7 +24,8 @@ public class TeaController {
     @Autowired
     private TcService tcService;
 
-    @RequestMapping("/saveTea")  //添加一个学生
+    // 添加一个老师
+    @RequestMapping("/saveTea")
     @ResponseBody
     public String send(@RequestBody Teacher teacher){
         System.out.println("接收到的教师信息");
@@ -37,13 +38,16 @@ public class TeaController {
         }
     }
 
-    @RequestMapping("/getAllTea/{pageNo}/{pageSize}") //获取student表所有记录
+    // 获取老师信息，分页显示
+    @RequestMapping("/getAllTea/{pageNo}/{pageSize}")
     @ResponseBody
     public List<Teacher> getAllTea(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
         List<Teacher> students = this.teaService.getAllTea(pageNo,pageSize);
         return students;
     }
-    @RequestMapping("/getTeaTotal") //获取student表所有记录
+
+    // 获取老师表的记录条数
+    @RequestMapping("/getTeaTotal")
     @ResponseBody
     public String getTeaTotal(){
         Integer teaCount = this.teaService.getTeaTotal();
@@ -55,6 +59,7 @@ public class TeaController {
 
     }
 
+    // 根据教师名称搜索教师
     @RequestMapping("/getTeaForSearch")
     @ResponseBody
     public List< Teacher> getTeaForSearch(@RequestBody Teacher teacher){
@@ -84,7 +89,8 @@ public class TeaController {
         return  teaList;
     }
 
-    @RequestMapping("/getTeaByTno/{tNo}") //根据学号获取student并带有课程
+    // 根据教师编号获取教师并带有课程
+    @RequestMapping("/getTeaByTno/{tNo}")
     @ResponseBody
     public Teacher getTeaByTno(@PathVariable("tNo") String tNo){
         Teacher teacher = this.teaService.getTeaByTno(tNo);
@@ -101,13 +107,15 @@ public class TeaController {
         return teacher;
     }
 
-    @RequestMapping("/deleteByTno/{tNo}") //根据sNo删除一条记录
+    //根据教师编号删除一条记录
+    @RequestMapping("/deleteByTno/{tNo}")
     @ResponseBody
     public void deleteByTno(@PathVariable("tNo") String tno){
         this.teaService.deleteTeaByTno(tno);
     }
 
-    @RequestMapping("/dealExcel") //处理上传的Excel文件
+    // 处理上传的Excel文件，存储教师信息
+    @RequestMapping("/dealExcel")
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         System.out.println("接收到的Excel");
