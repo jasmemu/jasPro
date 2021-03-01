@@ -8,6 +8,7 @@ import EnterPage from "@/views/EnterPage"
 import SysLogin from  "@/views/managerport/sysmodule/SysLogin"
 import SysMainPage from "@/views/managerport/sysmodule/SysMainPage"
 import SetSysInfo from "@/views/managerport/sysmodule/SetSysInfo"
+import DownloadExcel from "@/views/managerport/sysmodule/DownloadExcel"
 
 import StuMainDiv from "@/views/managerport/sysmodule/student/StuMainDiv"
 import AddStuInfo from "@/views/managerport/sysmodule/student/AddStuInfo"
@@ -85,6 +86,11 @@ const routes = [
     path: '/SetSysInfo',
     name: 'SetSysInfo',
     component: SetSysInfo
+  },
+  {
+    path: '/DownloadExcel',
+    name: 'DownloadExcel',
+    component: DownloadExcel
   },
   {
     path: '/SetCmtInfo',

@@ -13,7 +13,8 @@
               </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="a">个人设置</el-dropdown-item>
-                  <el-dropdown-item command="b">退出登录</el-dropdown-item>
+                  <el-dropdown-item command="b">下载excel模板</el-dropdown-item>
+                  <el-dropdown-item command="c">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -80,7 +81,9 @@
           // this.$message('click on item ' + command);
           if (command == 'a'){
             this.$router.push('/SetSysInfo')
-          }else {
+          }else if(command == 'b'){
+            this.$router.push('/DownloadExcel')
+          } else if(command == 'c') {
             sessionStorage.clear();
             this.$router.push('/enter')
           }
