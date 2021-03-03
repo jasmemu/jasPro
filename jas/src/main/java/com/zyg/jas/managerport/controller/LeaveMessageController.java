@@ -43,15 +43,17 @@ public class LeaveMessageController {
         return this.leaveMessageService.getById(id);
     }
 
-    // 根据comId、lmDate搜索留言
-    @RequestMapping(value = "/getForSearch/{comId}/{lmDate}",method = RequestMethod.GET)
+    // 根据comId、reply_message是否为空搜索留言
+    @RequestMapping(value = "/getForSearch/{comId}/{reply}",method = RequestMethod.GET)
     @ResponseBody
-    public List<LeaveMessage> getForSearchHandler(@PathVariable("comId")String comId, @PathVariable("lmDate")Date lmDate){
-        Map map = new HashMap();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(lmDate);
+    public List<LeaveMessage> getForSearchHandler(@PathVariable("comId")String comId, @PathVariable("reply")String reply){
+        Map<String,String> map = new HashMap<String,String>();
+        String flag = "no";
+        if (reply.equals("已回复")){
+            flag = "yes";
+        }
         map.put("comId",comId);
-        map.put("lmDate",dateString);
+        map.put("flag",flag);
        return this.leaveMessageService.getForSearchWith(map);
     }
 

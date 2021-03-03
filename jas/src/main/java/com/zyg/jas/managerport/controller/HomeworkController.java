@@ -66,21 +66,13 @@ public class HomeworkController {
         Homework homework = new Homework();
         homework.setCourseId(courseId);
         homework.setComId(comId);
-
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         f.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-//        Date now = new Date();
         String nowTime = f.format(endDate);
         Date date = f.parse(nowTime);
         Timestamp time = new Timestamp(date.getTime());
         homework.setEndDate(time);
-
         homework.setMark(mark);
-        logger.info("学委"+comId);
-        logger.info("课程"+courseId);
-        logger.info("截至时间"+endDate);
-        logger.info("文件"+multipartFile.getOriginalFilename());
-
         try {
             return this.homeworkService.saveJob(multipartFile,homework);
         } catch (IOException e) {

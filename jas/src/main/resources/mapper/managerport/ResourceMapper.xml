@@ -43,8 +43,9 @@
          r.com_id=#{comId} and  r.resource_name like concat('%',#{resourceName},'%');
     </select>
 
-    <select id="selectResourceById" parameterType="Integer" resultType="com.zyg.jas.common.pojo.Resources">
-        select resource_name, resource_url, id from resources where id =#{id};
+    <select id="selectResourceById" parameterType="Integer" resultMap="resourceMap" >
+        select * from resources where id =#{id};
     </select>
+
 
 </mapper>

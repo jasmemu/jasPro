@@ -42,6 +42,10 @@
         from homework j inner join course c on j.course_id = c.course_id and j.h_name like concat('%',#{hName},'%') and j.com_id = #{comId};
     </select>
 
+    <select id="selectJobByHid" resultMap="jobMap">
+         select h_id,h_name,h_url,h_path from homework where h_id=#{hId};
+    </select>
+
     <delete id="deleteById" parameterType="Integer">
         delete from homework where h_id = #{hId};
     </delete>

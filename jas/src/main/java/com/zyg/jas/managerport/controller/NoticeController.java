@@ -23,15 +23,14 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
-    // 根据cmtId,publishDate,noticeTitle搜索公告
+    // 根据cmtId,noticeTitle搜索公告
     @RequestMapping(value = "/getNoticesForSearch",method = RequestMethod.POST)
     @ResponseBody
     public List<Notice> getNoticesForSearchhandler(@RequestParam("account")String cmtId,
-                                                   @RequestParam("publishDate") Date publishDate,
-                                                   @RequestParam("noticeTitle") String noticeTitle){
+                                                   @RequestParam(value = "noticeTitle") String noticeTitle){
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(publishDate);
-        List<Notice> notices = this.noticeService.getNoticesForSearch(cmtId,dateString ,noticeTitle);
+       // String dateString = formatter.format(publishDate);
+        List<Notice> notices = this.noticeService.getNoticesForSearch(cmtId,"",noticeTitle);
         return notices;
     }
 

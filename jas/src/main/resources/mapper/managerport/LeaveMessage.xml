@@ -47,9 +47,14 @@
         select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no and m.id =#{id};
     </select>
 
-    <select id="selectForSearchWith" resultMap="messageMap">
+    <select id="selectForSearchNotReplyWith" resultMap="messageMap">
           select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no
-          and m.com_id =#{comId}  and m.lm_date in (#{lmDate});
+          and m.com_id =#{comId}  and m.reply_message is null or m.reply_message='' ;
+    </select>
+
+    <select id="selectForSearchIsReplyWith" resultMap="messageMap">
+          select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no
+          and m.com_id =#{comId}  and m.reply_message is not null and m.reply_message != '';
     </select>
 
 

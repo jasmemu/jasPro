@@ -15,4 +15,6 @@ public interface HomeworkDao {
     Integer deleteById(Integer hId);
 
     List<Homework> selectForSearch(Map paramMap);
+
+    Homework selectJobByHid(Integer hId);
 }

@@ -28,10 +28,10 @@ public class LeaveMessageServiceImplTest {
         for (int i=0;i<7;i++){
             LeaveMessage leaveMessage = new LeaveMessage();
             leaveMessage.setComId("201708044211");
-            leaveMessage.setsNo("202108044205");
+            leaveMessage.setsNo("202108044202");
             leaveMessage.setLeaveMessage("交作业吗？"+i);
             leaveMessage.setLmDate(new Date());
-            leaveMessage.setReplyMessage("是的，交"+i);
+            leaveMessage.setReplyMessage("");
             leaveMessage.setRmDate(new Date());
             this.leaveMessageService.SaveMessage(leaveMessage);
         }

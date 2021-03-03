@@ -61,6 +61,7 @@ public class CmtServiceImpl implements CmtService {
         return r;
     }
 
+    // 问题未解决
     @Override
     public List<Committee> getAllCmt(Integer pageNo, Integer pageSize) {
         List<Committee> committeeList = this.cmtDao.selectAllCmt();
@@ -68,9 +69,9 @@ public class CmtServiceImpl implements CmtService {
             logger.info(c.toString());
         }
         List<Committee> committees = new ArrayList<>();
-        for (int i=1;i<6;i++){
-            if (pageNo*pageSize-i<committeeList.size()){
-                committees.add(committeeList.get(pageNo*pageSize-i));
+        for (int i=0;i<pageSize;i++){
+            if (pageNo*pageSize-5+i < committeeList.size()){
+                committees.add(committeeList.get(pageNo*pageSize-5+i));
             }
 
         }

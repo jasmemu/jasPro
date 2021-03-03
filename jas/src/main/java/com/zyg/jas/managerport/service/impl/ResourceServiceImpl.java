@@ -2,6 +2,7 @@ package com.zyg.jas.managerport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.zyg.jas.common.pojo.Resources;
+import com.zyg.jas.common.tool.util.Fileutil;
 import com.zyg.jas.common.tool.util.MultipartFileToFile;
 import com.zyg.jas.managerport.dao.ResourceDao;
 import com.zyg.jas.managerport.service.ResourceService;
@@ -68,6 +69,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Integer removeById(Integer id) {
+        Resources resources = this.resourceDao.selectResourceById(id);
+        Fileutil.removeFile(resources.getResourcePath());
         return this.resourceDao.deleteById(id);
     }
 

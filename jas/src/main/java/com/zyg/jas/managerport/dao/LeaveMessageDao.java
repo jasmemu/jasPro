@@ -14,7 +14,8 @@ public interface LeaveMessageDao {
 
     LeaveMessage selectById(Integer id);
 
-    List<LeaveMessage> selectForSearchWith(Map paramsMap);
+    List<LeaveMessage> selectForSearchNotReplyWith(String comId);
+    List<LeaveMessage> selectForSearchIsReplyWith(String comId);
 
     Integer updateReplyById(LeaveMessage leaveMessage); // 根据留言id跟新回复
 

@@ -38,7 +38,13 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 
     @Override
     public List<LeaveMessage> getForSearchWith(Map paramsMap) {
-        return this.leaveMessageDao.selectForSearchWith(paramsMap);
+        String flag =(String) paramsMap.get("flag");
+        String comId =(String) paramsMap.get("comId");
+        if (flag.equals("yes")){
+            return this.leaveMessageDao.selectForSearchIsReplyWith(comId);
+        }else {
+            return this.leaveMessageDao.selectForSearchNotReplyWith(comId);
+        }
     }
 
     @Override

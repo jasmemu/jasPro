@@ -3,6 +3,7 @@ package com.zyg.jas.managerport.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.zyg.jas.common.pojo.Homework;
 import com.zyg.jas.common.pojo.Notice;
+import com.zyg.jas.common.tool.util.Fileutil;
 import com.zyg.jas.managerport.dao.HomeworkDao;
 import com.zyg.jas.managerport.service.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,8 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     @Override
     public Integer removeJobById(Integer hId) {
+        Homework homework = this.homeworkDao.selectJobByHid(hId);
+        Fileutil.removeFile(homework.gethPath());
         return this.homeworkDao.deleteById(hId);
     }
 
