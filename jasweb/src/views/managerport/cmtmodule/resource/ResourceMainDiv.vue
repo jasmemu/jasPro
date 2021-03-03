@@ -3,7 +3,7 @@
         <div  style="height: 50px">
             <form>
                 <div style="float: left;margin-left: 20px">
-                    标题:
+                    资料名称:
                     <el-input style="width: auto"   v-model="formForSearch.resourceName"  size="small" placeholder="请输入内容"></el-input>
                 </div>
                 <div>

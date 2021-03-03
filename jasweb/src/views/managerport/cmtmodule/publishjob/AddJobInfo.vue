@@ -84,7 +84,7 @@
                 rules: {
                     // 要以数组形式展示
                     jobFile: [
-                        { required: true, message: "用户名不能为空", trigger: "change" },
+                        { required: true, message: "请上传文件", trigger: "change" },
                     ],
                     jobType: [
                         {
@@ -94,10 +94,10 @@
                         }
                     ],
                     endDate: [
-                        { required: true, message: "密码不能为空", trigger: "blur" }
+                        { required: true, message: "请设置截至时间", trigger: "blur" }
                     ],
                     mark: [
-                        { required: true, message: "确认密码不能为空", trigger: "blur" }
+                        { required: true, message: "作业说明不能为空", trigger: "blur" }
                     ]
                 }
             };

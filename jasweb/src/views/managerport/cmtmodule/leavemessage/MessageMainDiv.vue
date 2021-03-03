@@ -3,13 +3,11 @@
         <div  style="height: 50px">
             <form>
                 <div style="float: left;margin-left: 20px" >
-                    日期:
-                    <el-date-picker
-                            v-model="formForSearch.lmDate"
-                            type="date"
-                            size="small"
-                            placeholder="选择日期">
-                    </el-date-picker>
+                    <span style="font-size: 25px">是否回复:</span>
+                    <select v-model=formForSearch.reply  style="width: 150px;height: 30px" >
+                        <option value=""  style="display: none;" disabled selected>请选择</option>
+                        <option v-for="(item,i) in replyOPtions" :key="i"  v-text="item"></option>
+                    </select>
                 </div>
                 <div>
                     <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
@@ -84,8 +82,9 @@ import axios from 'axios'
                 account: sessionStorage.getItem("cmtComId"),
                 total: 10,
                 formForSearch: {
-                    publishDate: ''
+                    reply: ''
                 },
+                replyOPtions:['已回复',"未回复"],
                 tableData: null
             }
         },
@@ -125,9 +124,10 @@ import axios from 'axios'
                 });
             },
             search() {
-                if (this.formForSearch.lmDate!=''){
+                if (this.formForSearch.reply!=''){
                     var _this = this
-                    axios.get('http://localhost:8080/jas/mport/message/getForSearch/'+this.account+'/'+this.formForSearch.lmDate).then(function (resp) {
+                    alert(this.formForSearch.reply)
+                    axios.get('http://localhost:8080/jas/mport/message/getForSearch/'+this.account+'/'+this.formForSearch.reply).then(function (resp) {
                         const messages = resp.data
                         if (messages.length > 0){
                             _this.$router.push({name:'ViewMessage',params:{messages:messages}})
@@ -137,7 +137,7 @@ import axios from 'axios'
 
                     })
                 } else {
-                    alert('请输入查询条件')
+                    alert('请选择查询条件')
                 }
 
             }

@@ -2,15 +2,15 @@
     <div>
         <div  style="height: 50px">
             <form>
-                <div style="float: left;margin-left: 20px" >
-                    发布日期:
-                    <el-date-picker
-                        v-model="formForSearch.publishDate"
-                        type="date"
-                        size="small"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                </div>
+<!--                <div style="float: left;margin-left: 20px" >-->
+<!--                    发布日期:-->
+<!--                    <el-date-picker-->
+<!--                        v-model="formForSearch.publishDate"-->
+<!--                        type="date"-->
+<!--                        size="small"-->
+<!--                        placeholder="选择日期">-->
+<!--                    </el-date-picker>-->
+<!--                </div>-->
                 <div style="float: left;margin-left: 20px">
                     标题:
                     <el-input style="width: auto"   v-model="formForSearch.noticeTitle"  size="small" placeholder="请输入内容"></el-input>
@@ -151,7 +151,7 @@ import axios from 'axios'
                     var form = new FormData()
 
                     form.append('account',this.account)
-                    form.append('publishDate',this.formForSearch.publishDate)
+                    // form.append('publishDate',this.formForSearch.publishDate)
                     form.append('noticeTitle',this.formForSearch.noticeTitle)
                     axios.post('http://localhost:8080/jas/mport/notice/getNoticesForSearch',form).then(function (resp) {
                         const noticeList = resp.data

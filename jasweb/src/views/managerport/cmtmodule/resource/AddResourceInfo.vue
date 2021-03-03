@@ -1,36 +1,74 @@
 <template>
     <div>
         <div style="text-align: center">
-                <el-button type="primary" plain size="small" @click="dialogFormVisible = true">上传资料</el-button><br>
-                <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
-                    <el-form :model="form">
-                        <el-upload
-                                class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
-                                multiple
-                                :limit="3"
-                                :on-exceed="handleExceed"
-                                :file-list="fileList">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
-                    </el-form>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="dialogFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-                    </div>
-                </el-dialog>
+            <el-form :model="formData" :rules="rules" class="registerForm" ref="registerForm" label-width="80px">
+                <el-form-item label="文件" prop="resourceFile">
+                    <el-button type="primary" plain size="small" @click="dialogFormVisible = true">上传资料</el-button><br>
+                    <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
+                        <el-form :model="form">
+                            <el-upload
+                                    class="upload-demo"
+                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                    :on-preview="handlePreview"
+                                    :on-remove="handleRemove"
+                                    :before-remove="beforeRemove"
+                                    multiple
+                                    :limit="3"
+                                    :on-exceed="handleExceed"
+                                    :file-list="fileList">
+                                <el-button size="small" type="primary">点击上传</el-button>
+                                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            </el-upload>
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="dialogFormVisible = false">取 消</el-button>
+                            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                        </div>
+                    </el-dialog>
+                </el-form-item>
 
-                资料类型：
-                <select v-model=formData.resourceType  style="width: 30%;" >
-                    <option value=""  style="display: none;" disabled selected>请选择</option>
-                    <option v-for="(item,i) in resourceTypeOptions" :key="i"  v-text="item.label"></option>
-                </select>
+                <el-form-item label="类别" prop="resourceType">
+                    <select v-model=formData.resourceType  style="width: 30%;" >
+                        <option value=""  style="display: none;" disabled selected>请选择</option>
+                        <option v-for="(item,i) in resourceTypeOptions" :key="i"  v-text="item.label"></option>
+                    </select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary"  class="submit_btn" @click="submitForm('registerForm')">发布</el-button>
+                </el-form-item>
+            </el-form>
 
-            <el-button type="primary" @click="tijiao()">主要按钮</el-button>
+
+
+<!--                <el-button type="primary" plain size="small" @click="dialogFormVisible = true">上传资料</el-button><br>-->
+<!--                <el-dialog title="文件上传" :visible.sync="dialogFormVisible">-->
+<!--                    <el-form :model="form">-->
+<!--                        <el-upload-->
+<!--                                class="upload-demo"-->
+<!--                                action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                                :on-preview="handlePreview"-->
+<!--                                :on-remove="handleRemove"-->
+<!--                                :before-remove="beforeRemove"-->
+<!--                                multiple-->
+<!--                                :limit="3"-->
+<!--                                :on-exceed="handleExceed"-->
+<!--                                :file-list="fileList">-->
+<!--                            <el-button size="small" type="primary">点击上传</el-button>-->
+<!--                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+<!--                        </el-upload>-->
+<!--                    </el-form>-->
+<!--                    <div slot="footer" class="dialog-footer">-->
+<!--                        <el-button @click="dialogFormVisible = false">取 消</el-button>-->
+<!--                        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>-->
+<!--                    </div>-->
+<!--                </el-dialog>-->
+
+<!--                资料类型：-->
+<!--                <select v-model=formData.resourceType  style="width: 30%;" >-->
+<!--                    <option value=""  style="display: none;" disabled selected>请选择</option>-->
+<!--                    <option v-for="(item,i) in resourceTypeOptions" :key="i"  v-text="item.label"></option>-->
+<!--                </select>-->
+
 
 
 
@@ -67,6 +105,19 @@ import axios from 'axios'
                     desc: ''
                 },
                 formLabelWidth: '120px',
+                rules: {
+                    // 要以数组形式展示
+                    resourceFile: [
+                        { required: true, message: "请上传文件", trigger: "change" },
+                    ],
+                    resourceType: [
+                        {
+                            required: true,
+                            message: "请选资料类型",
+                            trigger: "blur"
+                        }
+                    ]
+                }
             }
         },
         computed: {},
@@ -100,16 +151,25 @@ import axios from 'axios'
                 return this.$confirm(`确定移除 ${ file.name }？`);
             },
             //其他
-            tijiao(){
-                var _this = this
-                var f = new FormData();
-                f.append("resourceFile",this.formData.resourceFile)
-                f.append("resourceType",this.formData.resourceType)
-                f.append("comId",sessionStorage.getItem('cmtComId'))
-               axios.post('http://localhost:8080/jas/mport/resource/saveResource',f).then(function (resp) {
-                   alert(resp.data)
-                   _this.$router.push('/CmtMainPage/ResourceMainDiv')
-               })
+            submitForm(formName){
+                this.$refs[formName].validate(valid => {
+                    if (valid) {
+                        var _this = this
+                        var f = new FormData();
+                        f.append("resourceFile",this.formData.resourceFile)
+                        f.append("resourceType",this.formData.resourceType)
+                        f.append("comId",sessionStorage.getItem('cmtComId'))
+                        axios.post('http://localhost:8080/jas/mport/resource/saveResource',f).then(function (resp) {
+                            alert(resp.data)
+                            _this.$router.push('/CmtMainPage/ResourceMainDiv')
+                        })
+                    } else {
+                        console.log("error submit!!");
+                        return false;
+                    }
+                });
+
+
             }
         }
     }
