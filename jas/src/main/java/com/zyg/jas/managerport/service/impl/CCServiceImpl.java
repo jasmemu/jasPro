@@ -1,5 +1,6 @@
 package com.zyg.jas.managerport.service.impl;
 
+import com.zyg.jas.common.pojo.CC;
 import com.zyg.jas.managerport.dao.CCDao;
 import com.zyg.jas.managerport.service.CCService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,4 +17,11 @@ public class CCServiceImpl implements CCService {
     public List<String> getCourseByComId(String comId) {
         return this.ccDao.selectCourseByComId(comId);
     }
+
+    @Override
+    public List<CC> getCourseForCmtByCmtIdWith(String cmtId) {
+        return ccDao.selectCourseForCmtByCmtIdWith(cmtId);
+    }
+
+
 }

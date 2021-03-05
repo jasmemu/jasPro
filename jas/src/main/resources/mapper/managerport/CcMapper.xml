@@ -11,7 +11,21 @@
         <id property="id" column="id" />
         <result property="comId" column="com_id"/>
         <result property="courseId" column="course_id"/>
+        <association property="committee" javaType="com.zyg.jas.common.pojo.Committee">
+            <id property="comId" column="com_id" />
+            <result property="name" column="cmt_name"/>
+        </association>
+        <association property="course" javaType="com.zyg.jas.common.pojo.Course">
+            <id property="courseId" column="course_id" />
+            <result property="name" column="cs_name"/>
+        </association>
     </resultMap>
+    <select id="selectCourseForCmtByCmtIdWith" parameterType="String" resultMap="ccMap">
+        select cc.id,cc.com_id,cc.course_id as co_name,course.cs_name,course.course_id from cc
+        inner join course on cc.course_id = course.cs_name where cc.com_id = #{cmtId};
+    </select>
+
+
     <insert id="insertToCc" parameterType="com.zyg.jas.common.pojo.CC">
         insert into  CC(com_id, course_id)
         values (#{comId},#{courseId});
@@ -24,6 +38,8 @@
     <delete id="deleteCcByComid" parameterType="String">
         delete from CC where com_id = #{comId};
     </delete>
+
+
     
 
 

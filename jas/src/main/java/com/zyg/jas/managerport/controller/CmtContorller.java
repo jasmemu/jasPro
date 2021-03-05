@@ -2,6 +2,7 @@ package com.zyg.jas.managerport.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.zyg.jas.common.pojo.CC;
 import com.zyg.jas.common.pojo.Committee;
 import com.zyg.jas.common.pojo.Course;
 import com.zyg.jas.managerport.service.CCService;
@@ -32,6 +33,11 @@ public class CmtContorller {
     private SpecialtyService specialtyService;
 
 
+    @RequestMapping(value = "/getCourseForCmtByCmtIdWith/{cmtId}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<CC> getCourseForCmtByCmtIdWith(@PathVariable("cmtId") String cmtId){
+        return ccService.getCourseForCmtByCmtIdWith(cmtId);
+    }
     // 添加学委
     @RequestMapping(value = "/saveCmt",method = RequestMethod.POST)  //添加一个学委
     @ResponseBody
@@ -80,13 +86,10 @@ public class CmtContorller {
     @RequestMapping("/getCmtForSearch") // 根据搜索框查找一条记录
     @ResponseBody
     public List<Committee> getStuForSearchHandler(@RequestParam("speName") String speName, @RequestParam("cGrade") String cGrade, @RequestParam("cClass") String cClass){
-        logger.info("iiii");
-        logger.info(speName+" "+cGrade+" "+ cClass);
         Integer cmtClass = null;
         if (cClass !=null &&  !"".equals(cClass)){
             cmtClass =Integer.parseInt(cClass);
         }
-        logger.info(speName+" "+cGrade+" "+ cClass);
         List<Committee> cmtList = this.cmtService.getCmtForSearch(speName,cGrade,cmtClass);
         return cmtList;
     }

@@ -5,15 +5,35 @@ import java.io.Serializable;
 public class CC implements Serializable {
     private Integer id;
     private String comId;
+    private Committee committee;
     private String courseId; //课程名称
+    private Course course;
 
     public CC() {
     }
 
-    public CC(Integer id, String comId, String courseId) {
+    public CC(Integer id, String comId, Committee committee, String courseId, Course course) {
         this.id = id;
         this.comId = comId;
+        this.committee = committee;
         this.courseId = courseId;
+        this.course = course;
+    }
+
+    public Committee getCommittee() {
+        return committee;
+    }
+
+    public void setCommittee(Committee committee) {
+        this.committee = committee;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Integer getId() {
@@ -45,7 +65,9 @@ public class CC implements Serializable {
         return "CC{" +
                 "id=" + id +
                 ", comId='" + comId + '\'' +
+                ", committee=" + committee +
                 ", courseId='" + courseId + '\'' +
+                ", course=" + course +
                 '}';
     }
 }
