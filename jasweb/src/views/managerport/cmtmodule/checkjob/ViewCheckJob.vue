@@ -1,22 +1,5 @@
 <template>
     <div>
-        <div  style="height: 50px">
-            <form>
-                <div style="float: left;margin-left: 20px" >
-                    作业名称:
-                    <el-input style="width: auto"      v-model="formForSearch.hName"  size="small" placeholder="请输入内容"></el-input>
-                </div>
-                <div>
-                    <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
-                </div>
-            </form>
-        </div>
-        <hr>
-
-        <div>
-            <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddJob()">添加</el-button>
-        </div>
-
         <div>
             <el-table
                     :data="tableData"
@@ -29,38 +12,38 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="hName"
+                        prop="student.name"
+                        label="学生姓名"
+                        width="200">
+                </el-table-column>
+                <el-table-column
+                        prop="homework.hName"
                         label="作业名称"
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="course.name"
+                        prop="homework.course.name"
                         label="学科"
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="publishDate"
-                        label="发布日期"
+                        prop="score"
+                        label="分数"
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="endDate"
-                        label="截至日期"
+                        prop="correctDate"
+                        label="提交时间"
                         width="200">
                 </el-table-column>
-                <el-table-column
-                        prop="mark"
-                        label="说明"
-                        show-overflow-tooltip
-                        width="400">
-                </el-table-column>
+
                 <el-table-column
                         fixed="right"
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
                         <el-button @click="downloadJob(scope.row)" type="text" size="small">下载</el-button>
-                        <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="setScore(scope.row)" type="text" size="small">打分</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -87,22 +70,39 @@
             return{
                 pageSize: 5,
                 total: 10,
+                commit: this.$route.params.commit,
                 formForSearch: {
-                    hName: '',
-                    comId: sessionStorage.getItem('cmtComId')
+                    hName: this.$route.params.hName,
+                    comId: sessionStorage.getItem('cmtComId'),
+                    courseId: this.$route.params.courseId
                 },
                 tableData: null
             }
         },
         created(){
             var that = this
-            axios.get('http://localhost:8080/jas/mport/homework/getCount/'+this.formForSearch.comId).then(function (resp) {
+            var f = new FormData()
+            f.append("cmtId",this.formForSearch.comId)
+            f.append("hName",this.formForSearch.hName);
+            f.append("commit",this.commit)
+            f.append("courseId",this.formForSearch.courseId)
+            axios.post('http://localhost:8080/jas/mport/score/searchCount',f).then(function (resp) {
+                alert(resp.data)
                 that.total = resp.data
+
             })
         },
         mounted(){
             var _this = this
-            axios.get('http://localhost:8080/jas/mport/homework/getJobs/'+ this.formForSearch.comId + '/1/5').then(function (resp) {
+            var f = new FormData()
+            f.append("cmtId",this.formForSearch.comId)
+            f.append("hName",this.formForSearch.hName);
+            f.append("commit",this.commit)
+            f.append("courseId",this.formForSearch.courseId)
+            f.append("pageNo",1)
+            f.append("pageSize",this.pageSize)
+            axios.post('http://localhost:8080/jas/mport/score/search',f).then(function (resp) {
+                console.log("dfadf")
                 console.log(resp.data)
                 _this.tableData = resp.data
             })
@@ -113,13 +113,22 @@
             },
             //table中的
             mypage (currentpage) {
-                const _this = this
-                axios.get('http://localhost:8080/jas/mport/homework/getJobs/'+this.comId +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
+                var _this = this
+                var f = new FormData()
+                f.append("cmtId",this.formForSearch.comId)
+                f.append("hName",this.formForSearch.hName);
+                f.append("commit",this.commit)
+                f.append("courseId",this.formForSearch.courseId)
+                f.append("pageNo",currentpage)
+                f.append("pageSize",this.pageSize)
+                axios.post('http://localhost:8080/jas/mport/score/search',f).then(function (resp) {
+                    console.log("dfadf")
+                    console.log(resp.data)
                     _this.tableData = resp.data
                 })
             },
             downloadJob(row){
-                // console.log(row)
+                console.log(row)
                 const a = document.createElement('a'); // 创建a标签
                 let url = row.hUrl
                 var x=url.indexOf('/');
@@ -127,10 +136,15 @@
                     x=url.indexOf('/',x+1);
                 }
                 var  endUrl =url.slice(x)
-                // console.log(endUrl)
+                console.log(endUrl)
                 a.setAttribute('download',row.hName);// download属性
                 a.setAttribute('href',endUrl);// href链接
                 a.click();// 自执行点击事件
+            },
+            setScore(row){
+                console.log("row is")
+                console.log(row)
+                this.$router.push({name:'ViewCheckJobDetail',params:{scoreObj:row}})
             },
 
             deleteById(row){
@@ -154,23 +168,6 @@
                         message: '已取消删除'
                     });
                 });
-            },
-            search() {
-                if (this.formForSearch.hName != ''){
-                    var _this = this
-                    axios.get('http://localhost:8080/jas/mport/homework/getJobForSearch/'+this.formForSearch.comId+'/'+this.formForSearch.hName).then(function (resp) {
-                        const jobList = resp.data
-                        if (jobList.length > 0){
-                            _this.$router.push({name:'ViewJob',params:{jobs:jobList}})
-                        } else {
-                            alert("没有符合条件的查询")
-                        }
-
-                    })
-                } else {
-                    alert('请输入查询条件')
-                }
-
             }
         }
     }

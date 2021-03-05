@@ -52,6 +52,9 @@ import AddJobInfo from "@/views/managerport/cmtmodule/publishjob/AddJobInfo"
 import ViewJob from "@/views/managerport/cmtmodule/publishjob/ViewJob"
 
 import CheckJobMainDiv from "@/views/managerport/cmtmodule/checkjob/CheckJobMainDiv"
+import ViewCheckJob from "@/views/managerport/cmtmodule/checkjob/ViewCheckJob"
+import JobTypeDiv from "@/views/managerport/cmtmodule/checkjob/JobTypeDiv"
+import ViewCheckJobDetail from "@/views/managerport/cmtmodule/checkjob/ViewCheckJobDetail"
 
 //下列属于学生端url
 import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
@@ -178,6 +181,21 @@ const routes = [
         path: '/CmtMainPage/CheckJobMainDiv',
         name: 'CheckJobMainDiv',
         component: CheckJobMainDiv
+      },
+      {
+        path: '/CmtMainPage/ViewCheckJob',
+        name: 'ViewCheckJob',
+        component: ViewCheckJob
+      },
+      {
+        path: '/CmtMainPage/JobTypeDiv',
+        name: 'JobTypeDiv',
+        component: JobTypeDiv
+      },
+      {
+        path: '/CmtMainPage/ViewCheckJobDetail',
+        name: 'ViewCheckJobDetail',
+        component: ViewCheckJobDetail
       },
     ]
   },
