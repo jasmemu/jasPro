@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.dao;
 
 import com.zyg.jas.common.pojo.Committee;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface CmtDao {
     public List<Committee> selectCmtForSearch(Committee committee); //前端搜索框使用
 
     Committee selectCmtByAccount(String comId); //登录使用
+
+    Integer  deleteByBatch(@Param("committeeList") List<Committee> committeeList);
 }

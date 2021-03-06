@@ -25,6 +25,12 @@ public class HomeworkController {
     @Autowired
     private HomeworkService homeworkService;
 
+    //批量删除作业
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public  Integer deleteStuByBatchHandler(@RequestBody List<Homework> homeworks) {
+        return homeworkService.removeByBatch(homeworks);
+    }
     // 根据comId和hName查找作业
     @RequestMapping(value = "/getJobForSearch/{comId}/{hName}",method = RequestMethod.GET)
     @ResponseBody

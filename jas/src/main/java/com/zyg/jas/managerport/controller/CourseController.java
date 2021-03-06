@@ -17,6 +17,12 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer deleteStuByBatchHandler(@RequestBody List<Course> courseList) {
+        return courseService.removeByBatch(courseList);
+    }
+
     // 获取所有课程的名称
     @RequestMapping(value = "/getNames",method = RequestMethod.GET)
     @ResponseBody

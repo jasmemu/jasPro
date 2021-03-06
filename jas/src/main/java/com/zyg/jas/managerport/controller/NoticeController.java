@@ -23,6 +23,12 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
+
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public  Integer deleteStuByBatchHandler(@RequestBody List<Notice> noticeList) {
+        return noticeService.removeByBatch(noticeList);
+    }
     // 根据cmtId,noticeTitle搜索公告
     @RequestMapping(value = "/getNoticesForSearch",method = RequestMethod.POST)
     @ResponseBody

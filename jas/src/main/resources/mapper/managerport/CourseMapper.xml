@@ -39,11 +39,17 @@
         delete from course where course_id = #{id}
     </delete>
 
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from course where course_id  in
+        <foreach collection="courseList" item="course" open="(" separator="," close=")">
+            #{course.courseId}
+        </foreach>
+    </delete>
+
     <update id="updateCourse" parameterType="com.zyg.jas.common.pojo.Course">
         update course set cs_name=#{name},cs_period=#{period},cs_credit=#{credit},begin_date=#{beginDate},
         end_date=#{endDate}  where  course_id=#{courseId};
     </update>
-
 
     <select id="selectCourseForSearch" parameterType="com.zyg.jas.common.pojo.Course"  resultMap="courseMap" >
         select * from course where 1=1

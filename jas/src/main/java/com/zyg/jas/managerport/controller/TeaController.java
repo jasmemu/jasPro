@@ -24,6 +24,12 @@ public class TeaController {
     @Autowired
     private TcService tcService;
 
+    //批量删除教师,返回删除的记录条数
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer deleteStuByBatchHandler(@RequestBody List<Teacher> teacherList) {
+        return teaService.removeByBatch(teacherList);
+    }
     // 添加一个老师
     @RequestMapping("/saveTea")
     @ResponseBody

@@ -18,4 +18,6 @@ public interface HomeworkService {
     Integer removeJobById(Integer hId);
 
     List<Homework> getForSearch(String comId,String hName);
+
+    Integer removeByBatch(List<Homework> homeworks);
 }

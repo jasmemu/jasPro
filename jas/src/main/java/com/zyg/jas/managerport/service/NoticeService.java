@@ -17,4 +17,6 @@ public interface NoticeService {
     Integer removeNoticeById(Integer id);
 
     List<Notice> getNoticesForSearch(String cmtId,String publishDate,String noticeTitle);
+
+    Integer removeByBatch(List<Notice> noticeList);
 }

@@ -82,4 +82,12 @@ public class HomeworkServiceImpl implements HomeworkService {
         map.put("hName",hName);
         return this.homeworkDao.selectForSearch(map);
     }
+
+    @Override
+    public Integer removeByBatch(List<Homework> homeworks) {
+        for (Homework job : homeworks){
+            Fileutil.removeFile(job.gethPath());
+        }
+        return homeworkDao.deleteByBatch(homeworks);
+    }
 }

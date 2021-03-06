@@ -31,10 +31,6 @@
         </collection>
     </resultMap>
 
-    <delete id="deleteCmtById" parameterType="String" >
-        delete from committee where com_id = #{comId}
-    </delete>
-
     <update id="updateCmtById" parameterType="com.zyg.jas.common.pojo.Committee">
         update committee set cmt_name=#{name},cmt_phone=#{phone},spe_id=#{specialty.speId},c_grade=#{cGrade},
         c_class=#{cClass}, cmt_email=#{email} ,cmt_password =#{password} where  com_id=#{comId};
@@ -87,6 +83,17 @@
     <select id="selectCmtByAccount" parameterType="String" resultMap="cmtMap">
         select com_id,cmt_name,cmt_password from committee where com_id = #{comId}
     </select>
+
+    <delete id="deleteCmtById" parameterType="String" >
+        delete from committee where com_id = #{comId}
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from committee where com_id in
+        <foreach collection="committeeList" item="cmt" open="(" separator="," close=")">
+            #{cmt.comId}
+        </foreach>
+    </delete>
 
 
 

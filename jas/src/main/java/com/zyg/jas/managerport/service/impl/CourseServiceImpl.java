@@ -161,5 +161,10 @@ public class CourseServiceImpl implements CourseService {
         return res;
     }
 
+    @Override
+    public Integer removeByBatch(List<Course> courseList) {
+        return courseDao.deleteByBatch(courseList);
+    }
+
 
 }

@@ -29,7 +29,7 @@
     </insert>
 
     <select id="selectJobs" resultMap="jobMap" parameterType="String">
-        select j.h_id,j.h_name,j.course_id, j.h_url,j.publish_date, j.end_date,j.mark,c.course_id,c.cs_name
+        select j.h_id,j.h_name,j.course_id, j.h_url,j.h_path,j.publish_date, j.end_date,j.mark,c.course_id,c.cs_name
         from homework j inner join course c on j.course_id = c.course_id and j.com_id = #{comId}
     </select>
 
@@ -48,6 +48,13 @@
 
     <delete id="deleteById" parameterType="Integer">
         delete from homework where h_id = #{hId};
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from homework where h_id  in
+        <foreach collection="homeworks" item="job" open="(" separator="," close=")">
+            #{job.hId}
+        </foreach>
     </delete>
 
 

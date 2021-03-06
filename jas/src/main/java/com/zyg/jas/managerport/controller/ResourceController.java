@@ -30,6 +30,13 @@ public class ResourceController {
    @Autowired
    private ResourceService resourceService;
 
+    //批量删除留言
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public  Integer deleteStuByBatchHandler(@RequestBody List<Resources> resources) {
+        return resourceService.removeByBatch(resources);
+    }
+
    // 根据comId,resourceName搜索资料
    @RequestMapping(value = "/getForSearch/{comId}/{resourceName}",method = RequestMethod.GET)
    @ResponseBody

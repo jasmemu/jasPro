@@ -33,34 +33,6 @@ public class CmtServiceImpl implements CmtService {
     @Autowired
     private SpecialtyDao specialtyDao;
 
-    @Override
-    public int saveCmt(Committee committee) {
-        List<Specialty> specialties = this.specialtyDao.selectAllSpeCialty();
-        for (int i=0;i<specialties.size();i++){
-            if (specialties.get(i).getSpeName().equals(committee.getSpecialty().getSpeName())){
-                committee.setSpecialty(specialties.get(i));
-            }
-        }
-        Committee cmt = this.cmtDao.selectCmtByIdWith(committee.getComId());//studentDao.selectStuBySno(student.getsNo());
-        int r;
-        //向学委表添加记录
-        if (cmt == null){  //不存在这个学委，执行添加
-            r = this.cmtDao.insertCmt(committee);//.studentDao.insertStudent(student);
-        }else { //存在这个学委，执行跟新
-            r=this.cmtDao.updateCmtById(committee);//.studentDao.updateStudent(student);
-        }
-        //向CC表添加记录
-        this.ccDao.deleteCcByComid(committee.getComId());  //插入和跟新学委所管理课程（对cc进行插入和跟新时），先根据comId删除cc表中的记录，再重新插入
-        int cLen = committee.getCourses().size();
-        for (int i=0;i<cLen;i++){
-            CC cc = new CC();
-            cc.setComId(committee.getComId());
-            cc.setCourseId(committee.getCourses().get(i).getName());
-            this.ccDao.insertToCc(cc);
-        }
-        return r;
-    }
-
     // 问题未解决
     @Override
     public List<Committee> getAllCmt(Integer pageNo, Integer pageSize) {
@@ -114,11 +86,7 @@ public class CmtServiceImpl implements CmtService {
         return this.cmtDao.selectCmtById(id);
     }
 
-    @Override
-    public void removeCmtByComId(String cmtId) {
-        this.cmtDao.deleteCmtById(cmtId); // 删除学委记录
-        this.ccDao.deleteCcByComid(cmtId);  // 删除cc表中学委记录
-    }
+
 
     @Override
     public List<Committee> dealExcelForCommittee(MultipartFile file) {
@@ -144,6 +112,7 @@ public class CmtServiceImpl implements CmtService {
                     committee.setcClass(Integer.parseInt(list.get(j).toString()));
                 }else if (j==3){
                     committee.setComId(list.get(j).toString());
+                    ccDao.deleteCcByComid(committee.getComId());
                 }else if (j==4){
                    committee.setName(list.get(j).toString());
                 }else if (j==5){
@@ -160,18 +129,38 @@ public class CmtServiceImpl implements CmtService {
             committee.setPassword("123456"); //学生设置默认登录密码
             cmtList.add(committee);
         }
-//        for (int y=0;y<studentList.size();y++){
-//            System.out.println(studentList.get(y).toString());
-//        }
-//        for(int j=0;j<scList.size();j++){
-//            System.out.println(scList.get(j).toString());
-//        }
+
         for(int j=0;j<ccList.size();j++){
-            logger.info("课程信息");
-            logger.info(ccList.get(j).toString());
             this.ccDao.insertToCc(ccList.get(j));
         }
         return cmtList;
+    }
+    @Override
+    public int saveCmt(Committee committee) {
+        List<Specialty> specialties = this.specialtyDao.selectAllSpeCialty();
+        for (int i=0;i<specialties.size();i++){
+            if (specialties.get(i).getSpeName().equals(committee.getSpecialty().getSpeName())){
+                committee.setSpecialty(specialties.get(i));
+            }
+        }
+        Committee cmt = this.cmtDao.selectCmtByIdWith(committee.getComId());//studentDao.selectStuBySno(student.getsNo());
+        int r;
+        //向学委表添加记录
+        if (cmt == null){  //不存在这个学委，执行添加
+            r = this.cmtDao.insertCmt(committee);//.studentDao.insertStudent(student);
+        }else { //存在这个学委，执行跟新
+            r=this.cmtDao.updateCmtById(committee);//.studentDao.updateStudent(student);
+        }
+        //向CC表添加记录
+        this.ccDao.deleteCcByComid(committee.getComId());  //插入和跟新学委所管理课程（对cc进行插入和跟新时），先根据comId删除cc表中的记录，再重新插入
+        int cLen = committee.getCourses().size();
+        for (int i=0;i<cLen;i++){
+            CC cc = new CC();
+            cc.setComId(committee.getComId());
+            cc.setCourseId(committee.getCourses().get(i).getName());
+            this.ccDao.insertToCc(cc);
+        }
+        return r;
     }
 
     @Override
@@ -207,6 +196,19 @@ public class CmtServiceImpl implements CmtService {
     @Override
     public Integer saveCmtPersonal(Committee committee) {
         return this.cmtDao.updateCmtPersonal(committee);
+    }
+
+    @Override
+    public void removeCmtByComId(String cmtId) {
+        this.ccDao.deleteCcByComid(cmtId);  // 删除cc表中学委记录
+        this.cmtDao.deleteCmtById(cmtId); // 删除学委记录
+    }
+    @Override
+    public Integer removeByBatch(List<Committee> committeeList) {
+        for (Committee c : committeeList){
+            this.ccDao.deleteCcByComid(c.getComId());
+        }
+        return cmtDao.deleteByBatch(committeeList);
     }
 
 

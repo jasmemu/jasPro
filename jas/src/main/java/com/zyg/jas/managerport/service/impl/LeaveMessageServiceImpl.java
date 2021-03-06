@@ -56,4 +56,9 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
     public Integer removeById(Integer id) {
         return this.leaveMessageDao.deleteById(id);
     }
+
+    @Override
+    public Integer removeByBatch(List<LeaveMessage> leaveMessages) {
+        return leaveMessageDao.deleteByBatch(leaveMessages);
+    }
 }

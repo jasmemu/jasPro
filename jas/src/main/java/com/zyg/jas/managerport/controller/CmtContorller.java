@@ -32,6 +32,12 @@ public class CmtContorller {
     @Autowired
     private SpecialtyService specialtyService;
 
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer deleteStuByBatchHandler(@RequestBody List<Committee> committeeList) {
+        return cmtService.removeByBatch(committeeList);
+    }
+
 
     @RequestMapping(value = "/getCourseForCmtByCmtIdWith/{cmtId}",method = RequestMethod.GET)
     @ResponseBody

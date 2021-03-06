@@ -19,4 +19,6 @@ public interface ResourceService {
     List<Resources> getForSearch(String comId,String resourceName);
 
     Resources getResourceById(Integer id);
+
+    Integer removeByBatch(List<Resources> resources);
 }

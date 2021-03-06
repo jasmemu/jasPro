@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.dao;
 
 import com.zyg.jas.common.pojo.Course;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface CourseDao {
     public Course selectCourseById(String id);//根据courseId查询一条记录
 
     public Course selectCourseForSearch(Course course); //前端搜索框使用
+
+    Integer deleteByBatch(@Param("courseList") List<Course> courseList);
 }

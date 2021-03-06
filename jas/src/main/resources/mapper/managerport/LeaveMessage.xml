@@ -26,6 +26,13 @@
         delete from leave_message where id =#{id};
     </delete>
 
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from leave_message where id  in
+        <foreach collection="leaveMessages" item="message" open="(" separator="," close=")">
+            #{message.id}
+        </foreach>
+    </delete>
+
     <update id="updateReplyById" parameterType="LeaveMessage">
         update leave_message set reply_message =#{replyMessage},rm_date=#{rmDate} where id =#{id};
     </update>

@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.dao;
 
 import com.zyg.jas.common.pojo.Teacher;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface TeaDao {
 
 
     public List<Teacher> selectTeaForSearch(Teacher teacher); //前端搜索框使用
+
+    Integer deleteByBatch(@Param("teacherList") List<Teacher> teacherList);
 }

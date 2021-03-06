@@ -86,4 +86,12 @@ public class ResourceServiceImpl implements ResourceService {
     public Resources getResourceById(Integer id) {
         return this.resourceDao.selectResourceById(id);
     }
+
+    @Override
+    public Integer removeByBatch(List<Resources> resources) {
+        for (Resources resources1: resources){
+            Fileutil.removeFile(resources1.getResourcePath());
+        }
+        return resourceDao.deleteByBatch(resources);
+    }
 }

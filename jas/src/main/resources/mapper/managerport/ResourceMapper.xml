@@ -21,10 +21,6 @@
         </association>
     </resultMap>
 
-    <delete id="deleteById" parameterType="Integer">
-        delete from resources where id = #{id};
-    </delete>
-
     <insert id="insertResource" parameterType="com.zyg.jas.common.pojo.Resources">
         insert into resources(com_id, resource_name, resource_url, upload_time, resource_Type,resource_path)
         values (#{comId},#{resourceName},#{resourceUrl},#{uploadTime},#{resourceType},#{resourcePath});
@@ -46,6 +42,17 @@
     <select id="selectResourceById" parameterType="Integer" resultMap="resourceMap" >
         select * from resources where id =#{id};
     </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from resources where id = #{id};
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from resources where id  in
+        <foreach collection="resourcesList" item="re" open="(" separator="," close=")">
+            #{re.id}
+        </foreach>
+    </delete>
 
 
 </mapper>

@@ -41,10 +41,6 @@
         s_enrollment=#{enrollment},s_email=#{email},s_grade=#{sGrade},s_class=#{sClass} where s_no = #{sNo}
     </update>
 
-    <delete id="deleteBySno" parameterType="String">
-        delete from student where s_no = #{sNo}
-    </delete>
-
     <select id="selectStuForSearch" parameterType="com.zyg.jas.common.pojo.Student"  resultMap="studentMap" >
           select * from student where 1=1
               <if test="sNo!=null and sNo!=''">
@@ -55,5 +51,15 @@
               </if>
     </select>
 
+    <delete id="deleteBySno" parameterType="String">
+        delete from student where s_no = #{sNo}
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from student where s_no  in
+        <foreach collection="studentList" item="stu" open="(" separator="," close=")">
+            #{stu.sNo}
+        </foreach>
+    </delete>
 
 </mapper>

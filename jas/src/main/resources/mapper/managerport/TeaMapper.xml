@@ -51,6 +51,13 @@
         delete from teacher where t_no = #{tNo}
     </delete>
 
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from teacher where t_no  in
+        <foreach collection="teacherList" item="tea" open="(" separator="," close=")">
+            #{tea.tNo}
+        </foreach>
+    </delete>
+
 
 
 </mapper>

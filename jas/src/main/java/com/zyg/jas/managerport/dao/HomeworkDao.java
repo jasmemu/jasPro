@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.dao;
 
 import com.zyg.jas.common.pojo.Homework;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,6 @@ public interface HomeworkDao {
     List<Homework> selectForSearch(Map paramMap);
 
     Homework selectJobByHid(Integer hId);
+
+    Integer deleteByBatch(@Param("homeworks") List<Homework> homeworks);
 }

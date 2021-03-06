@@ -72,11 +72,6 @@ public class TeaServiceImpl implements TeaService {
         return this.teaDao.selectTeaForSearch(teacher);
     }
 
-    @Override
-    public void deleteTeaByTno(String tNo) {
-        this.teaDao.deleteByTno(tNo); //删除teacher表中教师信息
-        this.tcDao.deleteTcByTno(tNo); //删除tc表中教师教授的课程信息
-    }
 
     @Override
     public List<Teacher> dealExcelForTeas(MultipartFile file) {
@@ -91,13 +86,14 @@ public class TeaServiceImpl implements TeaService {
             Teacher teacher = new Teacher();
             for (int j = 0; j < list.size(); j++) {
                 if (j == 0) {
-                    teacher.settNo(list.get(j).toString());//.setsNo(list.get(j).toString());
+                    teacher.settNo(list.get(j).toString());
+                    this.tcDao.deleteTcByTno(teacher.gettNo()); //删除tc表中教师教授的课程信息
                 } else if (j == 1) {
-                    teacher.setName(list.get(j).toString());//stu.setName(list.get(j).toString());
+                    teacher.setName(list.get(j).toString());
                 } else if (j == 2) {
-                    teacher.setIdentify(list.get(j).toString());//stu.setPhone(list.get(j).toString());
+                    teacher.setIdentify(list.get(j).toString());
                 } else if (j == 3) {
-                    teacher.setPhone(list.get(j).toString());// stu.setEmail(list.get(j).toString());
+                    teacher.setPhone(list.get(j).toString());
                 } else if (j == 4) {
                     teacher.setEmail(list.get(j).toString());
                 } else {
@@ -131,5 +127,18 @@ public class TeaServiceImpl implements TeaService {
             res++;
         }
         return res;
+    }
+    @Override
+    public void deleteTeaByTno(String tNo) {
+        this.tcDao.deleteTcByTno(tNo); //删除tc表中教师教授的课程信息
+        this.teaDao.deleteByTno(tNo); //删除teacher表中教师信息
+    }
+
+    @Override
+    public Integer removeByBatch(List<Teacher> teacherList) {
+      for (Teacher t : teacherList){
+          this.tcDao.deleteTcByTno(t.gettNo()); //删除tc表中教师教授的课程信息
+      }
+       return teaDao.deleteByBatch(teacherList);
     }
 }

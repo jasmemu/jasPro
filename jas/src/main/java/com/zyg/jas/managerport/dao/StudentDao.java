@@ -3,6 +3,7 @@ package com.zyg.jas.managerport.dao;
 
 
 import com.zyg.jas.common.pojo.Student;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface StudentDao {
     public List<Student> selectStuForSearch(Student student); //前端搜索框使用
 
 
+    Integer deleteByBatch(@Param("studentList") List<Student> studentList);
 }

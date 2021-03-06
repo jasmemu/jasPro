@@ -20,4 +20,6 @@ public interface LeaveMessageService {
    Integer updateReplyById(LeaveMessage leaveMessage);
 
    Integer removeById(Integer id);
+
+    Integer removeByBatch(List<LeaveMessage> leaveMessages);
 }

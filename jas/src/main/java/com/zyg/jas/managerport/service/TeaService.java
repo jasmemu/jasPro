@@ -22,4 +22,5 @@ public interface TeaService {
     public int saveTeaFromExcel(List<Teacher> teaList); //将excel数据转为teacher对象后，读取集合中对象开始保存
 
 
+    Integer removeByBatch(List<Teacher> teacherList);
 }

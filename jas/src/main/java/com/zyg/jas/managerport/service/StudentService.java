@@ -23,4 +23,6 @@ public interface StudentService {
      public List<Student> dealExcelForStudents(MultipartFile file); //从上传的excel中获取studnet，保存记录
 
      public int saveStuFromExcel(List<Student> studentList); //将excel数据转为student对象后，存放在集合中开始保存
+
+     Integer removeByBatch(List<Student> studentList);
 }

@@ -21,6 +21,13 @@ public class LeaveMessageController {
     @Autowired
     private LeaveMessageService leaveMessageService;
 
+    //批量删除留言
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public  Integer deleteStuByBatchHandler(@RequestBody List<LeaveMessage> leaveMessages) {
+        return leaveMessageService.removeByBatch(leaveMessages);
+    }
+
     // 获取留言，分页显示
     @RequestMapping(value = "/getMessages/{cmtId}/{pageNo}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody

@@ -83,11 +83,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStuBySno(String sNo) {
-        this.studentDao.deleteBySno(sNo);
-    }
-
-    @Override
     public List<Student> getStuForSearch(Student student) {
         List<Student> stuList = this.studentDao.selectStuForSearch(student);
         return  stuList;
@@ -107,6 +102,7 @@ public class StudentServiceImpl implements StudentService {
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
                     stu.setsNo(list.get(j).toString());
+                    scDao.deleteScBySno(stu.getsNo());
                 }else if (j == 1){
                     stu.setName(list.get(j).toString());
                 }else if(j==2){
@@ -158,12 +154,6 @@ public class StudentServiceImpl implements StudentService {
             stu.setPassword("123456"); //学生设置默认登录密码
             studentList.add(stu);
         }
-//        for (int y=0;y<studentList.size();y++){
-//            System.out.println(studentList.get(y).toString());
-//        }
-//        for(int j=0;j<scList.size();j++){
-//            System.out.println(scList.get(j).toString());
-//        }
         for(int j=0;j<scList.size();j++){
             this.scDao.insertToSc(scList.get(j));
         }
@@ -184,6 +174,20 @@ public class StudentServiceImpl implements StudentService {
             res++;
         }
         return res;
+    }
+
+    @Override
+    public void deleteStuBySno(String sNo) {
+        scDao.deleteScBySno(sNo);
+        this.studentDao.deleteBySno(sNo);
+    }
+
+    @Override
+    public Integer removeByBatch(List<Student> studentList) {
+        for (Student s : studentList){
+            scDao.deleteScBySno(s.getsNo());
+        }
+       return studentDao.deleteByBatch(studentList);
     }
 
 

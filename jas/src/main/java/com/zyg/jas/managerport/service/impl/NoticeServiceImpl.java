@@ -51,4 +51,9 @@ public class NoticeServiceImpl implements NoticeService {
         paramsMap.put("noticeTitle",noticeTitle);
         return this.noticeDao.selectForSearch(paramsMap);
     }
+
+    @Override
+    public Integer removeByBatch(List<Notice> noticeList) {
+        return noticeDao.deleteByBatch(noticeList);
+    }
 }

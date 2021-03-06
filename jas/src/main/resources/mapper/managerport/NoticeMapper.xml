@@ -32,6 +32,12 @@
     <delete id="deleteById" parameterType="Integer" >
         delete from notice where id = #{id};
     </delete>
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from notice where id  in
+        <foreach collection="noticeList" item="notice" open="(" separator="," close=")">
+            #{notice.id}
+        </foreach>
+    </delete>
 
     <insert id="insertNotice" parameterType="com.zyg.jas.common.pojo.Notice">
          insert  into notice(com_id, publish_date, notice_content, notice_title)

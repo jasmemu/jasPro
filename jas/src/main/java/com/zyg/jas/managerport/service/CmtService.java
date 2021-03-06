@@ -28,4 +28,6 @@ public interface CmtService {
     Committee getCmtByAccount(String LoginAccount,String loginPassword);
 
     Integer saveCmtPersonal(Committee committee);
+
+    Integer removeByBatch(List<Committee> committeeList);
 }

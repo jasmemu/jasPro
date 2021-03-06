@@ -32,6 +32,12 @@ public class StudentController {
     @Autowired
     private ScService scService;
 
+    @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
+    @ResponseBody
+    public  Integer deleteStuByBatchHandler(@RequestBody List<Student> studentList) {
+        return studentService.removeByBatch(studentList);
+    }
+
     @RequestMapping(value = "/test/{t}",method = RequestMethod.GET)
     @ResponseBody
     public String g(@PathVariable("t") Integer t) throws Exception{
