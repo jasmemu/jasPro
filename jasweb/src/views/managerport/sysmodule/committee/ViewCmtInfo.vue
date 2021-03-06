@@ -1,12 +1,22 @@
 <template>
         <div >
+            <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
             <el-table
                     :data="tableData"
-                    border
-                    style="width: 100%;text-align: center">
-
+                    @selection-change="handleSelectionChange"
+                    style="width: 100%">
                 <el-table-column
                         fixed
+                        type="selection"
+                        width="50">
+                </el-table-column>
+                <el-table-column
+                        fixed
+                        label="序号"
+                        type="index"
+                        width="50">
+                </el-table-column>
+                <el-table-column
                         prop="specialty.speName"
                         label="专业"
                         width="270"
@@ -57,6 +67,9 @@ import axios from 'axios'
         props: [],
         data() {
             return {
+                // 批量删除
+                multipleSelection: [],
+                // ==
                 kong: null,
                 chooseCourse: [],
                 tableData: null,
@@ -73,6 +86,23 @@ import axios from 'axios'
 
         },
         methods: {
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/cmt/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
+            // ===
             alertByComId(row) {
                 this.$router.push({ name: 'AddCmtInfo', params: { comIdFromM: row.comId } })
             },

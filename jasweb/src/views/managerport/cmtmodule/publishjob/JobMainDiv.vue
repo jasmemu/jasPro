@@ -15,18 +15,24 @@
 
         <div>
             <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddJob()">添加</el-button>
+            <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
         </div>
 
         <div>
             <el-table
                     :data="tableData"
-                    border
+                    @selection-change="handleSelectionChange"
                     style="width: 100%">
+                <el-table-column
+                        fixed
+                        type="selection"
+                        width="50">
+                </el-table-column>
                 <el-table-column
                         fixed
                         label="序号"
                         type="index"
-                        width="200">
+                        width="50">
                 </el-table-column>
                 <el-table-column
                         prop="hName"
@@ -85,6 +91,8 @@
         name: "",
         data(){
             return{
+                // 批量删除
+                multipleSelection: [],
                 pageSize: 5,
                 total: 10,
                 formForSearch: {
@@ -108,6 +116,22 @@
             })
         },
         methods: {
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/homework/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
             goAddJob(){
                 this.$router.push('/CmtMainPage/AddJobInfo')
             },

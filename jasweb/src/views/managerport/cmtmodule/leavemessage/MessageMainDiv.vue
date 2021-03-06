@@ -12,19 +12,26 @@
                 <div>
                     <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
                 </div>
+
             </form>
         </div>
         <hr>
+        <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
         <div>
             <el-table
                     :data="tableData"
-                    border
+                    @selection-change="handleSelectionChange"
                     style="width: 100%">
+                <el-table-column
+                        fixed
+                        type="selection"
+                        width="50">
+                </el-table-column>
                 <el-table-column
                         fixed
                         label="序号"
                         type="index"
-                        width="200">
+                        width="50">
                 </el-table-column>
                 <el-table-column
                         prop="student.name"
@@ -78,6 +85,8 @@ import axios from 'axios'
         name: "",
         data() {
             return {
+                // 批量删除
+                multipleSelection: [],
                 pageSize: 5,
                 account: sessionStorage.getItem("cmtComId"),
                 total: 10,
@@ -89,6 +98,22 @@ import axios from 'axios'
             }
         },
         methods:{
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/message/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
             //table中的
             mypage (currentpage) {
                 const _this = this
@@ -144,15 +169,18 @@ import axios from 'axios'
         },
         created(){
             let _this = this
-            axios.get('http://localhost:8080/jas/mport/message/getMessages/'+this.account+'/1/'+this.pageSize).then(function (resp) {
-                console.log(resp.data)
-                _this.tableData =resp.data
-            })
             axios.get('http://localhost:8080/jas/mport/message/getCount/'+this.account).then(function (resp) {
                 _this.total = resp.data
+                console.log(resp.data)
             })
-
         },
+        mounted(){
+            let _this = this
+            axios.get('http://localhost:8080/jas/mport/message/getMessages/'+this.account+'/1/'+this.pageSize).then(function (resp) {
+                _this.tableData =resp.data
+                console.log(resp.data)
+            })
+        }
     }
 </script>
 

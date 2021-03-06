@@ -1,14 +1,20 @@
 <template>
     <div>
+
         <el-table
                 :data="tableData"
-                border
+                @selection-change="handleSelectionChange"
                 style="width: 100%">
+            <el-table-column
+                    fixed
+                    type="selection"
+                    width="50">
+            </el-table-column>
             <el-table-column
                     fixed
                     label="序号"
                     type="index"
-                    width="200">
+                    width="50">
             </el-table-column>
             <el-table-column
                     prop="student.name"
@@ -49,6 +55,8 @@
         name: "",
         data(){
             return {
+                // 批量删除
+                multipleSelection: [],
                 account: sessionStorage.getItem("cmtComId"),
                 formForSearch: {
                     lmDate: ''
@@ -61,6 +69,22 @@
             this.tableData = this.$route.params.messages
         },
         methods: {
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/message/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
             viewById(row){
                 this.$router.push({name:'ViewMessageDetail',params:{messageId:row.id}})
             },

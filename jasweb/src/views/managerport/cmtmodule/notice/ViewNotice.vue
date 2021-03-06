@@ -1,14 +1,23 @@
 <template>
     <div>
+        <div>
+            <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
+        </div>
         <el-table
                 :data="tableData"
-                border
+                @selection-change="handleSelectionChange"
                 style="width: 100%">
+            <el-table-column
+                    fixed
+                    type="selection"
+                    width="50">
+            </el-table-column>
             <el-table-column
                     fixed
                     label="序号"
                     type="index"
-                    width="200">
+                    width="50">
+            </el-table-column>
             </el-table-column>
             <el-table-column
                     prop="noticeTitle"
@@ -45,6 +54,8 @@ import axios from 'axios'
         name: "",
         data() {
             return {
+                // 批量删除
+                multipleSelection: [],
                 tableData: null
             }
         },
@@ -52,6 +63,23 @@ import axios from 'axios'
             this.tableData = this.$route.params.notices
         },
         methods:{
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/notice/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
+            // ==
             viewById(row){
                 this.$router.push({name:'ViewNoticeDetail',params:{noticeId:row.id}})
             },

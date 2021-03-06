@@ -1,12 +1,23 @@
 <template>
     <div>
+        <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
         <div>
             <el-table
                     :data="tableData"
-                    border
+                    @selection-change="handleSelectionChange"
                     style="width: 100%">
                 <el-table-column
                         fixed
+                        type="selection"
+                        width="50">
+                </el-table-column>
+                <el-table-column
+                        fixed
+                        label="序号"
+                        type="index"
+                        width="50">
+                </el-table-column>
+                <el-table-column
                         prop="sNo"
                         label="学号"
                         width="150">
@@ -72,6 +83,7 @@
         name: "",
         data() {
             return {
+                multipleSelection: [],
                 //文件上传===================
                 fileList: [],
                 //弹出框====================
@@ -101,6 +113,22 @@
             }
         },
         methods: {
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/stu/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
             //table中的
             alertBySno(row) {
                 this.$router.push({ name: 'AddStuInfo', params: { sNoFromM: row.sNo } })

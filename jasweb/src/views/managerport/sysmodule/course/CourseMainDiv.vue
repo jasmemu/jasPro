@@ -19,6 +19,7 @@
             <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddCourse()">添加</el-button>
 <!--            <router-link tag="button" to="/SysMainPage/AddStuInfo"  style="float: right;margin-left: 30px">添加</router-link>-->
             <el-button type="primary" plain size="small"  style="float:right " @click="dialogFormVisible = true">导入Excel</el-button>
+            <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
             <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
                     <el-upload
@@ -45,10 +46,20 @@
         <div>
             <el-table
                     :data="tableData"
-                    border
+                    @selection-change="handleSelectionChange"
                     style="width: 100%">
                 <el-table-column
                         fixed
+                        type="selection"
+                        width="50">
+                </el-table-column>
+                <el-table-column
+                        fixed
+                        label="序号"
+                        type="index"
+                        width="50">
+                </el-table-column>
+                <el-table-column
                         prop="courseId"
                         label="课程号"
                         width="200">
@@ -110,6 +121,8 @@ import axios from 'axios'
         name: "",
         data() {
             return {
+                // 批量删除
+                multipleSelection: [],
                 //文件上传===================
                 fileList: [],
                 //弹出框====================
@@ -138,6 +151,22 @@ import axios from 'axios'
             }
         },
         methods: {
+            //批量删除
+            deleteBatch(){
+                if (this.multipleSelection.length < 1){
+                    alert("请至少选择一条")
+                    return
+                }
+                axios.post('http://localhost:8080/jas/mport/course/delete/byBatch',this.multipleSelection).then(function (resp) {
+                    alert(resp.data)
+                    location.reload()
+                })
+
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                // console.log(val)
+            },
             //上传excel中的
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -147,6 +176,7 @@ import axios from 'axios'
                 formData.append('file', file.raw)
                 axios.post('http://localhost:8080/jas/mport/course/dealExcelToCourse',formData).then(function (resp) {
                     alert(resp.data)
+                    location.reload()
                 })
             },
             handleExceed(files, fileList) {
