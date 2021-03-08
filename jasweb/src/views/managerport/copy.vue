@@ -1,91 +1,84 @@
 <template>
   <div>
-      <el-table
-              :data="tableData"
-              style="width: 100%"
-              @selection-change="handleSelectionChange">
-          <el-table-column
-                  type="selection"
-                  width="55">
-          </el-table-column>
-          <el-table-column
-                  label="日期"
-                  width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-          </el-table-column>
-          <el-table-column
-                  prop="name"
-                  label="姓名"
-                  width="120">
-          </el-table-column>
-          <el-table-column
-                  prop="address"
-                  label="地址"
-                  show-overflow-tooltip>
-          </el-table-column>
-      </el-table>
-      <div style="margin-top: 20px">
-          <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
-          <el-button @click="toggleSelection()">取消选择</el-button>
-          <el-button @click="deleteBatch()">删除</el-button>
-      </div>
+      <input id="fUpload" multiple type="file" />
+      <input  @click="commitFile()" type="button" value="显示上传文件的详细详细" />
   </div>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data() {
             return {
-                tableData: [{
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-08',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-06',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-07',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }],
-                multipleSelection: []
+
             }
         },
 
         methods: {
-            toggleSelection(rows) {
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    this.$refs.multipleTable.clearSelection();
+            // 文件上传
+            commitFile(){
+                this.dialogFormVisible = false
+                var fp = $("#fUpload");
+                var items = fp[0].files;
+                if ((items[0]) == undefined || (items[0]) == null || (items[0]) == ''){
+                    alert("请选择文件")
+                    return
+                }
+                var f1 = this.judgeType(items[0].name)
+                var f2 = this.judgeSize(items[0].size)
+                if (f1&&f2){
+                    var formDate = new FormData()
+                    formDate.append("file",items[0])
+                    axios.post('http://localhost:8080/jas/mport/stu/dealExcel',formDate).then(function (resp) {
+                        location.reload()
+                    })
+                }else {
+                    alert("请上传xls类型文件")
                 }
             },
-            deleteBatch(){
-                  console.log(this.multipleSelection)
+            judgeType(fileName){
+                var name = fileName
+                var index = name.lastIndexOf(".")
+                var endName = name.substr(index)
+                console.log("文件类型"+ endName)
+                if (endName == '.xls'){
+                    return true
+                } else {
+                    return false
+                }
             },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-                console.log(val)
-            }
+            judgeSize(fileSize){
+                var size = parseInt(fileSize)/1024/1024
+                console.log("大小"+size)
+                if (size<50){
+                    return true
+                } else {
+                    return false
+                }
+            },
+
+            // commitFile(){
+            //     var fp = $("#fUpload");
+            //     var items = fp[0].files;
+            //     this.judgeType(items[0].name)
+            //     this.judgeSize(items[0].size)
+            //     var formDate = new FormData()
+            //     formDate.append("file",items[0])
+            //     axios.post('http://localhost:8080/jas/test/t1',formDate).then(function (resp) {
+            //         alert(resp.data)
+            //
+            //     })
+            // },
+            // judgeType(fileName){
+            //     var name = fileName
+            //     var index = name.lastIndexOf(".")
+            //     var endName = name.substr(index)
+            //     console.log("类别"+endName)
+            // },
+            // judgeSize(fileSize){
+            //     var size = parseInt(fileSize)/1024/1024
+            //     console.log("大小"+size)
+            // },
         }
     }
 </script>

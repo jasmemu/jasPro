@@ -4,26 +4,28 @@
             <el-form-item label="作业" prop="jobFile">
                 <el-button type="primary" plain size="small" @click="dialogFormVisible = true">上传作业</el-button><br>
                 <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
-                    <el-form :model="form">
-                        <el-upload
-                                class="upload-demo"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :before-remove="beforeRemove"
-                                multiple
-                                :limit="3"
-                                :on-exceed="handleExceed"
-                                :file-list="fileList">
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
-                    </el-form>
+                    <input  id="fUpload" multiple type="file" />
+<!--                    <el-form :model="form">-->
+<!--                        <el-upload-->
+<!--                                class="upload-demo"-->
+<!--                                action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                                :on-preview="handlePreview"-->
+<!--                                :on-remove="handleRemove"-->
+<!--                                :before-remove="beforeRemove"-->
+<!--                                multiple-->
+<!--                                :limit="3"-->
+<!--                                :on-exceed="handleExceed"-->
+<!--                                :file-list="fileList">-->
+<!--                            <el-button size="small" type="primary">点击上传</el-button>-->
+<!--                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+<!--                        </el-upload>-->
+<!--                    </el-form>-->
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="dialogFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                        <el-button type="primary" @click="commitFile()">确 定</el-button>
                     </div>
                 </el-dialog>
+                <span v-show="fileShow" style="color: #a50912">请上传文件</span>
             </el-form-item>
             <el-form-item label="作业类型:" prop="jobType"  >
                 <select v-model=jobForm.jobType  style="width: 30%;" placeholder="请选择类型">
@@ -56,9 +58,10 @@
         //    判断密码是否一致；
         data() {
             return {
+                fileShow: false,
                 jobForm: {
                     comId: sessionStorage.getItem('cmtComId'),
-                    jobFile: "",
+                    jobFile: null,
                     jobType: "",
                     endDate: "",
                     mark: ""
@@ -83,9 +86,9 @@
                 //    在return 后面；
                 rules: {
                     // 要以数组形式展示
-                    jobFile: [
-                        { required: true, message: "请上传文件", trigger: "change" },
-                    ],
+                    // jobFile: [
+                    //     { required: true, message: "请上传文件", trigger: "change" },
+                    // ],
                     jobType: [
                         {
                             required: true,
@@ -115,6 +118,20 @@
             console.log(this.jobTypeOptions)
         },
         methods: {
+            // 文件上传
+            commitFile(){
+                this.dialogFormVisible = false
+                var fp = $("#fUpload");
+                var items = fp[0].files;
+                if ((items[0]) == undefined || (items[0]) == null || (items[0]) == ''){
+                    this.fileShow = true
+                    return
+                }else {
+                    this.fileShow = false
+                    this.jobForm.jobFile = items[0]
+                }
+
+            },
             //文件上传
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -131,6 +148,10 @@
             },
             //其他
             submitForm(formName) {
+                if (this.jobForm.jobFile == ''|| this.jobForm.jobFile ==null){
+                    this.fileShow = true
+                    return
+                }
                 this.$refs[formName].validate(valid => {
                     if (valid) {
                         var courseId = ''

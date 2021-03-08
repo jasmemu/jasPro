@@ -21,24 +21,24 @@
             <el-button type="primary" plain size="small"  style="float:right " @click="dialogFormVisible = true">导入Excel</el-button>
             <el-button type="primary" plain size="small"  style="float:right " @click="deleteBatch()">删除</el-button>
             <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
-                <el-form :model="form">
-                    <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            :before-remove="beforeRemove"
-                            multiple
-                            :limit="3"
-                            :on-exceed="handleExceed"
-                            :file-list="fileList">
-                        <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
-                </el-form>
+                <input id="fUpload" multiple type="file" />
+<!--                <el-form :model="form">-->
+<!--                    <el-upload-->
+<!--                            class="upload-demo"-->
+<!--                            action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                            :beforeUpload="beforeAvatarUpload"-->
+<!--                            :on-preview="handlePreview"-->
+<!--                            multiple-->
+<!--                            :limit="3"-->
+<!--                            :on-exceed="handleExceed"-->
+<!--                            :file-list="fileList">-->
+<!--                        <el-button size="small" type="primary">点击上传</el-button>-->
+<!--                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+<!--                    </el-upload>-->
+<!--                </el-form>-->
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="commitFile()">确 定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -151,6 +151,48 @@ import axios from 'axios'
             }
         },
         methods: {
+            //文件上传
+            commitFile(){
+                this.dialogFormVisible = false
+                var fp = $("#fUpload");
+                var items = fp[0].files;
+                if ((items[0]) == undefined || (items[0]) == null || (items[0]) == ''){
+                    alert("请选择文件")
+                    return
+                }
+               console.log("itemis"+items[0])
+                var f1 = this.judgeType(items[0].name)
+                var f2 = this.judgeSize(items[0].size)
+                if (f1&&f2){
+                    var formDate = new FormData()
+                    formDate.append("file",items[0])
+                    axios.post('http://localhost:8080/jas/mport/course/dealExcelToCourse',formDate).then(function (resp) {
+                        location.reload()
+                    })
+                }else {
+                    alert("请上传xls类型文件")
+                }
+            },
+            judgeType(fileName){
+                var name = fileName
+                var index = name.lastIndexOf(".")
+                var endName = name.substr(index)
+                console.log("文件类型"+ endName)
+                if (endName == '.xls'){
+                    return true
+                } else {
+                    return false
+                }
+            },
+            judgeSize(fileSize){
+                var size = parseInt(fileSize)/1024/1024
+                console.log("大小"+size)
+                if (size<50){
+                    return true
+                } else {
+                    return false
+                }
+            },
             //批量删除
             deleteBatch(){
                 if (this.multipleSelection.length < 1){
@@ -168,8 +210,23 @@ import axios from 'axios'
                 // console.log(val)
             },
             //上传excel中的
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            beforeAvatarUpload(file) {
+                var testmsg=file.name.substring(file.name.lastIndexOf('.')+1)
+                const extension = testmsg === 'xls'
+                const isLt2M = file.size / 1024 / 1024 < 10
+                if(!extension ) {
+                    this.$message({
+                        message: '上传文件只能是 xls格式!',
+                        type: 'warning'
+                    });
+                }
+                if(!isLt2M) {
+                    this.$message({
+                        message: '上传文件大小不能超过 10MB!',
+                        type: 'warning'
+                    });
+                }
+                return extension  && isLt2M
             },
             handlePreview(file) {
                 const formData = new FormData()
