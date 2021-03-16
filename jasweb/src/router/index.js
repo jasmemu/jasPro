@@ -50,6 +50,8 @@ import ViewMessage from "@/views/managerport/cmtmodule/leavemessage/ViewMessage"
 import JobMainDiv from "@/views/managerport/cmtmodule/publishjob/JobMainDiv"
 import AddJobInfo from "@/views/managerport/cmtmodule/publishjob/AddJobInfo"
 import ViewJob from "@/views/managerport/cmtmodule/publishjob/ViewJob"
+import JobSubmitDetail from "@/views/managerport/cmtmodule/publishjob/JobSubmitDetail"
+import StudentList from "@/views/managerport/cmtmodule/publishjob/StudentList"
 
 import CheckJobMainDiv from "@/views/managerport/cmtmodule/checkjob/CheckJobMainDiv"
 import ViewCheckJob from "@/views/managerport/cmtmodule/checkjob/ViewCheckJob"
@@ -176,6 +178,16 @@ const routes = [
         path: '/CmtMainPage/ViewJob',
         name: 'ViewJob',
         component: ViewJob
+      },
+      {
+        path: '/CmtMainPage/JobSubmitDetail',
+        name: 'JobSubmitDetail',
+        component: JobSubmitDetail
+      },
+      {
+        path: '/CmtMainPage/StudentList',
+        name: 'StudentList',
+        component: StudentList
       },
       {
         path: '/CmtMainPage/CheckJobMainDiv',
