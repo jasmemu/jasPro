@@ -67,6 +67,7 @@
                     <template slot-scope="scope">
                         <el-button @click="downloadJob(scope.row)" type="text" size="small">下载</el-button>
                         <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="jobSubmit(scope.row)" type="text" size="small">提交状况</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -116,6 +117,9 @@
             })
         },
         methods: {
+            jobSubmit(row){
+              this.$router.push({name:'JobSubmitDetail',params:{jobFromJobMainDiv:row}})
+            },
             //批量删除
             deleteBatch(){
                 if (this.multipleSelection.length < 1){
