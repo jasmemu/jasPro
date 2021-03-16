@@ -1,11 +1,13 @@
 package com.zyg.jas.managerport.controller;
 
 import com.zyg.jas.common.pojo.Score;
+import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.managerport.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,34 @@ public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
+
+    // 根据作业id获取已提交的作业人数和未提交的作业人数
+    @RequestMapping(value = "/jobSubmitStatus/{jobId}" ,method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Integer> getJobSubmitStatusByJobId(@PathVariable("jobId") Integer jobId){
+        List<Student> s1=scoreService.getStudentForSubmitJob(jobId);
+        List<Student> s2=scoreService.getAllStudentForSubmitJob(jobId);
+        Integer noCommittedCount = s2.size() - s1.size();
+        Integer committedCount = s1.size();
+        Map<String,Integer> map =new HashMap<>();
+        map.put("noCommittedCount",noCommittedCount);
+        map.put("committedCount",committedCount);
+        return map;
+    }
+    // 根据作业id获取已提交作业的学生学号和姓名、手机号
+    @RequestMapping(value = "/jobSubmitDetail/{jobId}" ,method = RequestMethod.GET)
+    @ResponseBody
+    public List<Student> getJobSubmitDetail(@PathVariable("jobId") Integer jobId){
+        List<Student> s1=scoreService.getStudentForSubmitJob(jobId);
+        return s1;
+    }
+    // 根据作业id获取没有提交作业的学生学号和姓名、手机号
+    @RequestMapping(value = "/jobNoSubmitDetail/{jobId}" ,method = RequestMethod.GET)
+    @ResponseBody
+    public List<Student> getJobNoSubmitDetail(@PathVariable("jobId") Integer jobId){
+        List<Student> list = scoreService.getStudentForNoSubmitJob(jobId);
+        return list;
+    }
 
     // 根据学生提交的作业id为作业打分
     @RequestMapping(value = "/updateScore",method = RequestMethod.POST)

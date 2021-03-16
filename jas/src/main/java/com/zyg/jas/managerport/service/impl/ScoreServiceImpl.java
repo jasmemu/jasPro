@@ -2,6 +2,7 @@ package com.zyg.jas.managerport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.zyg.jas.common.pojo.Score;
+import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.managerport.dao.ScoreDao;
 import com.zyg.jas.managerport.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,21 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public Integer updateScoreById(Integer id, double score, String comment) {
         return scoreDao.updateScoreById(id,score,comment);
+    }
+
+    @Override
+    public List<Student> getAllStudentForSubmitJob(Integer jobId) {
+        return scoreDao.selectAllStudentForSubmitJob(jobId);
+    }
+
+    @Override
+    public List<Student> getStudentForSubmitJob(Integer jobId) {
+        return scoreDao.selectStudentForSubmitJob(jobId);
+    }
+
+    @Override
+    public List<Student> getStudentForNoSubmitJob(Integer jobId) {
+        return scoreDao.selectStudentForNoSubmitJob(jobId);
     }
 
 
