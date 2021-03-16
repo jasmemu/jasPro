@@ -34,12 +34,17 @@
             </association>
         </association>
     </resultMap>
+
+    <resultMap id="studentMap" type="com.zyg.jas.common.pojo.Student">
+        <id property="sNo" column="s_no" />
+        <result property="name" column="s_name" />
+        <result property="phone" column="s_phone"/>
+    </resultMap>
+
     <insert id="insertScore"  parameterType="com.zyg.jas.common.pojo.Score">
        insert  into score(h_id, s_no, com_id, score, comment, correct_date, commited_job_url, commited_job_path)
        values (#{hId},#{sNo},#{comId},#{score},#{comment},#{correctDate},#{commitedJobUrl},#{commitedJobPath});
    </insert>
-
-
 
     <select id="selectCount" resultType="Integer"  parameterType="String">
          select count(score.id) from score where score.com_id = #{cmtId} and score.h_id
@@ -87,6 +92,25 @@
        and  score.com_id=#{cmtId}
         AND score.h_id
         IN (select homework.h_id from homework where  homework.course_id = #{courseId})
+    </select>
+
+    <select id="selectAllStudentForSubmitJob" resultMap="studentMap" parameterType="Integer">
+        SELECT student.s_no,student.s_name,student.s_phone from student,
+        (select spe_id,c_grade,c_class from committee WHERE com_id in (SELECT com_id FROM homework WHERE h_id = #{jobId})) as sgc
+        WHERE sgc.spe_id = student.spe_id and sgc.c_grade=student.s_grade and sgc.c_class = student.s_class;
+    </select>
+
+    <select id="selectStudentForSubmitJob" resultMap="studentMap" parameterType="Integer">
+        SELECT student.s_no,student.s_name,student.s_phone from student,score,
+        (select spe_id,c_grade,c_class from committee WHERE com_id in (SELECT com_id FROM homework WHERE h_id = #{jobId})) as sgc
+        WHERE sgc.spe_id = student.spe_id and sgc.c_grade=student.s_grade and sgc.c_class = student.s_class and score.s_no=student.s_no and score.h_id=#{jobId};
+    </select>
+
+    <select id="selectStudentForNoSubmitJob" resultMap="studentMap" parameterType="Integer">
+         SELECT student.s_no,student.s_name,student.s_phone from student,score,
+        (select spe_id,c_grade,c_class from committee WHERE com_id in (SELECT com_id FROM homework WHERE h_id = #{jobId})) as sgc
+        WHERE sgc.spe_id = student.spe_id and sgc.c_grade=student.s_grade and sgc.c_class = student.s_class   and student.s_no not in
+        (SELECT DISTINCT score.s_no from score where score.h_id = #{jobId});
     </select>
 
     <update id="updateScoreById"  >
