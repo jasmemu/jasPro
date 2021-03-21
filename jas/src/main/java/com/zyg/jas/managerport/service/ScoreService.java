@@ -8,6 +8,9 @@ import java.util.Map;
 
 public interface ScoreService {
 
+
+    Map<String,Integer> getScForLevelByHid(Integer hId);
+
     Integer getCount(String cmtId,String courseId);
 
     List<Score> getScoresByCmtId(String cmtId,String courseId,Integer pageNo,Integer pageSize);

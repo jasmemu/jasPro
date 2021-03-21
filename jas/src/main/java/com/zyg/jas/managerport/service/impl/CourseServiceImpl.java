@@ -73,6 +73,10 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> getForName() {
         return this.courseDao.selectForName();
     }
+    @Override
+    public List<Course> getForNameByCmtId(String cmtId) {
+        return courseDao.selectForNameByCmtId(cmtId);
+    }
 
     @Override
     public List<Course> dealExcelForCourse(MultipartFile file) {
@@ -165,6 +169,5 @@ public class CourseServiceImpl implements CourseService {
     public Integer removeByBatch(List<Course> courseList) {
         return courseDao.deleteByBatch(courseList);
     }
-
 
 }

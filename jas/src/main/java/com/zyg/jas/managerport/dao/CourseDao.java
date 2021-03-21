@@ -16,6 +16,7 @@ public interface CourseDao {
     public List<Course> selectAllCourse(); //查询所有课程记录
     public Integer selectCountOfCourse();
 
+    List<Course> selectForNameByCmtId(String cmtId);
     List<Course> selectForName();
 
     public Course selectCourseById(String id);//根据courseId查询一条记录

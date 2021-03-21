@@ -94,6 +94,7 @@ public class CmtServiceImpl implements CmtService {
         List<CC> ccList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
         List<Specialty> specialties = this.specialtyDao.selectAllSpeCialty();
+        System.out.println("excel中共有: "+excelList.size()+"  条数据");
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
                 continue;

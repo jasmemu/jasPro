@@ -19,6 +19,12 @@ public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
+    //根据作业成绩划分等级
+    @RequestMapping(value = "/getLevelByHid/{hId}",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Integer> getLevelByHid(@PathVariable("hId") Integer hId){
+       return  scoreService.getScForLevelByHid(hId);
+    }
 
     // 根据作业id获取已提交的作业人数和未提交的作业人数
     @RequestMapping(value = "/jobSubmitStatus/{jobId}" ,method = RequestMethod.GET)

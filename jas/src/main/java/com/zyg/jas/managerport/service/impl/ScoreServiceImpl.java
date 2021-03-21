@@ -8,6 +8,7 @@ import com.zyg.jas.managerport.service.ScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,35 @@ public class ScoreServiceImpl implements ScoreService {
     @Autowired
     private ScoreDao scoreDao;
 
+
+    @Override
+    public Map<String,Integer> getScForLevelByHid(Integer hId) {
+        List<Score>  scoreList=scoreDao.selectScForLevelByHid(hId);
+        int a=0;
+        int b=0;
+        int c=0;
+        int d=0;
+        for(int i=0;i<scoreList.size();i++){
+            Score s = scoreList.get(i);
+            if (s.getScore()<60){
+                d++;
+            }else if(s.getScore()>=60&&s.getScore()<80){
+                c++;
+            }else if (s.getScore()>=80&&s.getScore()<90){
+                b++;
+            }else if (s.getScore()>=90&&s.getScore()<=100){
+                a++;
+            }else{
+                continue;
+            }
+        }
+        Map<String,Integer> levelMap= new HashMap<>();
+        levelMap.put("level1",a);
+        levelMap.put("level2",b);
+        levelMap.put("level3",c);
+        levelMap.put("level4",d);
+        return levelMap;
+    }
 
     @Override
     public Integer getCount(String cmtId,String courseId) {

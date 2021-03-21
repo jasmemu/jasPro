@@ -17,8 +17,6 @@ public interface CourseService {
 
      Course getCourseForSearch(Course course);  //前端搜索框使用
 
-     List<Course> getForName();
-
      void deleteCourseById(String id);
 
      List<Course> dealExcelForCourse(MultipartFile file);
@@ -27,4 +25,8 @@ public interface CourseService {
 
 
     Integer removeByBatch(List<Course> courseList);
+
+    List<Course> getForNameByCmtId(String cmtId);
+
+     List<Course> getForName();
 }

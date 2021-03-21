@@ -3,12 +3,12 @@ package com.zyg.jas.managerport.dao;
 import com.zyg.jas.common.pojo.Score;
 import com.zyg.jas.common.pojo.Student;
 import org.apache.ibatis.annotations.Param;
-
-import java.sql.Struct;
 import java.util.List;
 import java.util.Map;
 
 public interface ScoreDao {
+
+    List<Score> selectScForLevelByHid(Integer hId);//根据作业id获取各成绩等级的学生学号
 
     List<Student> selectAllStudentForSubmitJob(Integer jobId); //根据作业id查询该班级所有学生
 

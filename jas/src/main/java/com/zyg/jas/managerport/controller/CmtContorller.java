@@ -128,6 +128,11 @@ public class CmtContorller {
     @ResponseBody
     public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         List<Committee> cmtList = this.cmtService.dealExcelForCommittee(file);
+        System.out.println("=================");
+        for (Committee c : cmtList){
+            System.out.println(c);
+        }
+        System.out.println("=================");
         int sum = this.cmtService.saveCmtFromExcel(cmtList);
         return sum;
     }

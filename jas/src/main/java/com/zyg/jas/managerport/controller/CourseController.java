@@ -17,6 +17,8 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+
+    //批量删除课程
     @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
     @ResponseBody
     public Integer deleteStuByBatchHandler(@RequestBody List<Course> courseList) {
@@ -28,6 +30,12 @@ public class CourseController {
     @ResponseBody
     public List<Course> getNamesHandler(){
         return this.courseService.getForName();
+    }
+    // 根据学委id获取其管理的课程
+    @RequestMapping(value = "/getNamesByCmtId/{cmtId}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Course> getNamesHandler(@PathVariable("cmtId") String cmtId){
+        return this.courseService.getForNameByCmtId(cmtId);
     }
 
     //添加一个课程信息
