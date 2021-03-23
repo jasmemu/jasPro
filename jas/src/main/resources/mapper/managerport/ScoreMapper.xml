@@ -113,6 +113,10 @@
         (SELECT DISTINCT score.s_no from score where score.h_id = #{jobId});
     </select>
 
+    <select id="selectScForLevelByHid" resultMap="scoreMap" parameterType="Integer">
+        select  h_id,s_no,com_id,score from score where h_id = #{hId};
+    </select>
+
     <update id="updateScoreById"  >
         update score set score=#{score},comment=#{comment} where id =#{id};
     </update>

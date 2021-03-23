@@ -28,10 +28,9 @@ public class LeaveMessageServiceImplTest {
         for (int i=0;i<7;i++){
             LeaveMessage leaveMessage = new LeaveMessage();
             leaveMessage.setComId("201708044211");
-            leaveMessage.setsNo("202108044205");
-            leaveMessage.setLeaveMessage("不用回复？"+i);
+            leaveMessage.setsNo("201708044216");
+            leaveMessage.setLeaveMessage("什么时候交作业？"+i);
             leaveMessage.setLmDate(new Date());
-            leaveMessage.setRmDate(new Date());
             this.leaveMessageService.SaveMessage(leaveMessage);
         }
     }

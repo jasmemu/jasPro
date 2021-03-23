@@ -27,8 +27,7 @@ public class NoticeServiceImplTest {
             Notice notice = new Notice();
             notice.setComId("201708044211");
             notice.setNoticeTitle("标题"+i);
-            notice.setContent("公告内容"+i +"!"+"公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!" +
-                    "公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!公告内容!");
+            notice.setContent("注意了！明天放假"+i);
             Date date = new Date(System.currentTimeMillis());
             notice.setPublishDate(date);
             this.noticeService.saveNotice(notice);

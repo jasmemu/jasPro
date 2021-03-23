@@ -20,7 +20,10 @@
 	</select>
 
     <select id="selectForName" resultMap="courseMap">
-        select course_id,cs_name from course;
+          select course_id,cs_name from course;
+    </select>
+    <select id="selectForNameByCmtId" resultMap="courseMap" parameterType="String">
+          select course.course_id,course.cs_name from course inner join cc on course.cs_name = cc.course_id  and cc.com_id=#{cmtId};
     </select>
     <select id="selectCountOfCourse" resultType="Integer">
         select count(*) from course;

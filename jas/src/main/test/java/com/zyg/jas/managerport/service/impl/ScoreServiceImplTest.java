@@ -35,12 +35,12 @@ public class ScoreServiceImplTest {
     // 添加已批阅的Score
     @Test
     public void addScore() throws ParseException {
-        for (int i=0;i<3;i++){
+
             Score score = new Score();
-            score.setComId("202108044204");
-            score.setsNo("202108044208");
-            score.sethId(33);
-            score.setComment("作业评语"+i+i);
+            score.setComId("201708044211");
+            score.setsNo("201708044221");
+            score.sethId(48);
+            score.setComment("成绩优异");
             score.setCommitedJobPath("D://DevelopDir//developbase//tomcat8081//apache-tomcat-9.0.43//webapps//ROOT//submitjob");
             score.setCommitedJobUrl("http://localhost:8081/submitjob/");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -48,28 +48,25 @@ public class ScoreServiceImplTest {
             String now=simpleDateFormat.format(date);
             Date date2 = simpleDateFormat.parse(now);
             score.setCorrectDate(date2);
-            score.setScore(67.0+i);
+            score.setScore(67.0);
             scoreDao.insertScore(score);
 
-        }
+
     }
 
     // 添加没有批阅的Score
     @Test
     public void addScoreNo() throws ParseException {
-        for (int i=0;i<7;i++){
             Score score = new Score();
             score.setComId("201708044211");
-            score.setsNo("202108044206");
-            score.sethId(34);
+            score.setsNo("201708044203");
+            score.sethId(46);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             String now=simpleDateFormat.format(date);
             Date date2 = simpleDateFormat.parse(now);
             score.setCorrectDate(date2);
             scoreDao.insertScore(score);
-
-        }
     }
 
 }

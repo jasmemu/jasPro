@@ -1,13 +1,17 @@
 package com.zyg.jas.managerport.service.impl;
 
 import com.zyg.jas.common.pojo.Committee;
+import com.zyg.jas.common.pojo.Course;
+import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.managerport.dao.CmtDao;
+import com.zyg.jas.managerport.dao.StudentDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,6 +20,9 @@ public class StudentServiceImplTest {
 
     @Autowired
     private CmtDao cmtDao;
+
+    @Autowired
+    private StudentDao studentDao;
     @Test
     public void getStudents() {
         List<Committee> committees = this.cmtDao.selectAllCmt();
@@ -30,4 +37,5 @@ public class StudentServiceImplTest {
         Committee committee = new Committee();
         System.out.println(committee.getSpecialty().getSpeId());
     }
+
 }
