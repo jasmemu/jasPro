@@ -65,6 +65,7 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
+                        <el-button v-if="scope.row.hUrl.endsWith('jpg')||scope.row.hUrl.endsWith('pdf')||scope.row.hUrl.endsWith('jpeg')||scope.row.hUrl.endsWith('png')" @click="viewPhoto(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="downloadJob(scope.row)" type="text" size="small">下载</el-button>
                         <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
                         <el-button @click="jobSubmit(scope.row)" type="text" size="small">提交状况</el-button>
@@ -142,12 +143,19 @@
             //table中的
             mypage (currentpage) {
                 const _this = this
-                axios.get('http://localhost:8080/jas/mport/homework/getJobs/'+this.comId +'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
+                axios.get('http://localhost:8080/jas/mport/homework/getJobs/'+this.formForSearch.comId+'/'+ +currentpage +'/' +_this.pageSize).then(function (resp) {
                     _this.tableData = resp.data
+                    console.log()
                 })
             },
+            viewPhoto(row){
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.hUrl
+                a.setAttribute('target','_blank')
+                a.setAttribute('href',url);// href链接
+                a.click();// 自执行点击事件
+            },
             downloadJob(row){
-                // console.log(row)
                 const a = document.createElement('a'); // 创建a标签
                 let url = row.hUrl
                 var x=url.indexOf('/');
@@ -155,7 +163,6 @@
                     x=url.indexOf('/',x+1);
                 }
                 var  endUrl =url.slice(x)
-                // console.log(endUrl)
                 a.setAttribute('download',row.hName);// download属性
                 a.setAttribute('href',endUrl);// href链接
                 a.click();// 自执行点击事件

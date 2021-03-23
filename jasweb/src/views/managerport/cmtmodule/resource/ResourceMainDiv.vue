@@ -60,6 +60,7 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
+                        <el-button v-if="scope.row.resourceUrl.endsWith('jpg')||scope.row.resourceUrl.endsWith('pdf')||scope.row.resourceUrl.endsWith('jpeg')||scope.row.resourceUrl.endsWith('png')" @click="viewPhoto(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="downloadByUrl(scope.row)" type="text" size="small">下载</el-button>
                         <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>
                     </template>
@@ -106,6 +107,7 @@ import axios from 'axios'
             let _this = this
             axios.get('http://localhost:8080/jas/mport/resource/getResource/'+this.account+'/1/'+this.pageSize).then(function (resp) {
               _this.tableData =resp.data
+                console.log(_this.tableData)
             })
             axios.get('http://localhost:8080/jas/mport/resource/getCount/'+this.account).then(function (resp) {
                 _this.total = resp.data
@@ -163,6 +165,13 @@ import axios from 'axios'
                         message: '已取消删除'
                     });
                 });
+            },
+            viewPhoto(row){
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.resourceUrl
+                a.setAttribute('target','_blank')
+                a.setAttribute('href',url);// href链接
+                a.click();// 自执行点击事件
             },
             downloadByUrl(row){
                 console.log(row)

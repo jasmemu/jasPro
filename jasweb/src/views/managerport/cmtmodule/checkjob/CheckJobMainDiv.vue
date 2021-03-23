@@ -23,7 +23,6 @@
         <div>
             <el-table
                     :data="tableData"
-                    @selection-change="handleSelectionChange"
                     style="width: 100%">
                 <el-table-column
                         fixed
@@ -67,6 +66,7 @@
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
+                        <el-button v-if="scope.row.commitedJobUrl.endsWith('jpg')||scope.row.commitedJobUrl.endsWith('pdf')||scope.row.commitedJobUrl.endsWith('jpeg')||scope.row.commitedJobUrl.endsWith('png')" @click="viewPhoto(scope.row)" type="text" size="small">查看</el-button>
                         <el-button @click="downloadJob(scope.row)" type="text" size="small">下载</el-button>
                         <el-button  @click="setScore(scope.row)" type="text" size="small">打分</el-button>
                        <!-- <el-button @click="deleteById(scope.row)" type="text" size="small">删除</el-button>-->
@@ -144,17 +144,22 @@
                     console.log(resp.data)
                 })
             },
-            downloadJob(row){
-                console.log(row)
+            viewPhoto(row){
                 const a = document.createElement('a'); // 创建a标签
-                let url = row.hUrl
+                let url = row.commitedJobUrl
+                a.setAttribute('target','_blank')
+                a.setAttribute('href',url);// href链接
+                a.click();// 自执行点击事件
+            },
+            downloadJob(row){
+                const a = document.createElement('a'); // 创建a标签
+                let url = row.commitedJobUrl
                 var x=url.indexOf('/');
                 for(var i=0;i<2;i++){
                     x=url.indexOf('/',x+1);
                 }
                 var  endUrl =url.slice(x)
-                console.log(endUrl)
-                a.setAttribute('download',row.hName);// download属性
+                a.setAttribute('download',row.homework.hName);// download属性
                 a.setAttribute('href',endUrl);// href链接
                 a.click();// 自执行点击事件
             },

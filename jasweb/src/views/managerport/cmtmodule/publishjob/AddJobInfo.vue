@@ -59,6 +59,7 @@
         data() {
             return {
                 fileShow: false,
+                cmtId: sessionStorage.getItem('cmtComId'),
                 jobForm: {
                     comId: sessionStorage.getItem('cmtComId'),
                     jobFile: null,
@@ -107,7 +108,7 @@
         },
         mounted() {
             var _this = this
-            axios.get('http://localhost:8080/jas/mport/course/getNames').then(function (resp) {
+            axios.get('http://localhost:8080/jas/mport/course/getNamesByCmtId/'+this.cmtId).then(function (resp) {
                 for (let i=0;i<resp.data.length;i++){
                     const option ={label: '',value: ''}
                     option.label = resp.data[i].name

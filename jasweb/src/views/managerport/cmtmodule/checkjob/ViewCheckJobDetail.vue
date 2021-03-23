@@ -116,7 +116,8 @@
                     if (!valid) return
                     // TODO 提交表单
                   axios.post('http://localhost:8080/jas/mport/score//updateScore',f).then(function (resp) {
-                      if (resp.data ==1){
+
+                      if (resp.data == 1){
                           this.$message({
                               type: 'info',
                               message: '打分成功'

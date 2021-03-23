@@ -16,7 +16,7 @@
 
                         <div style="margin-top: 15px">
                             <span style="font-weight: bold">密 码 </span>
-                            <el-input v-model="loginPassword" placeholder="请输入密码"></el-input>
+                            <el-input v-model="loginPassword" placeholder="请输入密码" show-password></el-input>
                             <br/>
                         </div>
 

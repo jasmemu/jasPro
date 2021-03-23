@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import copy from "@/views/managerport/copy"
+
 import EnterPage from "@/views/EnterPage"
 // 下列属于管理员端url
    // 系统管理员
@@ -63,11 +63,6 @@ import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
 
 Vue.use(VueRouter)
 const routes = [
-  {
-    path: '/copy',
-    name: 'copy',
-    component: copy
-  },
   {
     path: '*',
     redirect: '/enter'
