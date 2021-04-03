@@ -73,8 +73,9 @@
                 _this.box2Data[1].value=resp.data.level2
                 _this.box2Data[2].value=resp.data.level3
                 _this.box2Data[3].value=resp.data.level4
-                _this.polygonal_chart2()
-
+                if (resp.data.level1!=0||resp.data.level2!=0||resp.data.level3!=0||resp.data.level4!=0) {
+                    _this.polygonal_chart2()
+                }
             })
         },
         methods: {

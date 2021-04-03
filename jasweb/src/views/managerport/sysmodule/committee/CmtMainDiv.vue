@@ -195,7 +195,12 @@
                     var formDate = new FormData()
                     formDate.append("file",items[0])
                     axios.post('http://localhost:8080/jas/mport/cmt/dealExcel',formDate).then(function (resp) {
-                        location.reload()
+                        console.log(resp.data)
+                        if (resp.data.status == "success"){
+                            location.reload()
+                        } else {
+                            alert("上传失败！"+resp.data.status+"格式错误！")
+                        }
                     })
                 }else {
                     alert("请上传xls类型文件")

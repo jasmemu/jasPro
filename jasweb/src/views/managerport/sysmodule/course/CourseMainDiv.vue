@@ -167,7 +167,12 @@ import axios from 'axios'
                     var formDate = new FormData()
                     formDate.append("file",items[0])
                     axios.post('http://localhost:8080/jas/mport/course/dealExcelToCourse',formDate).then(function (resp) {
-                        location.reload()
+                        console.log(resp.data)
+                        if (resp.data.status == "success"){
+                            location.reload()
+                        } else {
+                            alert("上传失败！"+resp.data.status+"格式错误！")
+                        }
                     })
                 }else {
                     alert("请上传xls类型文件")
@@ -177,7 +182,7 @@ import axios from 'axios'
                 var name = fileName
                 var index = name.lastIndexOf(".")
                 var endName = name.substr(index)
-                console.log("文件类型"+ endName)
+                //console.log("文件类型"+ endName)
                 if (endName == '.xls'){
                     return true
                 } else {
@@ -232,8 +237,12 @@ import axios from 'axios'
                 const formData = new FormData()
                 formData.append('file', file.raw)
                 axios.post('http://localhost:8080/jas/mport/course/dealExcelToCourse',formData).then(function (resp) {
-                    alert(resp.data)
-                    location.reload()
+                    console.log(resp.data)
+                    if (resp.data.status == "success"){
+                        location.reload()
+                    } else {
+                        alert("上传失败！"+resp.data.status+"格式错误！")
+                    }
                 })
             },
             handleExceed(files, fileList) {
