@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zyg.jas.common.pojo.CC;
 import com.zyg.jas.common.pojo.Committee;
 import com.zyg.jas.common.pojo.Specialty;
+import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.CCDao;
 import com.zyg.jas.managerport.dao.CmtDao;
@@ -87,7 +88,15 @@ public class CmtServiceImpl implements CmtService {
     }
 
 
-
+    public List<Committee> errorInfo(String str){
+        List<Committee> error = new ArrayList<>();
+        Committee committee = new Committee();
+        committee.setName("error");
+        committee.setPassword(str);
+        error.add(committee);
+        System.out.println("错误的size: "+ error.size());
+        return error;
+    }
     @Override
     public List<Committee> dealExcelForCommittee(MultipartFile file) {
         List<Committee> cmtList = new ArrayList<Committee>();
@@ -103,23 +112,55 @@ public class CmtServiceImpl implements CmtService {
             Committee committee = new Committee();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
-                    for (int m=0;m<specialties.size();m++)
-                    if (list.get(j).toString().equals(specialties.get(m).getSpeName())){
-                        committee.setSpecialty(specialties.get(m));
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        for (int m=0;m<specialties.size();m++){
+                            if (list.get(j).toString().equals(specialties.get(m).getSpeName())){
+                                committee.setSpecialty(specialties.get(m));
+                            }
+                        }
+                    }else {
+                       return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
                     }
+
                 }else if (j == 1){
-                    committee.setcGrade(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        committee.setcGrade(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
+
                 }else if(j==2){
-                    committee.setcClass(Integer.parseInt(list.get(j).toString()));
+                    if (CheckOut.checkIsNumber(list.get(j).toString())){
+                        committee.setcClass(Integer.parseInt(list.get(j).toString()));
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j==3){
-                    committee.setComId(list.get(j).toString());
-                    ccDao.deleteCcByComid(committee.getComId());
+                    if (CheckOut.checkIsStuNo(list.get(j).toString())){
+                        committee.setComId(list.get(j).toString());
+                        ccDao.deleteCcByComid(committee.getComId());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j==4){
-                   committee.setName(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        committee.setName(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
+
                 }else if (j==5){
-                   committee.setPhone(list.get(j).toString());
+                    if (CheckOut.checkIsPhone(list.get(j).toString())){
+                        committee.setPhone(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j==6){
-                    committee.setEmail(list.get(j).toString());
+                    if (CheckOut.checkIsEmail(list.get(j).toString())){
+                        committee.setEmail(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else {
                     CC cc =new CC();
                     cc.setComId(committee.getComId());
@@ -130,6 +171,7 @@ public class CmtServiceImpl implements CmtService {
             committee.setPassword("123456"); //学生设置默认登录密码
             cmtList.add(committee);
         }
+        System.out.println("正确的size: "+ cmtList.size());
 
         for(int j=0;j<ccList.size();j++){
             this.ccDao.insertToCc(ccList.get(j));

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mport/cmt")
@@ -126,15 +128,19 @@ public class CmtContorller {
     // 上传excel中的学委信息
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
-    public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
+    public Map<String, String> dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         List<Committee> cmtList = this.cmtService.dealExcelForCommittee(file);
-        System.out.println("=================");
-        for (Committee c : cmtList){
-            System.out.println(c);
+        logger.info("学委行数："+ cmtList.size());
+        String status = cmtList.get(0).getName();
+        Map<String,String> map = new HashMap<>();
+        if ("error".equals(status)){
+            map.put("status",cmtList.get(0).getPassword());
+            return map;
+        }else {
+            this.cmtService.saveCmtFromExcel(cmtList);
+            map.put("status","success");
+            return map;
         }
-        System.out.println("=================");
-        int sum = this.cmtService.saveCmtFromExcel(cmtList);
-        return sum;
     }
 
     // 根据loginAccount、loginPassword学委登录

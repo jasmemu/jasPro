@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mport/tea")
@@ -81,16 +83,6 @@ public class TeaController {
                }
                teaList.get(j).setCourses(c);
            }
-
-
-//            List<String> courses = this.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
-//            List<Course> c = new ArrayList<>();
-//            for (int i=0;i<courses.size();i++){
-//                Course cou = new Course();
-//                cou.setName(courses.get(i));
-//                c.add(cou);
-//            }
-//            tea.setCourses(c);
         }
         return  teaList;
     }
@@ -123,12 +115,19 @@ public class TeaController {
     // 处理上传的Excel文件，存储教师信息
     @RequestMapping("/dealExcel")
     @ResponseBody
-    public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
+    public Map<String,String> dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         System.out.println("接收到的Excel");
         System.out.println(file.getOriginalFilename());
         List<Teacher> teachers = this.teaService.dealExcelForTeas(file);
-        int sum  = this.teaService.saveTeaFromExcel(teachers);
-        return sum;
+        String status = teachers.get(0).getName();
+        Map<String,String> map =  new HashMap();
+        if ("error".equals(status)){
+            map.put("status",teachers.get(0).getPassword());
+        }else {
+            this.teaService.saveTeaFromExcel(teachers);
+            map.put("status","success");
+        }
+        return map;
 
     }
 }

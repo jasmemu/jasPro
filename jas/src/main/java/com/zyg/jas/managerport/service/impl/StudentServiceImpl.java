@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zyg.jas.common.pojo.Sc;
 import com.zyg.jas.common.pojo.Student;
+import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.ScDao;
 import com.zyg.jas.managerport.dao.StudentDao;
@@ -19,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -89,7 +88,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> dealExcelForStudents(MultipartFile file) {
+    public List<Student> dealExcelForStudents(MultipartFile file)  {
+        Map<String,Object>  resultMap= new HashMap<>();
         List<Student> studentList = new ArrayList<Student>();
         List<Sc> scList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
@@ -101,32 +101,108 @@ public class StudentServiceImpl implements StudentService {
             Student stu = new Student();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
-                    stu.setsNo(list.get(j).toString());
-                    scDao.deleteScBySno(stu.getsNo());
+                    if (CheckOut.checkIsStuNo(list.get(j).toString())){
+                        stu.setsNo(list.get(j).toString());
+                        scDao.deleteScBySno(stu.getsNo());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+
+                    }
+
                 }else if (j == 1){
-                    stu.setName(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        stu.setName(list.get(j).toString());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
+
                 }else if(j==2){
-                    stu.setPhone(list.get(j).toString());
+                    if (CheckOut.checkIsPhone(list.get(j).toString())){
+                        stu.setPhone(list.get(j).toString());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
                 }else if (j==3){
-                    stu.setEmail(list.get(j).toString());
+                    if (CheckOut.checkIsEmail(list.get(j).toString())){
+                        stu.setEmail(list.get(j).toString());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
+
                 }else if (j==4){
-                    if (list.get(j).equals("计算机科学与技术系")){
-                        stu.setSpeId(new Integer(1));
-                    }else if (list.get(j).equals("网络工程系")){
-                        stu.setSpeId(new Integer(2));
-                    }else if (list.get(j).equals("软件工程系")){
-                        stu.setSpeId(new Integer(3));
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        if (list.get(j).equals("计算机科学与技术系")){
+                            stu.setSpeId(new Integer(1));
+                        }else if (list.get(j).equals("网络工程系")){
+                            stu.setSpeId(new Integer(2));
+                        }else if (list.get(j).equals("软件工程系")){
+                            stu.setSpeId(new Integer(3));
+                        }
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
                     }
                 }else if (j==5){
-                    stu.setsClass(Integer.parseInt(list.get(j).toString()));
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        stu.setsClass(Integer.parseInt(list.get(j).toString()));
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
                 }else if (j==6){
-                    stu.setsGrade(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        stu.setsGrade(list.get(j).toString());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
                 }else if (j==7){
-                    stu.setIdentify(list.get(j).toString());
+                    if (CheckOut.checkIsIdentify(list.get(j).toString())){
+                        stu.setIdentify(list.get(j).toString());
+                    }else {
+                        List<Student> list1 = new ArrayList<>();
+                        Student student = new Student();
+                        student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        list1.add(student);
+                        return list1;
+                    }
                 }else if (j==8){
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date dateTime = null;
-                    System.out.println(list.get(j).toString());
+                    //System.out.println(list.get(j).toString());
                     try {
                         String dateEnroll =list.get(j).toString();
                         if(dateEnroll.length() == 7 || dateEnroll.length()==8){  //excel月数小于10时20-9-10  月大于等于十时20-12-19
@@ -137,12 +213,26 @@ public class StudentServiceImpl implements StudentService {
                             }
                             dateEnroll =stringBuilder.toString();
                         }
-                        System.out.println(dateEnroll);
+                        //System.out.println(dateEnroll);
                         dateTime = simpleDateFormat.parse(dateEnroll);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    stu.setEnrollment(dateTime);
+                    try {
+                        if (CheckOut.checkIsDate(dateTime)){
+                            stu.setEnrollment(dateTime);
+                        }else {
+                            List<Student> list1 = new ArrayList<>();
+                            Student student = new Student();
+                            student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                            student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                            list1.add(student);
+                            return list1;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                 }else {
                     Sc sc =new Sc();
                     sc.setsNo(stu.getsNo());

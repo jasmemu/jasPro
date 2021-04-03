@@ -9,6 +9,8 @@ import com.zyg.jas.common.tool.util.MultipartFileToFile;
 import com.zyg.jas.managerport.service.ScService;
 import com.zyg.jas.managerport.service.impl.StudentServiceImpl;
 import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +21,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/mport/stu")
 @CrossOrigin
 public class StudentController {
+
+    private Logger logger = LoggerFactory.getLogger(StudentController.class);
     @Autowired
     private StudentServiceImpl studentService;
     @Autowired
@@ -130,14 +132,6 @@ public class StudentController {
                 }
                 stuList.get(j).setCourses(c);
             }
-//            List<String> courses = this.scService.getCourseBySno(stu.getsNo());//.tcService.getCourseByTno(tea.gettNo()); //查询到的时该编号教师所教授的所有课程名称
-//            List<Course> c = new ArrayList<>();
-//            for (int i=0;i<courses.size();i++){
-//                Course cou = new Course();
-//                cou.setName(courses.get(i));
-//                c.add(cou);
-//            }
-//            stu.setCourses(c);
        }
         return stuList;
     }
@@ -145,12 +139,19 @@ public class StudentController {
     // 上传excel文件，存储学生信息
     @RequestMapping(value = "/dealExcel",method = RequestMethod.POST) //处理上传的Excel文件
     @ResponseBody
-    public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
-        System.out.println("接收到的Excel");
-        System.out.println(file.getOriginalFilename());
+    public Map<String,String> dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
+//        System.out.println("接收到的Excel");
+//        System.out.println(file.getOriginalFilename());
         List<Student> studentList = this.studentService.dealExcelForStudents(file);
-        int sum = this.studentService.saveStuFromExcel(studentList);
-        return sum;
-
+        logger.info("学生个数条"+studentList.size());
+        Map<String,String> map = new HashMap<>();
+        if ("error".equals(studentList.get(0).getName())){
+            map.put("status",studentList.get(0).getPassword());
+            logger.info("出现错误的位置："+studentList.get(0).getPassword());
+        }else{
+            this.studentService.saveStuFromExcel(studentList);
+            map.put("status","success");
+        }
+        return map;
     }
 }

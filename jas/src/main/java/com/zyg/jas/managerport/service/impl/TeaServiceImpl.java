@@ -3,10 +3,13 @@ package com.zyg.jas.managerport.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.zyg.jas.common.pojo.Tc;
 import com.zyg.jas.common.pojo.Teacher;
+import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.TcDao;
 import com.zyg.jas.managerport.dao.TeaDao;
 import com.zyg.jas.managerport.service.TeaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Service
 public class TeaServiceImpl implements TeaService {
+
+    private Logger logger = LoggerFactory.getLogger(TeaServiceImpl.class);
 
     @Autowired
     private TeaDao teaDao;
@@ -78,6 +83,7 @@ public class TeaServiceImpl implements TeaService {
         List<Teacher> teaList = new ArrayList<Teacher>(); //将教师信息存放到teaList中
         List<Tc> tcList = new ArrayList<>(); //将Tc信息存放到tcList中
         List excelList = ExcelUtil.getExcelData(file);
+        logger.info("教师的行数："+excelList.size());
         for (int i = 0; i < excelList.size(); i++) {
             if (i == 0) {
                 continue;
@@ -86,16 +92,64 @@ public class TeaServiceImpl implements TeaService {
             Teacher teacher = new Teacher();
             for (int j = 0; j < list.size(); j++) {
                 if (j == 0) {
-                    teacher.settNo(list.get(j).toString());
-                    this.tcDao.deleteTcByTno(teacher.gettNo()); //删除tc表中教师教授的课程信息
+                    if (!CheckOut.checkIsIdentify(list.get(j).toString())){
+                        teacher.settNo(list.get(j).toString());
+                        this.tcDao.deleteTcByTno(teacher.gettNo()); //删除tc表中教师教授的课程信息
+                    }else {
+                        List<Teacher> error = new ArrayList<>();
+                        Teacher teacher1 = new Teacher();
+                        teacher1.setName("error");
+                        teacher1.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        error.add(teacher1);
+                        return error;
+                    }
+
                 } else if (j == 1) {
-                    teacher.setName(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        teacher.setName(list.get(j).toString());
+                    }else{
+                        List<Teacher> error = new ArrayList<>();
+                        Teacher teacher1 = new Teacher();
+                        teacher1.setName("error");
+                        teacher1.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        error.add(teacher1);
+                        return error;
+                    }
                 } else if (j == 2) {
-                    teacher.setIdentify(list.get(j).toString());
+                    if (CheckOut.checkIsIdentify(list.get(j).toString())){
+                        teacher.setIdentify(list.get(j).toString());
+                    }else {
+                        List<Teacher> error = new ArrayList<>();
+                        Teacher teacher1 = new Teacher();
+                        teacher1.setName("error");
+                        teacher1.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        error.add(teacher1);
+                        return error;
+                    }
+
                 } else if (j == 3) {
-                    teacher.setPhone(list.get(j).toString());
+                    if (CheckOut.checkIsPhone(list.get(j).toString())){
+                        teacher.setPhone(list.get(j).toString());
+                    }else {
+                        List<Teacher> error = new ArrayList<>();
+                        Teacher teacher1 = new Teacher();
+                        teacher1.setName("error");
+                        teacher1.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        error.add(teacher1);
+                        return error;
+                    }
                 } else if (j == 4) {
-                    teacher.setEmail(list.get(j).toString());
+                    if (CheckOut.checkIsEmail(list.get(j).toString())){
+                        teacher.setEmail(list.get(j).toString());
+                    }else {
+                        List<Teacher> error = new ArrayList<>();
+                        Teacher teacher1 = new Teacher();
+                        teacher1.setName("error");
+                        teacher1.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        error.add(teacher1);
+                        return error;
+                    }
+
                 } else {
                     Tc tc = new Tc();
                     tc.settNo(teacher.gettNo());

@@ -2,21 +2,27 @@ package com.zyg.jas.managerport.controller;
 
 import com.zyg.jas.common.pojo.Course;
 import com.zyg.jas.managerport.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mport/course")
 @CrossOrigin
 public class CourseController {
+
+    private Logger logger = LoggerFactory.getLogger(CourseController.class);
+
     @Autowired
     private CourseService courseService;
-
 
     //批量删除课程
     @RequestMapping(value = "/delete/byBatch",method = RequestMethod.POST)
@@ -98,12 +104,22 @@ public class CourseController {
     // 上传excel文件，获取其中的Course对象存储到数据库
     @RequestMapping("/dealExcelToCourse")
     @ResponseBody
-    public int dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
+    public Map<String,String> dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
         System.out.println("接收到的Excel");
         System.out.println(file.getOriginalFilename());
         List<Course> courseList = this.courseService.dealExcelForCourse(file);
-        int sum = this.courseService.saveCourseFromExcel(courseList);
-        return sum;
+
+        String status = courseList.get(0).getName();
+        Map<String,String> map = new HashMap<>();
+        logger.info("错误信息："+courseList.get(0));
+        if ("error".equals(status)){
+            map.put("status",courseList.get(0).getCourseId());
+            return map;
+        }else {
+            this.courseService.saveCourseFromExcel(courseList);
+            map.put("status","success");
+        }
+        return map;
 
     }
 }

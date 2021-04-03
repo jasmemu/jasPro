@@ -2,10 +2,14 @@ package com.zyg.jas.managerport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.tools.javac.comp.Check;
 import com.zyg.jas.common.pojo.Course;
+import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.CourseDao;
 import com.zyg.jas.managerport.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,7 @@ import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
+    private Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
 
     @Autowired
     private CourseDao courseDao;
@@ -78,10 +83,20 @@ public class CourseServiceImpl implements CourseService {
         return courseDao.selectForNameByCmtId(cmtId);
     }
 
+    public List<Course> errorInfo(String str){
+        List<Course> error = new ArrayList<>();
+        Course course1 = new Course();
+        course1.setName("error");
+        course1.setCourseId(str);
+        error.add(course1);
+        return error;
+    }
+
     @Override
     public List<Course> dealExcelForCourse(MultipartFile file) {
         List<Course> courseList = new ArrayList<Course>();
         List excelList = ExcelUtil.getExcelData(file);
+        logger.info("课程行数有：" + excelList.size());
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
                 continue;
@@ -90,13 +105,29 @@ public class CourseServiceImpl implements CourseService {
             Course course = new Course();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
-                    course.setCourseId(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        course.setCourseId(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j == 1){
-                    course.setName(list.get(j).toString());
+                    if (!CheckOut.checkIsNull(list.get(j).toString())){
+                        course.setName(list.get(j).toString());
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if(j==2){
-                    course.setPeriod(Integer.parseInt(list.get(j).toString()));
+                    if (CheckOut.checkIsNumber(list.get(j).toString())){
+                        course.setPeriod(Integer.parseInt(list.get(j).toString()));
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j==3){
-                    course.setCredit(Integer.parseInt(list.get(j).toString()));
+                    if (CheckOut.checkIsNumber(list.get(j).toString())){
+                        course.setCredit(Integer.parseInt(list.get(j).toString()));
+                    }else {
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                    }
                 }else if (j==4){
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date dateTime = null;
@@ -111,12 +142,21 @@ public class CourseServiceImpl implements CourseService {
                             }
                             dateEnroll =stringBuilder.toString();
                         }
-                        System.out.println(dateEnroll);
+                        // System.out.println(dateEnroll);
                         dateTime = simpleDateFormat.parse(dateEnroll);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    course.setBeginDate(dateTime);
+                    try {
+                        if (CheckOut.checkIsDate(dateTime)){
+                            course.setBeginDate(dateTime);
+                        }else {
+                            return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }else if (j==5){
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,20 +172,29 @@ public class CourseServiceImpl implements CourseService {
                             }
                             dateEnroll =stringBuilder.toString();
                         }
-                        System.out.println(dateEnroll);
+                       // System.out.println(dateEnroll);
                         dateTime = simpleDateFormat.parse(dateEnroll);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    course.setEndDate(dateTime);
+                    try {
+                        if (CheckOut.checkIsDate(dateTime)){
+                            course.setEndDate(dateTime);
+                        }else {
+                            return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             }
             courseList.add(course);
         }
-        for (int y=0;y<courseList.size();y++){
-            System.out.println(courseList.get(y).toString());
-        }
+//        for (int y=0;y<courseList.size();y++){
+//            System.out.println(courseList.get(y).toString());
+//        }
         return courseList;
     }
 
