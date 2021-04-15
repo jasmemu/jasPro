@@ -10,11 +10,9 @@
                 <router-link tag="a"  to="/StudentMainPage" style="float: right; margin-right: 20px;margin-bottom: 0px">学生登录</router-link>
             </div>
         </el-header>
-        <el-main :style="windowHeight" style="text-align: center">
-            <div class="demo-image__placeholder">
-                <div class="block">
-                    <el-image :src="enterImage" class="imagePo"></el-image>
-                </div>
+        <el-main >
+            <div :style="windowHeight" id="middle">
+                <img width=900px src="../assets/zyg.jpg" />
             </div>
         </el-main>
     </el-container>
@@ -22,12 +20,14 @@
 
 <script>
 import enterImage from "@/assets/enter.jpeg"
+import schooleImage from "@/assets/school.jpg"
     export default {
         name: "",
         data() {
             return{
                 enterImage : enterImage,
-                windowHeight:{height:document.documentElement.clientHeight -120 +'px'}  //获取屏幕高度
+                schoolImage: schooleImage,
+                windowHeight:{height:document.documentElement.clientHeight -150 +'px'}  //获取屏幕高度
             }
         },
         create(){
@@ -44,8 +44,19 @@ import enterImage from "@/assets/enter.jpeg"
         text-align: center;
         color: #333;
     }
+    .el-main{
+        padding: 2px;
+    }
+    #middle{
+        /*border: 1px solid blue;*/
+        width: 100%;
+        text-align: center;
+    }
     .imagePo{
-        width: 40%;
+        width: 100%;
         object-fit:cover;
+    }
+    image{
+        display:none
     }
 </style>

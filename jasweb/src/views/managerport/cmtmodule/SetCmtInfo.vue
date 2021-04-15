@@ -6,10 +6,10 @@
         <div class="formBlock" >
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-form-item label="账号" prop="comId">
-                    <el-input v-model="formData.comId" placeholder="请输入账号" readonly="true" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.comId" placeholder="请输入账号" readonly clearable :style="{width: '100%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入姓名" readonly="true" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" >
                     <el-input v-model="formData.password" placeholder="请输入密码"  clearable :style="{width: '100%'}" size="mini">

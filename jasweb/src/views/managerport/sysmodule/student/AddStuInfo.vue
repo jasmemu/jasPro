@@ -26,15 +26,15 @@
           <el-input v-model="formData.identify" placeholder="请输入身份证号" clearable :style="{width: '100%'}" size="mini">
           </el-input>
         </el-form-item>
+        <el-form-item label="入学时间" prop="enrollment">
+          <el-date-picker v-model="formData.enrollment" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                          :style="{width: '100%'}" placeholder="请选择入学时间"  size="mini"></el-date-picker>
+        </el-form-item>
         <el-form-item label="专业" prop="speId">
           <el-select v-model="formData.speId" placeholder="请选择专业" clearable :style="{width: '100%'}" size="mini">
             <el-option v-for="(item, index) in speIdOptions" :key="index" :label="item.label"
                        :value="item.value" :disabled="item.disabled"></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="入学时间" prop="enrollment">
-          <el-date-picker v-model="formData.enrollment" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                          :style="{width: '100%'}" placeholder="请选择入学时间"  size="mini"></el-date-picker>
         </el-form-item>
         <el-form-item label="年级" prop="sGrade">
           <el-select v-model="formData.sGrade" placeholder="请选择年级" clearable :style="{width: '100%'}" size="mini">
@@ -48,12 +48,6 @@
                        :value="item.value" :disabled="item.disabled"></el-option>
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="所选课程" prop="courses">-->
-<!--          <el-checkbox-group v-model="formData.courses" size="medium">-->
-<!--              <el-checkbox v-for="(item, index) in chCourseOptions" :key="index" :label="item.value"-->
-<!--                           :disabled="item.disabled">{{item.label}}</el-checkbox>-->
-<!--          </el-checkbox-group>-->
-<!--        </el-form-item>-->
 
           <div  style="margin-left: 70px">
               课程：
@@ -79,6 +73,7 @@ import axios from 'axios'
     props: [],
     data() {
       return {
+        api: this.$store.state.api,
         courseOption: [],
         chooseCourse: [],
         showH5a: true,
@@ -89,7 +84,7 @@ import axios from 'axios'
           password: '123456',
           phone: undefined,
           email: undefined,
-          identify: undefined,
+          identify: '',
           speId: undefined,
           enrollment: null,
           sGrade: undefined,
@@ -188,7 +183,7 @@ import axios from 'axios'
             trigger: 'change'
           }],
         },
-        speIdOptions: [],
+        speIdOptions: [], // 班级的选择是选择专业和年级之后发送请求到后端，获取该专业年级有哪些班级
         // speIdOptions: [{
         //   "label": "选项一",
         //   "value": 1
@@ -206,13 +201,7 @@ import axios from 'axios'
           "label": "大四",
           "value": "大四"
         }],
-        sClassOptions: [{
-          "label": "1班",
-          "value": 1
-        }, {
-          "label": "2班",
-          "value": 2
-        }],
+        sClassOptions: [],
         //     [{
         //    "label": "选项一",
         //    "value": 1
@@ -223,7 +212,40 @@ import axios from 'axios'
       }
     },
     computed: {},
-    watch: {},
+    watch:{
+      'formData.sGrade'(newP) {
+        var that = this
+        if (this.formData.speId != undefined) {
+          console.log(this.formData.speId + "-" + this.formData.sGrade)
+          axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.sGrade).then(function (resp) {
+            that.sClassOptions= []
+            var numClasses = resp.data.data
+            for (var i=0;i<numClasses.length;i++){
+              var po= {"label": "", "value": 0}
+              po.label = numClasses[i]+"班"
+              po.value = numClasses[i]
+              that.sClassOptions.push(po)
+            }
+          })
+        }
+      },
+      'formData.speId'(newP){
+        var that = this
+        if (this.formData.sGrade!=undefined) {
+          //console.log(this.formData.speId+"-"+this.formData.sGrade)
+          axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.sGrade).then(function (resp) {
+            that.sClassOptions= []
+            var numClasses = resp.data.data
+            for (var i=0;i<numClasses.length;i++){
+              var po= {"label": "", "value": 0}
+              po.label = numClasses[i]+"班"
+              po.value = numClasses[i]
+              that.sClassOptions.push(po)
+            }
+          })
+        }
+      }
+    },
     created() {
         var _this =this
         axios.get('http://localhost:8080/jas/mport/course/getAllCourse/1/30').then(function (resp) { //获取所有课程
@@ -279,7 +301,7 @@ import axios from 'axios'
 
     methods: {
       submitForm() {
-        alert(this.chooseCourse.length)
+        //alert(this.chooseCourse.length)
         const len =this.chooseCourse.length
         this.formData.courses = [];
         for(let i=0;i<len;i++){

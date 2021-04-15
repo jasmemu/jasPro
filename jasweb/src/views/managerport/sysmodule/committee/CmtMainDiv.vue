@@ -199,7 +199,7 @@
                         if (resp.data.status == "success"){
                             location.reload()
                         } else {
-                            alert("上传失败！"+resp.data.status+"格式错误！")
+                            alert("上传失败！"+resp.data.status)
                         }
                     })
                 }else {
@@ -236,7 +236,6 @@
                     alert(resp.data)
                     location.reload()
                 })
-
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;

@@ -21,6 +21,9 @@
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="formData.email" placeholder="请输入邮箱" clearable :style="{width: '100%'}" size="mini"></el-input>
                 </el-form-item>
+                <el-form-item label="邮箱授权码" prop="qqAuthCode">
+                    <el-input v-model="formData.qqAuthCode" placeholder="请输入邮箱授权码" clearable :style="{width: '100%'}" size="mini"></el-input>
+                </el-form-item>
                 <el-form-item label="身份证号" prop="identify">
                     <el-input v-model="formData.identify" placeholder="请输入身份证号" clearable :style="{width: '100%'}" size="mini">
                     </el-input>
@@ -53,6 +56,7 @@
                     password: '',
                     phone :undefined,
                     email: undefined,
+                    qqAuthCode: undefined,
                     identify: undefined
                 },
                 rules: {
@@ -101,6 +105,15 @@
                         message: '请输入正确的邮箱',
                         trigger: 'blur'
                     }],
+                    qqAuthCode: [{
+                        required: true,
+                        message: '请输入邮箱授权码',
+                        trigger: 'blur'
+                    }, {
+                        pattern: /\S/,
+                        message: '请输入邮箱授权码',
+                        trigger: 'blur'
+                    }],
                     identify: [{
                         required: true,
                         message: '请输入身份证号',
@@ -119,7 +132,7 @@
             var account =sessionStorage.getItem('sysAccount')
             var _this =this
             axios.get('http://localhost:8080/jas/mport/sys/getSysByAccount/'+account).then(function (resp) {
-               _this.formData = resp.data
+                _this.formData = resp.data
                 _this.oldAccount =resp.data.account
                 _this.oldPassword = resp.data.password
             })

@@ -23,7 +23,7 @@
           <el-input v-model="formData.email" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="专业" prop="">
-          <el-select v-model="formData.specialty.speName" placeholder="请选择专业" clearable :style="{width: '100%'}" size="mini">
+          <el-select v-model="formData.speId" placeholder="请选择专业" clearable :style="{width: '100%'}" size="mini">
             <el-option v-for="(item, index) in speIdOptions" :key="index" :label="item.label"
                        :value="item.value" :disabled="item.disabled"></el-option>
           </el-select>
@@ -65,6 +65,7 @@
     props: [],
     data() {
       return {
+        api: this.$store.state.api,
         courseOption: [],
         chooseCourse: [],
         showH5a: true,
@@ -130,7 +131,7 @@
             message: '请输入正确的邮箱',
             trigger: 'blur'
           }],
-          speName: [{
+          speId: [{
             required: true,
             message: '请选择专业',
             trigger: 'change'
@@ -176,13 +177,7 @@
           "label": "大四",
           "value": "大四"
         }],
-        cClassOptions: [{
-          "label": "1班",
-          "value": 1
-        }, {
-          "label": "2班",
-          "value": 2
-        }],
+        cClassOptions: [],
         //     [{
         //    "label": "选项一",
         //    "value": 1
@@ -193,7 +188,40 @@
       }
     },
     computed: {},
-    watch: {},
+    watch:{
+      'formData.cGrade'(newP) {
+        var that = this
+        if (this.formData.speId != undefined) {
+          console.log(this.formData.speId + "-" + this.formData.cGrade)
+          axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.cGrade).then(function (resp) {
+            that.sClassOptions= []
+            var numClasses = resp.data.data
+            for (var i=0;i<numClasses.length;i++){
+              var po= {"label": "", "value": 0}
+              po.label = numClasses[i]+"班"
+              po.value = numClasses[i]
+              that.cClassOptions.push(po)
+            }
+          })
+        }
+      },
+      'formData.speId'(newP){
+        var that = this
+        if (this.formData.sGrade!=undefined) {
+          //console.log(this.formData.speId+"-"+this.formData.sGrade)
+          axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.cGrade).then(function (resp) {
+            that.sClassOptions= []
+            var numClasses = resp.data.data
+            for (var i=0;i<numClasses.length;i++){
+              var po= {"label": "", "value": 0}
+              po.label = numClasses[i]+"班"
+              po.value = numClasses[i]
+              that.cClassOptions.push(po)
+            }
+          })
+        }
+      }
+    },
     created() {
       var _this =this
       axios.get('http://localhost:8080/jas/mport/course/getAllCourse/1/30').then(function (resp) { //获取所有课程
@@ -246,10 +274,8 @@
 
     methods: {
       submitForm() {
-
        this.formData.specialty.speId = this.formData.speId
-
-        alert(this.chooseCourse.length)
+        //alert(this.chooseCourse.length)
         const len =this.chooseCourse.length
         this.formData.courses = [];
         for(let i=0;i<len;i++){

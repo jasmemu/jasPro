@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
+import Demo from "@/views/managerport/sysmodule/Demo"
 import EnterPage from "@/views/EnterPage"
 // 下列属于管理员端url
    // 系统管理员
@@ -28,6 +28,11 @@ import CmtMainDiv from "@/views/managerport/sysmodule/committee/CmtMainDiv"
 import AddCmtInfo from "@/views/managerport/sysmodule/committee/AddCmtInfo"
 import ViewCmtInfo from "@/views/managerport/sysmodule/committee/ViewCmtInfo"
 import ViewCmtDetail from "@/views/managerport/sysmodule/committee/ViewCmtDetail"
+
+import ClassMainDiv from "@/views/managerport/sysmodule/classes/ClassMainDiv"
+import AddClassInfo from  "@/views/managerport/sysmodule/classes/AddClassInfo"
+import ViewClassesInfo from  "@/views/managerport/sysmodule/classes/ViewClassesInfo"
+import ViewStuInfoByClasses from "@/views/managerport/sysmodule/classes/ViewStuInfoByClasses"
 
   //下列属于课程管理员端url
 import CmtLogin from "@/views/managerport/cmtmodule/CmtLogin"
@@ -58,11 +63,40 @@ import ViewCheckJob from "@/views/managerport/cmtmodule/checkjob/ViewCheckJob"
 import JobTypeDiv from "@/views/managerport/cmtmodule/checkjob/JobTypeDiv"
 import ViewCheckJobDetail from "@/views/managerport/cmtmodule/checkjob/ViewCheckJobDetail"
 
+import FindBackPWD  from "@/views/managerport/cmtmodule/FindBackPWD"
+import FillEmail from    "@/components/managerport/FillEmail"
+import ResetPWD from     "@/components/managerport/ResetPWD"
+
+import Statistics from "@/views/managerport/cmtmodule/Statistics"
+
 //下列属于学生端url
 import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
 
 Vue.use(VueRouter)
 const routes = [
+  {
+    path: '/FindBackPWD',
+    name: 'FindBackPWD ',
+    component: FindBackPWD,
+    children:[
+      {
+        path: '/FindBackPWD/FillEmail',
+        name: 'FillEmail',
+        component: FillEmail
+      },
+      {
+        path: '/FindBackPWD/ResetPWD',
+        name: 'ResetPWD',
+        component: ResetPWD
+      }
+    ]
+  },
+
+  {
+    path: '/demo',
+    name: 'Demo',
+    component: Demo
+  },
   {
     path: '*',
     redirect: '/enter'
@@ -204,6 +238,11 @@ const routes = [
         name: 'ViewCheckJobDetail',
         component: ViewCheckJobDetail
       },
+      {
+        path: '/CmtMainPage/Statistics',
+        name: 'Statistics',
+        component: Statistics
+      }
     ]
   },
   // 系统管理员下的路由
@@ -287,10 +326,37 @@ const routes = [
         path: '/SysMainPage/ViewCmtDetail',
         name: 'ViewCmtDetail',
         component: ViewCmtDetail
-      }
+      },
+      {
+        path: '/SysMainPage/ClassMainDiv',
+        name: 'ClassMainDiv',
+        component: ClassMainDiv
+      },
+      {
+        path: '/SysMainPage/AddClassInfo',
+        name: 'AddClassInfo',
+        component: AddClassInfo
+      },
+      {
+        path: '/SysMainPage/ViewClassesInfo',
+        name: 'ViewClassesInfo',
+        component: ViewClassesInfo
+      },
+      {
+        path: '/SysMainPage/ViewStuInfoByClasses',
+        name: 'ViewStuInfoByClasses',
+        component: ViewStuInfoByClasses
+      },
     ]
   },
 ]
+
+// 解决 NavigationDuplicated: Avoided redundant navigation to current location（21/4/11）
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+//end（21/4/11）
 
 const router = new VueRouter({
   mode: 'history',

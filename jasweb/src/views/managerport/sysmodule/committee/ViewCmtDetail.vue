@@ -1,51 +1,51 @@
 <template>
     <div>
         <el-row :gutter="15">
-            <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
+            <el-form ref="elForm" :model="formData"  size="medium" label-width="100px">
                 <el-col :span="12">
-                    <el-form-item label="学号" prop="comId">
+                    <el-form-item label="学号" >
                         <el-input v-model="formData.comId" placeholder="学号" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="姓名" prop="name">
+                    <el-form-item label="姓名" >
                         <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="手机号" prop="phone">
+                    <el-form-item label="手机号" >
                         <el-input v-model="formData.phone" placeholder="请输入手机号" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="邮箱" prop="email">
+                    <el-form-item label="邮箱" >
                         <el-input v-model="formData.email" placeholder="请输入邮箱" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="专业" prop="speName">
+                    <el-form-item label="专业" >
                         <el-input v-model="formData.specialty.speName" placeholder="请输入专业" readonly clearable
                                   :style="{width: '100%'}"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="年级" prop="cGrade">
+                    <el-form-item label="年级" >
                         <el-input v-model="formData.cGrade" placeholder="年级" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="班级" prop="comId">
+                    <el-form-item label="班级" >
                         <el-input v-model="formData.cClass" placeholder="班级" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="" prop="kong">
+                    <el-form-item label="" >
                         <el-input v-model="kong" placeholder="" readonly clearable :style="{width: '100%'}">
                         </el-input>
                     </el-form-item>

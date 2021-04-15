@@ -25,33 +25,35 @@
         </el-header>
         <el-container >
           <el-aside :style="windowHeight"  width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-menu :default-openeds="['1','2','3','4']">
+            <el-menu :default-openeds="['1','2','3','4','5']">
               <el-submenu index="1">
                 <template slot="title"><i class="el-icon-menu"></i>学生管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="1-1"> <router-link tag="li"  to="/SysMainPage/StuMainDiv" activeClass="myClass" >学生信息</router-link></el-menu-item>
-<!--                  <el-menu-item index="1-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="2">
                 <template slot="title"><i class="el-icon-menu"></i>教师管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="2-1"><router-link tag="li" to="/SysMainPage/TeaMainDiv"  activeClass="myClass">教师信息</router-link></el-menu-item>
-<!--                  <el-menu-item index="2-2"><router-link tag="li" to=""></router-link>null</el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="3">
                 <template slot="title"><i class="el-icon-menu"></i>课程管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="3-1"><router-link tag="li" to="/SysMainPage/CourseMainDiv"  activeClass="myClass">课程信息</router-link></el-menu-item>
-<!--                  <el-menu-item index="3-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu index="4">
                 <template slot="title"><i class="el-icon-menu"></i>学委管理</template>
                 <el-menu-item-group>
                   <el-menu-item index="4-1"><router-link tag="li" to="/SysMainPage/CmtMainDiv"  activeClass="myClass">学委信息</router-link></el-menu-item>
-<!--                  <el-menu-item index="4-2"><router-link tag="li" to="">null</router-link></el-menu-item>-->
+                </el-menu-item-group>
+              </el-submenu>
+              <el-submenu index="5">
+                <template slot="title"><i class="el-icon-menu"></i>班级管理</template>
+                <el-menu-item-group>
+                  <el-menu-item index="5-1"><router-link tag="li" to="/SysMainPage/ClassMainDiv"  activeClass="myClass">班级信息</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
