@@ -16,6 +16,7 @@ public class SysManager implements Serializable {
     private String email;
 
     private String identify;
+    private String qqAuthCode;
 
     public SysManager() { }
 
@@ -27,6 +28,17 @@ public class SysManager implements Serializable {
         this.password = password;
         this.email = email;
         this.identify = identify;
+    }
+
+    public SysManager(Integer id, String name, String phone, String account, String password, String email, String identify, String qqAuthCode) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.account = account;
+        this.password = password;
+        this.email = email;
+        this.identify = identify;
+        this.qqAuthCode = qqAuthCode;
     }
 
     public Integer getId() {
@@ -85,6 +97,14 @@ public class SysManager implements Serializable {
         this.identify = identify == null ? null : identify.trim();
     }
 
+    public String getQqAuthCode() {
+        return qqAuthCode;
+    }
+
+    public void setQqAuthCode(String qqAuthCode) {
+        this.qqAuthCode = qqAuthCode;
+    }
+
     @Override
     public String toString() {
         return "SysManager{" +
@@ -95,6 +115,19 @@ public class SysManager implements Serializable {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", identify='" + identify + '\'' +
+                '}';
+    }
+
+    public String toStringWithAuthCode() {
+        return "SysManager{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", identify='" + identify + '\'' +
+                ", qqAuthCode='" + qqAuthCode + '\'' +
                 '}';
     }
 }

@@ -101,13 +101,13 @@
     </select>
 
     <select id="selectStudentForSubmitJob" resultMap="studentMap" parameterType="Integer">
-        SELECT student.s_no,student.s_name,student.s_phone from student,score,
+        SELECT distinct student.s_no,student.s_name,student.s_phone from student,score,
         (select spe_id,c_grade,c_class from committee WHERE com_id in (SELECT com_id FROM homework WHERE h_id = #{jobId})) as sgc
         WHERE sgc.spe_id = student.spe_id and sgc.c_grade=student.s_grade and sgc.c_class = student.s_class and score.s_no=student.s_no and score.h_id=#{jobId};
     </select>
 
     <select id="selectStudentForNoSubmitJob" resultMap="studentMap" parameterType="Integer">
-         SELECT student.s_no,student.s_name,student.s_phone from student,score,
+         SELECT distinct student.s_no,student.s_name,student.s_phone from student,score,
         (select spe_id,c_grade,c_class from committee WHERE com_id in (SELECT com_id FROM homework WHERE h_id = #{jobId})) as sgc
         WHERE sgc.spe_id = student.spe_id and sgc.c_grade=student.s_grade and sgc.c_class = student.s_class   and student.s_no not in
         (SELECT DISTINCT score.s_no from score where score.h_id = #{jobId});

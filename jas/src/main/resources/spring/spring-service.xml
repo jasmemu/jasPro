@@ -23,8 +23,25 @@ http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- 扫描service相关的bean***************** -->
     <context:component-scan base-package="com.zyg.jas.managerport.service,com.zyg.jas.studentport.service" />
+    <context:component-scan base-package="com.zyg.jas.common.tool.util" />
 
 
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <!-- 去QQ官网查出来的 -->
+        <property name="host" value="smtp.qq.com" />
+        <property name="port" value="587" />
+        <!-- 发送邮件的邮箱号 -->
+        <property name="username" value="2585196949@qq.com" />
+        <!-- 授权码，注意这里不是邮箱号的密码哦 -->
+        <property name="password" value="jpcwlepltenyebgh" />
+        <property name="protocol" value="smtp" />
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean>
     <!--    ****************Student事务*****************-->
 
     <!-- ====事务管理器=== -->

@@ -2,12 +2,15 @@ package com.zyg.jas.managerport.dao;
 
 
 
+import com.zyg.jas.common.pojo.Classes;
 import com.zyg.jas.common.pojo.Student;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface StudentDao {
+
+    List<Student> selectStudentByClasses(Classes classes);
     public int insertStudent(Student student); //添加一个学生
 
     public List<Student> selectAllStu(); //查询所有的学生记录

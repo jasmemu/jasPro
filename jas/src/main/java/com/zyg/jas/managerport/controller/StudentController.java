@@ -7,6 +7,7 @@ import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.common.tool.util.MultipartFileToFile;
 import com.zyg.jas.managerport.service.ScService;
+import com.zyg.jas.managerport.service.StudentService;
 import com.zyg.jas.managerport.service.impl.StudentServiceImpl;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.slf4j.Logger;
@@ -30,7 +31,8 @@ public class StudentController {
 
     private Logger logger = LoggerFactory.getLogger(StudentController.class);
     @Autowired
-    private StudentServiceImpl studentService;
+    private StudentService studentService;
+//    private StudentServiceImpl studentService;
     @Autowired
     private ScService scService;
 
@@ -143,12 +145,12 @@ public class StudentController {
 //        System.out.println("接收到的Excel");
 //        System.out.println(file.getOriginalFilename());
         List<Student> studentList = this.studentService.dealExcelForStudents(file);
-        logger.info("学生个数条"+studentList.size());
+//        logger.info("学生个数条"+studentList.size());
         Map<String,String> map = new HashMap<>();
-        if ("error".equals(studentList.get(0).getName())){
+        if ("error".equals(studentList.get(0).getName())){ //保存学生前先对学生信息进行校验，
             map.put("status",studentList.get(0).getPassword());
             logger.info("出现错误的位置："+studentList.get(0).getPassword());
-        }else{
+        }else{ // 校验通过持久化
             this.studentService.saveStuFromExcel(studentList);
             map.put("status","success");
         }

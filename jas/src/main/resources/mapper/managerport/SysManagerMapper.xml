@@ -15,11 +15,16 @@
         <result property="password" column="sys_password"/>
         <result property="email" column="sys_email"/>
         <result property="identify" column="sys_identify"/>
+        <result property="qqAuthCode" column="qq_auth_code"/>
     </resultMap>
+
+    <update id="updatePwdByAuthCode" parameterType="String">
+        update sys_manager set sys_password =#{newPWD} where sys_account =#{account};
+    </update>
 
     <update id="updateSys" parameterType="com.zyg.jas.common.pojo.SysManager">
         update sys_manager set sys_name=#{name},sys_phone=#{phone},sys_account=#{account},
-        sys_password=#{password},sys_email=#{email},sys_identify =#{identify} where id=1;
+        sys_password=#{password},sys_email=#{email},qq_auth_code=#{qqAuthCode},sys_identify =#{identify};
     </update>
 
 
@@ -30,6 +35,10 @@
 
     <select id="selectSysByAccount" resultMap="sysManagerMap" parameterType="String">
         select * from sys_manager where sys_account = #{account}
+    </select>
+
+    <select id="getSysManager" resultMap="sysManagerMap">
+      select * from sys_manager;
     </select>
 
 

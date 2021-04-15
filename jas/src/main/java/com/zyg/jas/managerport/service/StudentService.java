@@ -2,6 +2,7 @@ package com.zyg.jas.managerport.service;
 
 
 
+import com.zyg.jas.common.pojo.Classes;
 import com.zyg.jas.common.pojo.Course;
 import com.zyg.jas.common.pojo.Student;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface StudentService {
+     List<Student> getStudentByClasses(Classes classes);
+
      int addStudent(Student student);
 
      List<Student> getAllStu(Integer pageNo, Integer pageSize);

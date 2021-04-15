@@ -18,7 +18,18 @@
         <result property="email" column="s_email" />
         <result property="sGrade" column="s_grade"/>
         <result property="sClass" column="s_class" />
+        <!-- association用于一对一    -->
+        <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
+            <result property="speId" column="spe_id"/>
+            <result property="speName" column="spe_name"/>
+        </association>
     </resultMap>
+
+    <select id="selectStudentByClasses" resultMap="studentMap" parameterType="com.zyg.jas.common.pojo.Classes">
+        select student.*,specialty.* from student inner join specialty on  student.spe_id = specialty.spe_id
+        where student.spe_id =#{speId} and student.s_grade= #{grade} and student.s_class=#{numClass};
+    </select>
+
     <select id="selectAllStu" resultMap="studentMap">
 		select * from student
 	</select>

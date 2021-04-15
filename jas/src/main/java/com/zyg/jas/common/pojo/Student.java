@@ -19,6 +19,7 @@ public class Student implements Serializable {
     private String identify;
 
     private Integer speId;
+    private Specialty specialty;
 
     @JsonFormat(pattern="yyyy-MM-dd",timezone="Locale.US")//后台的时间 格式化 发送到前台
     @DateTimeFormat(pattern="yyyy-MM-dd")//接受前台的时间格式 传到后台的格式
@@ -31,6 +32,9 @@ public class Student implements Serializable {
     private Integer sClass;
 
     private List<Course> courses; //学生所选课程
+
+    // (21.4.14)
+    private List<Score> scores;
 
     public Student() {
     }
@@ -49,6 +53,20 @@ public class Student implements Serializable {
         this.sClass = sClass;
     }
 
+    public Student(String sNo, String name, String password, String phone, String identify, Integer speId, Specialty specialty, Date enrollment, String email, String sGrade, Integer sClass, List<Course> courses) {
+        this.sNo = sNo;
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.identify = identify;
+        this.speId = speId;
+        this.specialty = specialty;
+        this.enrollment = enrollment;
+        this.email = email;
+        this.sGrade = sGrade;
+        this.sClass = sClass;
+        this.courses = courses;
+    }
 
     public String getsNo() {
         return sNo;
@@ -138,6 +156,22 @@ public class Student implements Serializable {
         this.courses = courses;
     }
 
+    public Specialty getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(Specialty specialty) {
+        this.specialty = specialty;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -147,11 +181,13 @@ public class Student implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", identify='" + identify + '\'' +
                 ", speId=" + speId +
+                ", specialty=" + specialty +
                 ", enrollment=" + enrollment +
                 ", email='" + email + '\'' +
                 ", sGrade='" + sGrade + '\'' +
                 ", sClass=" + sClass +
                 ", courses=" + courses +
+                ", scores=" + scores +
                 '}';
     }
 }

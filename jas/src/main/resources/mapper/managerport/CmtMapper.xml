@@ -31,6 +31,51 @@
         </collection>
     </resultMap>
 
+    <resultMap id="studentStatisticsMap" type="com.zyg.jas.common.pojo.Student">
+        <id property="sNo" column="s_no" />
+        <result property="name" column="s_name" />
+        <result property="phone" column="s_phone"/>
+        <result property="email" column="s_email" />
+        <collection property="scores" ofType="com.zyg.jas.common.pojo.Score" >
+            <id property="id" column="id" />
+            <result property="hId" column="h_id"/>
+            <result property="sNo" column="s_no"/>
+            <result property="score" column="score"/>
+            <association property="homework" javaType="com.zyg.jas.common.pojo.Homework">
+                <id property="hId" column="h_id" />
+                <result property="hName" column="h_name"/>
+                <result property="publishDate" column="publish_date"/>
+                <result property="endDate" column="end_date"/>
+            </association>
+        </collection>
+
+    </resultMap>
+<!--    // 查询已提交作业的学生-->
+    <select id="selectStatisticsSubmit" resultMap="studentStatisticsMap">
+        SELECT homework.h_id,homework.h_name,homework.publish_date,score.score,score.s_no,student.s_name FROM score
+        INNER JOIN homework on score.h_id = homework.h_id and homework.course_id = #{courseId}
+        INNER JOIN student ON score.s_no = student.s_no
+        INNER JOIN committee ON committee.com_id=#{cmtId};
+    </select>
+<!--    应该提交的（sno,h_id）减去已提交的（sno,h_id）就是没有提交的（sno,h_id）-->
+<!--    // 查询应该提交作业的学生-->
+    <select id="selectShouldSubmit" resultMap="studentStatisticsMap">
+        SELECT student.s_no,homework.h_id
+        FROM student , homework ,(SELECT spe_id,c_grade,c_class FROM committee WHERE com_id=#{cmtId}) as p
+        WHERE student.spe_id=p.spe_id and student.s_grade= p.c_grade AND student.s_class = p.c_class AND homework.course_id=#{courseId};
+    </select>
+
+    <select id="selectBySnoAndHid" resultMap="studentStatisticsMap">
+        select DISTINCT student.s_no,student.s_name,student.s_phone,score.h_id,homework.publish_date from student
+        inner join  score on student.s_no =#{sNo} and score.h_id = #{hId}
+        inner join homework on homework.h_id = score.h_id;
+    </select>
+
+
+    <update id="updatePwdByAuthCode" parameterType="String">
+        update committee set cmt_password =#{newPwd} where com_id = #{stuNo};
+    </update>
+
     <update id="updateCmtById" parameterType="com.zyg.jas.common.pojo.Committee">
         update committee set cmt_name=#{name},cmt_phone=#{phone},spe_id=#{specialty.speId},c_grade=#{cGrade},
         c_class=#{cClass}, cmt_email=#{email} ,cmt_password =#{password} where  com_id=#{comId};

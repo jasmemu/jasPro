@@ -4,10 +4,12 @@ package com.zyg.jas.managerport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zyg.jas.common.pojo.Classes;
 import com.zyg.jas.common.pojo.Sc;
 import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
+import com.zyg.jas.managerport.dao.ClassesDao;
 import com.zyg.jas.managerport.dao.ScDao;
 import com.zyg.jas.managerport.dao.StudentDao;
 import com.zyg.jas.managerport.service.StudentService;
@@ -31,10 +33,17 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private ScDao scDao;
+    @Autowired
+    private ClassesDao classesDao;
 
 //    public void setStudentDao(StudentDao studentDao) {
 //       this.studentDao=studentDao;
 //    }
+
+    @Override
+    public List<Student> getStudentByClasses(Classes classes) {
+        return studentDao.selectStudentByClasses(classes);
+    }
 
     @Override
     public int addStudent(Student student) {
@@ -93,6 +102,7 @@ public class StudentServiceImpl implements StudentService {
         List<Student> studentList = new ArrayList<Student>();
         List<Sc> scList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
+        List<Classes> classesList = classesDao.selectAllClasses();
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
                 continue;
@@ -108,7 +118,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
 
@@ -121,7 +131,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -133,7 +143,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -144,7 +154,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -162,7 +172,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -173,7 +183,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -184,7 +194,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -195,7 +205,7 @@ public class StudentServiceImpl implements StudentService {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();
                         student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                         list1.add(student);
                         return list1;
                     }
@@ -225,7 +235,7 @@ public class StudentServiceImpl implements StudentService {
                             List<Student> list1 = new ArrayList<>();
                             Student student = new Student();
                             student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
-                            student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列");
+                            student.setPassword("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                             list1.add(student);
                             return list1;
                         }
@@ -242,7 +252,26 @@ public class StudentServiceImpl implements StudentService {
                 }
             }
             stu.setPassword("123456"); //学生设置默认登录密码
-            studentList.add(stu);
+            // 班级是否存在进行判断（21/4/10）
+            boolean judgeExit = true;
+            for (int m=0;m<classesList.size();m++){ // 判断excel中的专业、年级、班级是否存在
+                if (stu.getSpeId().equals(classesList.get(m).getSpeId())&&
+                        stu.getsGrade().equals(classesList.get(m).getGrade())&&
+                        stu.getsClass().equals(classesList.get(m).getNumClass())){
+                    judgeExit = false;
+                    studentList.add(stu);
+                    break;
+                }
+            }
+            if (judgeExit){
+                List<Student> list1 = new ArrayList<>();
+                Student student = new Student();
+                student.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                student.setPassword("第"+ (i+1)+"行中的班级不存在！");
+                list1.add(student);
+                return list1;
+            }
+            // 班级是否存在进行判断（21/4/10）
         }
         for(int j=0;j<scList.size();j++){
             this.scDao.insertToSc(scList.get(j));

@@ -53,7 +53,8 @@
 <!--        <table tableName="teacher"/>-->
 <!--        <table tableName="specialty"/>-->
 <!--        <table tableName="leave_message"/>-->
-        <table tableName="score"/>
+<!--        <table tableName="score"/>-->
+        <table tableName="classes"/>
     </context>
 
 </generatorConfiguration>

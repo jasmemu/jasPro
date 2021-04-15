@@ -1,25 +1,25 @@
 package com.zyg.jas.managerport.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zyg.jas.common.pojo.CC;
-import com.zyg.jas.common.pojo.Committee;
-import com.zyg.jas.common.pojo.Specialty;
-import com.zyg.jas.common.tool.util.CheckOut;
-import com.zyg.jas.common.tool.util.ExcelUtil;
-import com.zyg.jas.managerport.dao.CCDao;
-import com.zyg.jas.managerport.dao.CmtDao;
-import com.zyg.jas.managerport.dao.SpecialtyDao;
+
+import com.zyg.jas.common.pojo.*;
+import com.zyg.jas.common.tool.constant.JasConstant;
+import com.zyg.jas.common.tool.util.*;
+import com.zyg.jas.managerport.dao.*;
 import com.zyg.jas.managerport.service.CmtService;
+import com.zyg.jas.managerport.service.SysManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+
 
 @Service
 public class CmtServiceImpl implements CmtService {
@@ -33,6 +33,12 @@ public class CmtServiceImpl implements CmtService {
 
     @Autowired
     private SpecialtyDao specialtyDao;
+
+    @Autowired
+    private ClassesDao classesDao;
+
+    @Autowired
+    private SysManagerDao sysManagerDao;
 
     // 问题未解决
     @Override
@@ -104,6 +110,7 @@ public class CmtServiceImpl implements CmtService {
         List excelList = ExcelUtil.getExcelData(file);
         List<Specialty> specialties = this.specialtyDao.selectAllSpeCialty();
         System.out.println("excel中共有: "+excelList.size()+"  条数据");
+        List<Classes>classesList = classesDao.selectAllClasses();
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
                 continue;
@@ -119,47 +126,47 @@ public class CmtServiceImpl implements CmtService {
                             }
                         }
                     }else {
-                       return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                       return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
 
                 }else if (j == 1){
                     if (!CheckOut.checkIsNull(list.get(j).toString())){
                         committee.setcGrade(list.get(j).toString());
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
 
                 }else if(j==2){
                     if (CheckOut.checkIsNumber(list.get(j).toString())){
                         committee.setcClass(Integer.parseInt(list.get(j).toString()));
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
                 }else if (j==3){
                     if (CheckOut.checkIsStuNo(list.get(j).toString())){
                         committee.setComId(list.get(j).toString());
                         ccDao.deleteCcByComid(committee.getComId());
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
                 }else if (j==4){
                     if (!CheckOut.checkIsNull(list.get(j).toString())){
                         committee.setName(list.get(j).toString());
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
 
                 }else if (j==5){
                     if (CheckOut.checkIsPhone(list.get(j).toString())){
                         committee.setPhone(list.get(j).toString());
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
                 }else if (j==6){
                     if (CheckOut.checkIsEmail(list.get(j).toString())){
                         committee.setEmail(list.get(j).toString());
                     }else {
-                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列");
+                        return errorInfo("第"+ (i+1)+"行，第"+(j+1)+"列格式错误！");
                     }
                 }else {
                     CC cc =new CC();
@@ -169,7 +176,27 @@ public class CmtServiceImpl implements CmtService {
                 }
             }
             committee.setPassword("123456"); //学生设置默认登录密码
-            cmtList.add(committee);
+            // 班级是否存在进行判断（21/4/10）
+            boolean judgeExit = true;
+            for (int m=0;m<classesList.size();m++){ // 判断excel中的专业、年级、班级是否存在
+                if (committee.getSpecialty().getSpeName().equals(classesList.get(m).getSpecialty().getSpeName())&&
+                        committee.getcGrade().equals(classesList.get(m).getGrade())&&
+                        committee.getcClass().equals(classesList.get(m).getNumClass())){
+                    judgeExit = false;
+                    cmtList.add(committee);
+                    break;
+                }
+            }
+            if (judgeExit){
+                List<Committee> list1 = new ArrayList<>();
+                Committee c = new Committee();
+                c.setName("error"); // 创建姓名为error的学生，password为校验不通过的行和列
+                c.setPassword("第"+ (i+1)+"行中的班级不存在！");
+                list1.add(c);
+                return list1;
+            }
+            // 班级是否存在进行判断（21/4/10）
+
         }
         System.out.println("正确的size: "+ cmtList.size());
 
@@ -254,5 +281,170 @@ public class CmtServiceImpl implements CmtService {
         return cmtDao.deleteByBatch(committeeList);
     }
 
+    // redis中的键是email和stuNo拼接的
+    @Override
+    public String getAuthCode(String email,String stuNo) {
+        // 生成六位数字的验证码
+        String authCode = productAutoCode();
+        // 保存到redis,返回redis中是否有这个键值对
+        boolean keyExist = saveAuthCode(email+stuNo,authCode);
+        // redis中不存在该键值对，发送邮件
+        if (!keyExist){
+            // 获取系统管理员
+            List<SysManager> sysManagerList= sysManagerDao.getSysManager();
+            SysManager sysManager = sysManagerList.get(0);
+            try {
+                EmailUtil.sendMail(sysManager.getEmail(),sysManager.getQqAuthCode(),email, JasConstant.JAS_EMAIL_TITLE,
+                        "验证码："+authCode+"；有效时间："+JasConstant.AUTH_CODE_OUT_TIME/60+"分钟");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // 返回新生成的验证码
+            return authCode;
+        }else {
+            JedisPool jedisPool = JedisPoolUtil.getJedisPoolInstance();
+            Jedis jedis = null;
+            String exitAuthCode=null;
+            try {
+                jedis = jedisPool.getResource();
+                exitAuthCode = jedis.get(email+stuNo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                JedisPoolUtil.release(jedisPool, jedis);
+            }
+            //redis中已存在，返回redis中的验证码
+            return exitAuthCode;
 
+        }
+
+    }
+
+    @Override
+    public void resetPwdByAuthCode(String stuNo, String newPWD) {
+        cmtDao.updatePwdByAuthCode(stuNo,newPWD);
+    }
+
+    @Override
+    public List<Student> getStatisticsSubmit(String cmtId, String courseId) {
+        return cmtDao.selectStatisticsSubmit(cmtId,courseId);
+    }
+
+    @Override
+    public String getStatisticsSubmitForExcel(String cmtId, String courseId,String courseName) {
+        List<Student> studentList = cmtDao.selectStatisticsSubmit(cmtId,courseId);
+       String excelFile = CreateExcel.getExcelFile(JasConstant.SUBMITED_EXCEL_NAME,courseName+JasConstant.SUBMITED_lIST_TITLE, studentList);
+        return excelFile;
+    }
+
+    @Override
+    public String getNoSubmitForExcel(String cmtId, String courseId, String courseName) {
+        List<String> noSubmit = getNoSubmit(cmtId, courseId);
+        List<String[]> sNoAndHidList= new ArrayList<>();
+        for (int i =0 ;i<noSubmit.size();i++){
+            String [] sNoAndHid=noSubmit.get(i).split("-");
+            sNoAndHidList.add(sNoAndHid);
+        }
+        System.out.println("学号，作业id:");
+        for (int i=0;i<sNoAndHidList.size();i++){
+            System.out.println(sNoAndHidList.get(i)[0]+"-"+sNoAndHidList.get(i)[1]);
+        }
+        List<Student> studentList = new ArrayList<>();
+        for (int i=0;i<sNoAndHidList.size();i++){
+            Student student =cmtDao.selectBySnoAndHid(cmtId,courseId,Integer.parseInt( sNoAndHidList.get(i)[1]),sNoAndHidList.get(i)[0]);
+            studentList.add(student) ;
+        }
+        System.out.println("未提交的学生名单");
+        for (Student student : studentList){
+            System.out.println(student.toString());
+        }
+//        String excelFile = CreateExcel.getExcelFile(JasConstant.SUBMITED_EXCEL_NAME,courseName+JasConstant.SUBMITED_lIST_TITLE, studentList);
+        String excelFile = CreateExcel.getExcelFile(JasConstant.DO_NOT_EXCEL_NAME,courseName+JasConstant.DO_NOT_SUBMIT_lIST_TITLE, studentList);
+
+        return excelFile;
+    }
+
+
+    @Override
+    public List<Student> getShouldSubmit(String cmtId, String courseId) {
+        return cmtDao.selectShouldSubmit(cmtId,courseId);
+    }
+
+    @Override
+    public List<String> getNoSubmit(String cmtId,String courseId){
+        List<Student> shouldList = cmtDao.selectShouldSubmit(cmtId,courseId);
+        List<String> shouldStringList =new ArrayList<>();
+        for (int i=0;i<shouldList.size();i++){
+            for (int j=0;j<shouldList.get(i).getScores().size();j++){
+                String sNoSpeliceHno =shouldList.get(i).getsNo()+"-"+shouldList.get(i).getScores().get(j).gethId();
+                shouldStringList.add(sNoSpeliceHno);
+            }
+        }
+        List<Student> hadList = cmtDao.selectStatisticsSubmit(cmtId,courseId);
+        List<String> hadStringList= new ArrayList<>();
+        for (int i2= 0;i2<hadList.size();i2++){
+            for (int j2=0;j2<hadList.get(i2).getScores().size();j2++){
+               String sNoSpeliceHno = hadList.get(i2).getsNo()+"-"+hadList.get(i2).getScores().get(j2).gethId();
+               hadStringList.add(sNoSpeliceHno);
+            }
+        }
+        System.out.println("应交的");
+        for (int i=0;i<shouldStringList.size();i++){
+            System.out.println(shouldStringList.get(i));
+        }
+        System.out.println("已交的");
+        for (int i=0;i<hadStringList.size();i++){
+            System.out.println(hadStringList.get(i));
+        }
+
+        List<String> notList = new ArrayList<>();
+        for (int i=0;i<shouldStringList.size();i++){
+            boolean exit=false;
+            for (int j=0;j<hadStringList.size();j++){
+                if (shouldStringList.get(i).equals(hadStringList.get(j))){
+                    exit = true;
+                    break;
+                }
+            }
+            if (!exit){
+                notList.add(shouldStringList.get(i));
+            }
+        }
+          return notList;
+    }
+
+
+
+
+    // 生成六位数字的验证码
+    public String productAutoCode(){
+        StringBuffer authCode= new StringBuffer();
+        Random random = new Random();
+        for (int i=0;i<6;i++){
+            authCode.append(random.nextInt(10));
+        }
+        return authCode.toString();
+    }
+
+    // 将生成的验证码存入redis
+    public boolean saveAuthCode(String emailAndSutNo,String authCode){
+        boolean keyExist = false;
+        JedisPool jedisPool = JedisPoolUtil.getJedisPoolInstance();
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            // 该键值对是否已存在
+            keyExist = jedis.exists(emailAndSutNo);
+            //如果reids中不存在，存到redis中，存在说明验证码还没过期
+            if (!keyExist) {
+                // 将key、value存入redis、并指定过期时间
+                jedis.setex(emailAndSutNo,JasConstant.AUTH_CODE_OUT_TIME, authCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JedisPoolUtil.release(jedisPool, jedis);
+        }
+        return keyExist;
+    }
 }

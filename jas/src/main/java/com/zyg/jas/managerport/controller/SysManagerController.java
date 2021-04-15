@@ -1,6 +1,7 @@
 package com.zyg.jas.managerport.controller;
 
 import com.zyg.jas.common.pojo.SysManager;
+import com.zyg.jas.common.tool.util.ResultEntity;
 import com.zyg.jas.managerport.service.SysManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,22 @@ public class SysManagerController {
     @Autowired
     private SysManagerService sysManagerService;
 
+    // 根据学号修改密码为newPWD
+    @RequestMapping(value = "/set/pwd/by/authcode",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultEntity<String> resetPwdByAuthCodeHandler(@RequestParam("account") String account, @RequestParam("newPWD") String newPWD){
+        sysManagerService.resetPwdByAuthCode(account,newPWD);
+        return ResultEntity.successWithData(account+newPWD);
+    }
+    //根据填写的邮箱和账号获取验证码
+    @RequestMapping(value="/get/auth/code",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultEntity<String> getAuthCodeHandler(@RequestParam("email") String email,@RequestParam("account") String accout){
+        System.out.println("接收到的邮箱是："+email+"；系统管理员账号:"+accout);
+        String authCode = sysManagerService.getAuthCode(email,accout);
+        return ResultEntity.successWithData(authCode);
+    }
+
     @RequestMapping(value = "/downloadExcel",method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String,String>> downloadExcelHandler(){
@@ -53,8 +70,6 @@ public class SysManagerController {
         System.out.println("excel有");
         System.out.println(excelList);
         return excelList;
-
-
     }
 
     // 系统管理员登录使用
@@ -79,7 +94,7 @@ public class SysManagerController {
     @ResponseBody
     public String saveSysHandler(@RequestBody SysManager sysManager){
         System.out.println("接收到的管理员信息");
-        System.out.println(sysManager);
+        System.out.println(sysManager.toStringWithAuthCode());
         Integer r=this.sysManagerService.saveSys(sysManager);
         if (r==1){
             return "success";
