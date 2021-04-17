@@ -7,7 +7,8 @@
                     <el-input style="width: auto"   v-model="formForSearch.resourceName"  size="small" placeholder="请输入内容"></el-input>
                 </div>
                 <div>
-                    <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>
+                    <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
+<!--                    <el-button type="primary" size="small" style="margin-left: 30px" @click="search()">搜索</el-button>-->
                 </div>
             </form>
         </div>

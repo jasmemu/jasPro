@@ -12,7 +12,8 @@
 <!--                    身份证号:<input type="text"  v-model="formForSearch.identify">-->
 <!--                </div>-->
                 <div>
-                    <input type="button"  value="查找" style="margin-left: 30px" @click="search()">
+                    <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
+<!--                    <input type="button"  value="查找" style="margin-left: 30px" ">-->
                 </div>
             </form>
         </div>

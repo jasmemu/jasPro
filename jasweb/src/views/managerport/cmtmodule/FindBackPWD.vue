@@ -1,7 +1,7 @@
 <template>
 
    <div>
-       <div>
+       <div style="margin-left: 10%;margin-top: 10px">
            <h2>找回密码</h2>
        </div>
        <router-view :key="$route.fullPath"></router-view>

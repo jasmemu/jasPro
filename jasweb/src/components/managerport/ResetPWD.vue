@@ -1,18 +1,18 @@
 <template>
     <div>
-        <div style="width: 40%">
+        <div style="width: 40%;margin-left: 20%;margin-top: 100px;background-color: #E9EEF3">
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-form-item label="新密码" prop="newPWD">
-                    <el-input v-model="formData.newPWD" placeholder="" clearable :style="{width: '30%'}" size="mini"></el-input>
+                    <el-input v-model="formData.newPWD" placeholder="" clearable :style="{width: '60%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="confirmPWD">
-                    <el-input v-model="formData.confirmPWD" placeholder="" clearable :style="{width: '30%'}" size="mini"></el-input>
+                    <el-input v-model="formData.confirmPWD" placeholder="" clearable :style="{width: '60%'}" size="mini"></el-input>
                 </el-form-item>
             </el-form>
 
 <!--            新密码： <el-input placeholder="请输入密码" v-model="newPWD" show-password></el-input>-->
 <!--            确认密码：<el-input placeholder="请输入密码" v-model="confirmPWD" show-password></el-input>-->
-            <el-button type="primary" @click="submitPWD">提交</el-button>
+            <el-button type="primary" style="margin-left: 40%" @click="submitPWD">提交</el-button>
 
         </div>
     </div>

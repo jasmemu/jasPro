@@ -1,39 +1,74 @@
 <template>
-    <div style="text-align: center">
-        <el-container>
-            <el-header style="height: 90px">
-                <h1>欢迎登录系统管理员系统</h1>
-            </el-header>
-            <el-main :style="windowHeight">
-                <div >
-                    <div style=" width: 90%;text-align: center">
-                        <div style="margin-top: 110px;width: 30%;margin-left: 35%">
-                            <p style="color: #a50912" v-show="isShow">用户名或密码错误</p>
-                            <span style="font-weight: bold">用户名 </span>
-                            <el-input v-model="loginAccount" placeholder="请输入账号">
-                            </el-input>
-                        </div>
+    <div>
+        <div class="shadow mb-5 bg-light rounded login-top">
+            <div class="head">
+                <img src="~@/assets/images/logo.png"><span>
+                系统管理员登录
+            </span>
+            </div>
+        </div>
+        <div class="login-box">
+            <div class="tree">
+                <img src="~@/assets/images/2.png" class="img-fluid">
+            </div>
+            <div class="slogan">
+                克勤之致<br><span class="yellow">结青藤</span>之缘
+            </div>
+            <div id="earth" class="earth">
+                <img src="~@/assets/images/1.png" class="img-fluid">
+            </div>
+            <!-- 登录 -->
+            <div class="login">
+                <div class="login-logo">
+                    <img src="~@/assets/images/logo.png" class="img-fluid">
+                </div>
 
-                        <div style="margin-top: 15px;width: 30%;margin-left: 35%">
-                            <span style="font-weight: bold">密 码 </span>
-                            <el-input v-model="loginPassword" placeholder="请输入密码" show-password></el-input>
-                            <br/>
-<!--                            <el-checkbox v-model="rememberMe">记住密码</el-checkbox>-->
-<!--                            <p @click="forgetPWD" style="color: #3b529c">忘记密码？</p>-->
+                <div class="login-form">
+                    <p style="color: #a50912" v-show="isShow">账号或密码错误</p>
+                    <form method="POST">
+                        <code class="check_log_phone"></code>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="fa fa-user-circle-o text-success"></span>
+                            </span>
+                            </div>
+                            <input type="text" class="form-control" v-model="loginAccount"  id="logphone" placeholder="账号">
                         </div>
-
-                        <div style="margin-top: 15px">
-                            <el-button type="primary" @click="login()">登录</el-button>
+                        <code class="check_log_pwd"></code>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="fa fa-unlock text-success"></span>
+                            </span>
+                            </div>
+                            <input type="password" class="form-control"  v-model="loginPassword" id="logpwd" placeholder="密码">
+                        </div>
+                        <button type="button" id="login"  @click="login()"  class="btn btn-success btn-block">登录</button>
+                    </form>
+                </div>
+                <!--                <div class="login-regist">-->
+                <!--                    忘记密码？<span id="ToRegist">找回密码</span>-->
+                <!--                </div>-->
+            </div>
+        </div>
+        <div class="login-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center login-nav">
+                        <div class="foot">
+                            咨询热线：143-****-****&emsp;&emsp;邮箱：<a href="mailto:****@126.com"
+                                                                target="_blank">*****@126.com</a>&emsp;&emsp;备案号：***备*******号
                         </div>
                     </div>
                 </div>
-            </el-main>
-        </el-container>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+    import axios from 'axios'
     export default {
         name: "",
         data() {
@@ -81,7 +116,7 @@ import axios from 'axios'
                 }
             },
             delCookie(name)
-           {
+            {
                 var exp = new Date();
                 exp.setTime(exp.getTime() - 1);
                 var cval=getCookie(name);
@@ -118,13 +153,12 @@ import axios from 'axios'
         }
     }
 </script>
-
 <style lang="scss" scoped>
-    .el-input {
-        position: relative;
-        font-size: 14px;
-        display: inline-block;
-        width: 60%;
+    @import url('~@/assets/css/login.css');
+    @import url("https://www.jq22.com/jquery/bootstrap-4.2.1.css");
+    @import url("https://www.jq22.com/jquery/font-awesome.4.7.0.css");
+    .icon{
+        font-family: FontAwesome;
     }
 
 </style>

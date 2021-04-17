@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div style="width: 85%">
+      <div style="width: 90%">
           <el-table
                   :data="tableData"
                   style="width: 100%">

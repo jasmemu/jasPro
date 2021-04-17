@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div style="width: 40%;margin-left: 20%;margin-top: 100px;background-color: #E9EEF3">
         <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
             <el-form-item label="账号" prop="resetPwdAccount">
-                <el-input v-model="formData.resetPwdAccount" placeholder="" clearable :style="{width: '30%'}" size="mini"></el-input>
+                <el-input v-model="formData.resetPwdAccount" placeholder="" clearable :style="{width: '60%'}" size="mini"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="filledEmail">
-                <el-input v-model="formData.filledEmail" placeholder="" clearable :style="{width: '30%'}" size="mini"></el-input>
+                <el-input v-model="formData.filledEmail" placeholder="" clearable :style="{width: '60%'}" size="mini"></el-input>
             </el-form-item>
         </el-form>
 
-        <el-button type="primary" @click="getAuthCode" style="margin-left: 10%">下一步</el-button>
+        <el-button type="primary" @click="getAuthCode" style="margin-left: 45%">下一步</el-button>
 
     </div>
 </template>

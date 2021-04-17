@@ -1,16 +1,16 @@
 <template>
     <div>
-        <el-container>
+        <el-container >
             <el-header >
-                <div style="text-align: center">
+                <div style="text-align: center;">
                     <span style="font-size: 20px;font-weight: bold">课程管理员系统</span>
                 </div>
                 <div>
                     <div style="float: right">
                         <el-dropdown @command="handleCommand">
-              <span class="el-dropdown-link">
-                <span style="color: #060d9c;font-size: 20px">操作</span><i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
+                              <span class="el-dropdown-link">
+                                <span style="color: #2443ec;font-size: 20px">操作</span><i class="el-icon-arrow-down el-icon--right"></i>
+                              </span>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item command="a">个人设置</el-dropdown-item>
                                 <el-dropdown-item command="b">退出登录</el-dropdown-item>
@@ -23,37 +23,42 @@
                 </div>
             </el-header>
             <el-container >
-                <el-aside :style="windowHeight"  width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu :default-openeds="['1','2','3','4']">
+                <el-aside :style="windowHeight"  width="15%" style="background-color: #545c64">
+                    <el-menu :default-openeds="['1','2','3','4','5']"
+                             default-active="2"
+                             class="el-menu-vertical-demo"
+                             background-color="#545c64"
+                             text-color="#fff"
+                             active-text-color="#ffd04b">
                         <el-submenu index="1">
                             <template slot="title"><i class="el-icon-menu"></i>公告管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="1-1"> <router-link tag="li"  to="/CmtMainPage/NoticeMainDiv" activeClass="myClass" >公告信息</router-link></el-menu-item>
+                                <el-menu-item index="1-1"  class="routeInCecter"> <router-link tag="li"  to="/CmtMainPage/NoticeMainDiv" activeClass="myClass" >公告信息</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="2">
                             <template slot="title"><i class="el-icon-menu"></i>作业管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="2-1"><router-link tag="li" to="/CmtMainPage/JobMainDiv"  activeClass="myClass">作业发布</router-link></el-menu-item>
-                                <el-menu-item index="2-2"><router-link tag="li" to="/CmtMainPage/JobTypeDiv"  activeClass="myClass">作业评阅</router-link></el-menu-item>
+                                <el-menu-item index="2-1" class="routeInCecter"><router-link tag="li" to="/CmtMainPage/JobMainDiv"  activeClass="myClass">作业发布</router-link></el-menu-item>
+                                <el-menu-item index="2-2" class="routeInCecter"><router-link tag="li" to="/CmtMainPage/JobTypeDiv"  activeClass="myClass">作业评阅</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-menu"></i>资料管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="3-1"><router-link tag="li" to="/CmtMainPage/ResourceMainDiv"  activeClass="myClass">资料信息</router-link></el-menu-item>
+                                <el-menu-item index="3-1" class="routeInCecter"><router-link tag="li" to="/CmtMainPage/ResourceMainDiv"  activeClass="myClass">资料信息</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="4">
                             <template slot="title"><i class="el-icon-menu"></i>留言管理</template>
                             <el-menu-item-group>
-                                <el-menu-item index="4-1"><router-link tag="li" to="/CmtMainPage/MessageMainDiv"  activeClass="myClass">留言信息</router-link></el-menu-item>
+                                <el-menu-item index="4-1" class="routeInCecter"><router-link tag="li" to="/CmtMainPage/MessageMainDiv"  activeClass="myClass">留言信息</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="5">
                             <template slot="title"><i class="el-icon-menu"></i>学期统计</template>
                             <el-menu-item-group>
-                                <el-menu-item index="5-1"><router-link tag="li" to="/CmtMainPage/Statistics"  activeClass="myClass">作业报表</router-link></el-menu-item>
+                                <el-menu-item index="5-1" class="routeInCecter"><router-link tag="li" to="/CmtMainPage/Statistics"  activeClass="myClass">作业报表</router-link></el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                     </el-menu>
@@ -101,14 +106,18 @@
 </script>
 
 <style  lang="scss" scoped>
+    .routeInCecter{
+        text-align: center;
+    }
 .myClass{
-    color: #060d9c;
+    color: #FFD04B;
 }
 .el-header, .el-footer {
-    background-color: #B3C0D1;
+    background-color: #389ea9;
     color: #333;
     text-align: center;
 }
+
 
 .el-aside {
     background-color: #D3DCE6;
