@@ -3,10 +3,14 @@
         <div >
             <form>
                 <div style="float: left;margin-left: 20px" >
-                    课程号:<input type="text" v-model="formForSearch.courseId">
+                    课程号:
+                    <el-input style="width: auto" v-model="formForSearch.courseId" placeholder="请输入内容"></el-input>
+<!--                    <input type="text" v-model="formForSearch.courseId">-->
                 </div>
                 <div style="float: left;margin-left: 20px">
-                    课程名称:<input type="text"  v-model="formForSearch.name">
+                    课程名称:
+                    <el-input style="width: auto" v-model="formForSearch.name" placeholder="请输入内容"></el-input>
+<!--                    <input type="text"  v-model="formForSearch.name">-->
                 </div>
                 <div>
                     <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
@@ -339,6 +343,15 @@ import axios from 'axios'
         color: #333;
         /*text-align: left;*/
         /* line-height: 160px; */
+    }
+    hr {
+        margin-top: 0.5rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
     }
 
 </style>

@@ -209,6 +209,14 @@ import axios from 'axios'
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
 </style>

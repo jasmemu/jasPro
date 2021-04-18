@@ -43,16 +43,6 @@
             </el-table-column>
         </el-table>
 
-        <div style="float: right;margin-top: 10px">
-            <el-pagination
-                    background
-                    layout="prev, pager, next"
-                    :page-size="pageSize"
-                    :total="total"
-                    @current-change="mypage">
-            </el-pagination>
-        </div>
-
     </div>
 </template>
 

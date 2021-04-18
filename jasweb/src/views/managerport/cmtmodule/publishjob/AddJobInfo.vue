@@ -3,32 +3,10 @@
         <el-form :model="jobForm" :rules="rules" class="registerForm" ref="registerForm" label-width="80px">
             <el-form-item label="作业" prop="jobFile">
                 <el-button type="primary" plain size="small" @click="dialogFormVisible = true">上传作业</el-button><br>
-                <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
-                    <input  id="fUpload" multiple type="file" />
-<!--                    <el-form :model="form">-->
-<!--                        <el-upload-->
-<!--                                class="upload-demo"-->
-<!--                                action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                                :on-preview="handlePreview"-->
-<!--                                :on-remove="handleRemove"-->
-<!--                                :before-remove="beforeRemove"-->
-<!--                                multiple-->
-<!--                                :limit="3"-->
-<!--                                :on-exceed="handleExceed"-->
-<!--                                :file-list="fileList">-->
-<!--                            <el-button size="small" type="primary">点击上传</el-button>-->
-<!--                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-<!--                        </el-upload>-->
-<!--                    </el-form>-->
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="dialogFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="commitFile()">确 定</el-button>
-                    </div>
-                </el-dialog>
                 <span v-show="fileShow" style="color: #a50912">请上传文件</span>
             </el-form-item>
-            <el-form-item label="作业类型:" prop="jobType"  >
-                <select v-model=jobForm.jobType  style="width: 30%;" placeholder="请选择类型">
+            <el-form-item label="作业类型" prop="jobType"  >
+                <select v-model=jobForm.jobType  >
                     <option value=""  style="display: none;" disabled selected>请选择</option>
                     <option v-for="(item,i) in jobTypeOptions" :key="i" v-text="item.label"></option>
                 </select>
@@ -48,6 +26,13 @@
                 <el-button type="primary"  class="submit_btn" @click="submitForm('registerForm')">发布</el-button>
             </el-form-item>
         </el-form>
+        <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
+            <input  id="fUpload" multiple type="file" />
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="commitFile()">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 

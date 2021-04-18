@@ -1,36 +1,31 @@
-<template xmlns:text-overflow="http://www.w3.org/1999/xhtml">
+<template>
     <div>
         <div >
-            <form>
-                <div style="float: left;margin-left: 20px">
-                    专业:
-                    <select v-model=formForSearch.speId  style="width: 100px;" >
-                        <option value=""  style="display: none;" disabled selected>搜索内容</option>
-                        <option v-for="(item,i) in speOPtions" :key="i"  v-text="item"></option>
-                    </select>
-                </div>
-                <div style="float: left;margin-left: 20px">
-                    年级:
-                    <select v-model=formForSearch.cGrade style="width: 100px;" >
-                        <option value=""  style="display: none;" disabled selected>搜索内容</option>
-                        <option v-for="(item,i) in gradeOPtions" :key="i" v-text="item"></option>
-                    </select>
-                </div>
-                <div style="float: left;margin-left: 20px">
-                    班级:
-                    <select v-model=formForSearch.cClass style="width: 100px;" >
-                        <option value=""  style="display: none;" disabled selected>搜索内容</option>
-                        <option v-for="(item,i) in classOPtions" :key="i" v-text="item"></option>
-                    </select>
-                </div>
-                <div>
-                    <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
-<!--                    <input type="button"  value="查找" style="margin-left: 30px" @click="search()">-->
-                </div>
-            </form>
+            <el-form :model="formForSearch"  label-width="80px">
+                <el-form-item label="专业" style="float: left">
+                    <el-select size="mini" v-model="formForSearch.speId" placeholder="请选择" >
+                        <el-option
+                                v-for="item in speOPtions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="年级" style="float: left">
+                    <el-select size="mini" v-model="formForSearch.cGrade" placeholder="请选择">
+                        <el-option
+                                v-for="item in gradeOPtions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
+            </el-form>
         </div>
         <hr>
-
         <div>
             <el-button type="primary" plain style="float: right;margin-left: 30px" size="small" v-on:click="goAddCmt()">添加</el-button>
             <!--            <router-link tag="button" to="/SysMainPage/AddStuInfo"  style="float: right;margin-left: 30px">添加</router-link>-->
@@ -39,19 +34,6 @@
             <el-dialog title="文件上传" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
                     <input id="fUpload" multiple type="file" />
-<!--                    <el-upload-->
-<!--                            class="upload-demo"-->
-<!--                            action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                            :on-preview="handlePreview"-->
-<!--                            :on-remove="handleRemove"-->
-<!--                            :before-remove="beforeRemove"-->
-<!--                            multiple-->
-<!--                            :limit="3"-->
-<!--                            :on-exceed="handleExceed"-->
-<!--                            :file-list="fileList">-->
-<!--                        <el-button size="small" type="primary">点击上传</el-button>-->
-<!--                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-<!--                    </el-upload>-->
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -148,7 +130,7 @@
                 multipleSelection: [],
                 //search使用
                 speOPtions:[],
-                gradeOPtions: ['大一','大二','大三','大四'],
+                gradeOPtions:[],
                 classOPtions: ['1','2'],
                 selected:true,//默认的字体样式
                 //文件上传===================
@@ -196,7 +178,7 @@
                     var formDate = new FormData()
                     formDate.append("file",items[0])
                     axios.post('http://localhost:8080/jas/mport/cmt/dealExcel',formDate).then(function (resp) {
-                        console.log(resp.data)
+                        // console.log(resp.data)
                         if (resp.data.status == "success"){
                             location.reload()
                         } else {
@@ -211,7 +193,7 @@
                 var name = fileName
                 var index = name.lastIndexOf(".")
                 var endName = name.substr(index)
-                console.log("文件类型"+ endName)
+               // console.log("文件类型"+ endName)
                 if (endName == '.xls'){
                     return true
                 } else {
@@ -220,7 +202,7 @@
             },
             judgeSize(fileSize){
                 var size = parseInt(fileSize)/1024/1024
-                console.log("大小"+size)
+                //console.log("大小"+size)
                 if (size<50){
                     return true
                 } else {
@@ -262,7 +244,7 @@
                 return  isLt2M
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                //console.log(file, fileList);
             },
             handlePreview(file) {
                 const formData = new FormData()
@@ -282,8 +264,8 @@
             mypage (currentpage) {
                 const _this = this
                 axios.get('http://localhost:8080/jas/mport/cmt/getAllCmt/' + currentpage +'/' +_this.pageSize).then(function (resp) {
-                    console.log("获取学生信息")
-                    console.log(resp.data);
+                   // console.log("获取学生信息")
+                   // console.log(resp.data);
                     _this.tableData = resp.data
                 })
             },
@@ -328,8 +310,10 @@
             },
             //sear中的
             search() {
-                console.log(this.formForSearch)
-                if (this.formForSearch.sNo!='' || this.formForSearch.name!='' || this.formForSearch.identify!=''){
+                //console.log(this.formForSearch)
+                if (this.formForSearch.speId!=''||this.formForSearch.cGrade!=''||this.formForSearch.cClass!=''){
+                    console.log(this.formForSearch.speId)
+                    console.log(this.formForSearch.cGrade)
                     var f = new FormData();
                     f.append("speName",this.formForSearch.speId)
                     f.append("cGrade",this.formForSearch.cGrade)
@@ -338,8 +322,8 @@
                     var cmtPojoList;
                     axios.post('http://localhost:8080/jas/mport/cmt/getCmtForSearch',f).then(function (resp) {
                         cmtPojoList = resp.data
-                        console.log(" cmtPojoList")
-                        console.log(cmtPojoList)
+                       // console.log(" cmtPojoList")
+                        //console.log(cmtPojoList)
                         if (cmtPojoList!=null){
                             _this.$router.push({name: 'ViewCmtInfo',params: {cmtList: cmtPojoList}})
                         } else {
@@ -358,16 +342,29 @@
                 _this.total = resp.data
             });
             axios.get('http://localhost:8080/jas/mport/cmt/getAllCmt/1/'+ _this.pageSize).then(function (resp) {
-                console.log("学位信息")
-                console.log(resp.data)
                 _this.tableData = resp.data
 
             });
             axios.get('http://localhost:8080/jas/mport/spe/getspecialties').then(function (resp) {  //获取所用专业
                 if(resp.data!== null){
+                    var spePoList = resp.data
                     for (var i =0;i<resp.data.length;i++) {
-                        _this.speOPtions.push(resp.data[i].speName)
+                        // _this.speOPtions.push(resp.data[i].speName)
+                        var spePo = {value: '', label: ''}
+                        spePo.value = spePoList[i].speId+''
+                        spePo.label = spePoList[i].speName
+                        _this.speOPtions.push(spePo)
                     }
+                }
+            }),
+            axios.get('http://localhost:8080/jas/mport/classes/get/grades').then(function (resp) {
+                //console.log(resp.data)
+                var gradePoList = resp.data.data
+                for (var i=0;i<gradePoList.length;i++){
+                    var gradePo = {value: '', label: ''}
+                    gradePo.value = gradePoList[i]+''
+                    gradePo.label = gradePoList[i]+''
+                    _this.gradeOPtions.push(gradePo)
                 }
             })
         },
@@ -381,5 +378,16 @@
         /*text-align: left;*/
         /* line-height: 160px; */
     }
-
+    hr {
+        margin-top: 0.8rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+    .el-form-item {
+        margin-bottom: 5px;
+    }
 </style>

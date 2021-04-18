@@ -126,7 +126,7 @@ import axios from 'axios'
                     return
                 }
                 axios.post('http://localhost:8080/jas/mport/notice/delete/byBatch',this.multipleSelection).then(function (resp) {
-                    alert(resp.data)
+                    // alert(resp.data)
                     location.reload()
                 })
 
@@ -160,7 +160,7 @@ import axios from 'axios'
                     var  that = this
                     axios.get('http://localhost:8080/jas/mport/notice/deleteNoticeById/'+ row.id).then(function (resp) {
                         if (resp.data =='success'){
-                            alert('删除成功')
+                            // alert('删除成功')
                             location.reload();
                         }
                     });
@@ -198,5 +198,13 @@ import axios from 'axios'
 </script>
 
 <style lang="scss" scoped>
-
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
 </style>

@@ -35,7 +35,7 @@
                       label="操作"
                       width="200">
                   <template slot-scope="scope">
-                      <el-button @click="statisticsForNoSubmi(scope.row)" type="text" size="small">生成未交学生名单</el-button>
+                      <el-button @click="statisticsForNoSubmit(scope.row)" type="text" size="small">生成未交学生名单</el-button>
                       <el-button @click="statisticsForSubmit(scope.row)" type="text" size="small">生成成绩单</el-button>
                   </template>
               </el-table-column>
@@ -56,7 +56,8 @@
             }
         },
         methods:{
-            statisticsForNoSubmi(row){
+            statisticsForNoSubmit(row){
+                console.log(row)
                 var that = this
                 var formData = new FormData()
                 formData.append("courseId",row.courseId)
@@ -70,6 +71,7 @@
                 })
             },
             statisticsForSubmit(row){
+                console.log(row)
                 var that = this
                 var formData = new FormData()
                 formData.append("courseId",row.courseId)

@@ -1,12 +1,16 @@
 <template>
     <div>
-        <div >
+        <div style="height: 50px" >
             <form>
                 <div style="float: left;margin-left: 20px" >
-                    姓名:<input type="text" v-model="formForSearch.name">
+                    姓名:
+                    <el-input style="width: auto" v-model="formForSearch.name" placeholder="请输入内容"></el-input>
+<!--                    <input type="text" v-model="formForSearch.name">-->
                 </div>
                 <div style="float: left;margin-left: 20px">
-                    学号:<input type="text"  v-model="formForSearch.sNo">
+                    学号:
+                    <el-input style="width: auto" v-model="formForSearch.sNo" placeholder="请输入内容"></el-input>
+<!--                    <input type="text"  v-model="formForSearch.sNo">-->
                 </div>
 <!--                <div style="float: left;margin-left: 20px">-->
 <!--                    身份证号:<input type="text"  v-model="formForSearch.identify">-->
@@ -89,7 +93,7 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="specialty"
+                        prop="specialty.speName"
                         label="专业"
                         width="120">
                 </el-table-column>
@@ -242,7 +246,7 @@ import axios from 'axios'
                     return
                 }
               axios.post('http://localhost:8080/jas/mport/stu/delete/byBatch',this.multipleSelection).then(function (resp) {
-                  alert(resp.data)
+                  // alert(resp.data)
                   location.reload()
               })
 
@@ -256,7 +260,7 @@ import axios from 'axios'
                 const formData = new FormData()
                 formData.append('file', file.raw)
                 axios.post('http://localhost:8080/jas/mport/stu/dealExcel',formData).then(function (resp) {
-                    alert(resp.data)
+                    // alert(resp.data)
                     location.reload()
                 })
             },
@@ -273,17 +277,17 @@ import axios from 'axios'
                     // console.log("获取学生信息")
                     // console.log(resp);
                     _this.tableData = resp.data
-                    for(var i = 0 ;i<resp.data.length;i++){
-                        if(resp.data[i].speId === 1){
-                            _this.tableData[i].specialty = "计算机科学与技术系"
-                        }else if(resp.data[i].speId ===2){
-                            _this.tableData[i].specialty = "网络工程系"
-                        }else if(resp.data[i].speId ===3){
-                            _this.tableData[i].specialty = "软件工程系"
-                        }else if(resp.data[i].speId === 4){
-                            _this.tableData[i].specialty = "计算机基础教学部"
-                        }
-                    }
+                    // for(var i = 0 ;i<resp.data.length;i++){
+                    //     if(resp.data[i].speId === 1){
+                    //         _this.tableData[i].specialty = "计算机科学与技术系"
+                    //     }else if(resp.data[i].speId ===2){
+                    //         _this.tableData[i].specialty = "网络工程系"
+                    //     }else if(resp.data[i].speId ===3){
+                    //         _this.tableData[i].specialty = "软件工程系"
+                    //     }else if(resp.data[i].speId === 4){
+                    //         _this.tableData[i].specialty = "计算机基础教学部"
+                    //     }
+                    // }
                 })
             },
             alertBySno(row) {
@@ -315,7 +319,7 @@ import axios from 'axios'
                     location.reload();
 
                 }).catch(() => {
-                    alert("我去")
+                    // alert("我去")
                     this.$message({
                         type: 'info',
                         message: '已取消删除'
@@ -346,17 +350,6 @@ import axios from 'axios'
             });
             axios.get('http://localhost:8080/jas/mport/stu/getAllStu/1/'+ _this.pageSize).then(function (resp) {
                     _this.tableData = resp.data
-                for(var i = 0 ;i<resp.data.length;i++){
-                    if(resp.data[i].speId === 1){
-                        _this.tableData[i].specialty = "计算机科学与技术系"
-                    }else if(resp.data[i].speId ===2){
-                        _this.tableData[i].specialty = "网络工程系"
-                    }else if(resp.data[i].speId === 3){
-                        _this.tableData[i].specialty = "软件工程系"
-                    }else if(resp.data[i].speId === 4){
-                        _this.tableData[i].specialty = "计算机基础教学部"
-                    }
-                }
             })
         }
     }
@@ -368,6 +361,15 @@ import axios from 'axios'
         color: #333;
         /*text-align: left;*/
         /* line-height: 160px; */
+    }
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
     }
 
 </style>

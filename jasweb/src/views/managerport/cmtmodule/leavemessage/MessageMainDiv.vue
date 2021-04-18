@@ -3,11 +3,20 @@
         <div  style="height: 50px">
             <form>
                 <div style="float: left;margin-left: 20px" >
-                    <span style="font-size: 25px">是否回复:</span>
-                    <select v-model=formForSearch.reply  style="width: 150px;height: 30px" >
-                        <option value=""  style="display: none;" disabled selected>请选择</option>
-                        <option v-for="(item,i) in replyOPtions" :key="i"  v-text="item"></option>
-                    </select>
+                    是否回复：
+                    <el-select size="mini" v-model="formForSearch.reply" placeholder="请选择">
+                        <el-option
+                                v-for="item in replyOPtions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+<!--                    <span style="font-size: 25px">是否回复:</span>-->
+<!--                    <select v-model=formForSearch.reply  style="width: 150px;height: 30px" >-->
+<!--                        <option value=""  style="display: none;" disabled selected>请选择</option>-->
+<!--                        <option v-for="(item,i) in replyOPtions" :key="i"  v-text="item"></option>-->
+<!--                    </select>-->
                 </div>
                 <div>
                     <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
@@ -94,7 +103,8 @@ import axios from 'axios'
                 formForSearch: {
                     reply: ''
                 },
-                replyOPtions:['已回复',"未回复"],
+                // replyOPtions:['已回复',"未回复"],
+                replyOPtions:[{value: '已回复', label: '已回复'},{value: '未回复', label: '未回复'}],
                 tableData: null
             }
         },
@@ -152,7 +162,7 @@ import axios from 'axios'
             search() {
                 if (this.formForSearch.reply!=''){
                     var _this = this
-                    alert(this.formForSearch.reply)
+                    // alert(this.formForSearch.reply)
                     axios.get('http://localhost:8080/jas/mport/message/getForSearch/'+this.account+'/'+this.formForSearch.reply).then(function (resp) {
                         const messages = resp.data
                         if (messages.length > 0){
@@ -185,6 +195,15 @@ import axios from 'axios'
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
 
 </style>

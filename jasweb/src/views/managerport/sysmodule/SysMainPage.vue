@@ -12,6 +12,7 @@
                 <span style="color: rgb(36,67,236);font-size: 20px">操作</span><i class="el-icon-arrow-down el-icon--right"></i>
               </span>
                 <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="newYear">新学期</el-dropdown-item>
                   <el-dropdown-item command="a">个人设置</el-dropdown-item>
                   <el-dropdown-item command="b">下载excel模板</el-dropdown-item>
                   <el-dropdown-item command="c">退出登录</el-dropdown-item>
@@ -23,6 +24,18 @@
             </div>
           </div>
         </el-header>
+        <el-dialog title="新的学期" :visible.sync="dialogFormVisible">
+          <p ><span style="color: #a50912">这会删除本学期所有学生信息、教师信息、课程信息！</span>如确定请输入登录密码</p>
+          <el-form :model="form">
+            <el-form-item label="密码" :label-width="formLabelWidth">
+              <el-input v-model="form.actuallyPWD" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="submitChoose('cancel')">取 消</el-button>
+            <el-button type="primary" @click="submitChoose('yes')">确 定</el-button>
+          </div>
+        </el-dialog>
         <el-container >
           <el-aside :style="windowHeight"  width="15%" style="background-color: #545c64">
                 <el-menu
@@ -74,15 +87,23 @@
 </template>
 
 <script>
+  import axios from 'axios'
     export default {
         name: "",
          data() {
-        return {
-          chan: '',
-          sysName: '123',
-          squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
-          windowHeight:{height:document.documentElement.clientHeight -80 +'px'}  //获取屏幕高度
-        }
+          return {
+            api: this.$store.state.api,
+            dialogFormVisible: false,
+            form: {
+              actuallyPWD: '',
+              account: sessionStorage.getItem('sysAccount')
+            },
+            formLabelWidth: '120px',
+            chan: '',
+            sysName: '123',
+            squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
+            windowHeight:{height:document.documentElement.clientHeight -80 +'px'}  //获取屏幕高度
+          }
       },
       methods:{
         handleCommand(command) {
@@ -94,6 +115,22 @@
           } else if(command == 'c') {
             sessionStorage.clear();
             this.$router.push('/enter')
+          } else if (command == 'newYear'){
+             this.dialogFormVisible = true
+          }
+        },
+        submitChoose(val){
+          this.dialogFormVisible = false
+          if (val == 'cancel'){
+            alert('已取消')
+          } else if (val == 'yes'){
+            var form = new FormData()
+            form.append('pwd',this.form.actuallyPWD)
+            form.append('account',this.form.account)
+              axios.post(this.api+'/mport/sys/new/year',form).then(function (resp) {
+                alert(resp.data.data)
+                location.reload()
+              })
           }
         }
       },

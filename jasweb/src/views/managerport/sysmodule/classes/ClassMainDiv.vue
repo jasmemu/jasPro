@@ -22,20 +22,19 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="班级" style="float: left">
-                    <el-select size="mini" v-model="formForSearch.cClass" placeholder="请选择">
-                        <el-option
-                                v-for="item in classOptions"
-                                :key="item.id"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+<!--                <el-form-item label="班级" style="float: left">-->
+<!--                    <el-select size="mini" v-model="formForSearch.cClass" placeholder="请选择">-->
+<!--                        <el-option-->
+<!--                                v-for="item in classOptions"-->
+<!--                                :key="item.id"-->
+<!--                                :label="item.label"-->
+<!--                                :value="item.value">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
+<!--                </el-form-item>-->
                 <el-button icon="el-icon-search" circle style="margin-left: 8px" @click="search()"></el-button>
             </el-form>
         </div>
-
         <hr style="clear:both"/>
         <div  style="width: 90%;margin-left: 3%">
             <div>
@@ -281,6 +280,18 @@
         color: #333;
         /*text-align: left;*/
         /* line-height: 160px; */
+    }
+    hr {
+        margin-top: 0rem;
+        margin-bottom: 0.1rem;
+        border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+    .el-form-item {
+        margin-bottom: 1px;
     }
 
 </style>
