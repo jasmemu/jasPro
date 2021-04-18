@@ -53,6 +53,7 @@ public class CmtContorller {
     @RequestMapping(value = "/download/no/submitted",method = RequestMethod.POST)
     @ResponseBody
     public ResultEntity<String> downloadForNoSubmitHandler(@RequestParam("cmtId") String cmtId,@RequestParam("courseId") String courseId,@RequestParam("name") String courseName) {
+        System.out.println("接收到的："+cmtId+"-"+courseId+"-"+courseName);
         String excelUrl = cmtService.getNoSubmitForExcel(cmtId,courseId,courseName);
         return ResultEntity.successWithData(excelUrl);
     }

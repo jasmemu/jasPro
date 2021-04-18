@@ -127,7 +127,15 @@ public class ClassesController {
         for (Classes info : pageInfo.getList()) {
             list.add(info);
         }
+        System.out.println("所有班级：");
+        for (int i=0;i<list.size();i++){
+            System.out.println(list.get(i));
+        }
         List<ClassVO> classVOList = classessService.getCountBySpecialtyGradeClass();
+        System.out.println("数人数：");
+        for (int i=0;i<classVOList.size();i++){
+            System.out.println(classVOList.get(i));
+        }
         for (int i=0;i<list.size();i++){
             boolean flag= false;
             for (int j=0;j<classVOList.size();j++){

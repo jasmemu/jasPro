@@ -85,6 +85,8 @@ public class CreateExcel {
                 row2.createCell(3).setCellValue(studentList.get(i).getScores().get(j).getHomework().getPublishDate().toString());
                 if (studentList.get(i).getScores().get(j).getScore()!=null){
                     row2.createCell(4).setCellValue(studentList.get(i).getScores().get(j).getScore());
+                }else {
+                    row2.createCell(4).setCellValue("未交");
                 }
                 row2Num++;
             }

@@ -53,6 +53,22 @@ public class Student implements Serializable {
         this.sClass = sClass;
     }
 
+    public Student(String sNo, String name, String password, String phone, String identify, Integer speId, Specialty specialty, Date enrollment, String email, String sGrade, Integer sClass, List<Course> courses, List<Score> scores) {
+        this.sNo = sNo;
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.identify = identify;
+        this.speId = speId;
+        this.specialty = specialty;
+        this.enrollment = enrollment;
+        this.email = email;
+        this.sGrade = sGrade;
+        this.sClass = sClass;
+        this.courses = courses;
+        this.scores = scores;
+    }
+
     public Student(String sNo, String name, String password, String phone, String identify, Integer speId, Specialty specialty, Date enrollment, String email, String sGrade, Integer sClass, List<Course> courses) {
         this.sNo = sNo;
         this.name = name;
@@ -171,6 +187,7 @@ public class Student implements Serializable {
     public void setScores(List<Score> scores) {
         this.scores = scores;
     }
+
 
     @Override
     public String toString() {

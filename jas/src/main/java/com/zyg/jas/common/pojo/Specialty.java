@@ -10,6 +10,7 @@ public class Specialty implements Serializable {
     public Specialty() {
     }
 
+
     public Specialty(Integer speId, String speName) {
         this.speId = speId;
         this.speName = speName;

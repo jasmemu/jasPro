@@ -2,7 +2,7 @@ package com.zyg.jas.common.pojo;
 
 import java.io.Serializable;
 
-public class Classes implements Serializable {
+public class Classes  {
     private Integer id;
 
     private Integer speId;

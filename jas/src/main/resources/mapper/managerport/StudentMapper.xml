@@ -20,7 +20,7 @@
         <result property="sClass" column="s_class" />
         <!-- association用于一对一    -->
         <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
-            <result property="speId" column="spe_id"/>
+            <id property="speId" column="spe_id" />
             <result property="speName" column="spe_name"/>
         </association>
     </resultMap>
@@ -31,7 +31,7 @@
     </select>
 
     <select id="selectAllStu" resultMap="studentMap">
-		select * from student
+		select * from student s inner join specialty spe on s.spe_id=spe.spe_id
 	</select>
 
     <select id="selectCountOfStu" resultType="Integer">

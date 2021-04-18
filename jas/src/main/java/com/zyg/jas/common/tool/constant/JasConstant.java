@@ -24,4 +24,6 @@ public class JasConstant {
     public static final String DO_NOT_EXCEL_NAME ="list1.xlsx";
     public static final String SUBMITED_EXCEL_NAME ="list2.xlsx";
 
+    public static final String NEW_YEAR_PWD_ERROR="密码错误，清空失败！";
+
 }

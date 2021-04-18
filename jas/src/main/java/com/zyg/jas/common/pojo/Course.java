@@ -35,6 +35,7 @@ public class Course implements Serializable {
         this.endDate = endDate;
     }
 
+
     public String getCourseId() {
         return courseId;
     }

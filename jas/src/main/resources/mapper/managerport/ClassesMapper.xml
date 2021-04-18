@@ -5,7 +5,7 @@
 
 <mapper namespace="com.zyg.jas.managerport.dao.ClassesDao">
     <!--开启本Mapper的二级缓存-->
-    <cache></cache>
+<!--    <cache></cache>-->
 
     <resultMap id="classesMap" type="com.zyg.jas.common.pojo.Classes">
         <id property="id" column="id" />

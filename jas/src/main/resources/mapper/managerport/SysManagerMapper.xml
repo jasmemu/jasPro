@@ -41,6 +41,19 @@
       select * from sys_manager;
     </select>
 
+    <delete id="deleteALlStudents">
+        delete from student;
+    </delete>
+
+    <delete id="deleteAllCmt">
+        delete from committee;
+    </delete>
+
+    <delete id="deleteAllTeachers">
+        delete from teacher;
+    </delete>
+
+
 
     
 

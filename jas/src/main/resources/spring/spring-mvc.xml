@@ -24,7 +24,7 @@
     <!-- 2.静态资源默认servlet配置-->
     <mvc:default-servlet-handler/>
     <!-- 配置全局异常处理器，且全局异常处理器只能有一个 -->
-    <bean class="com.zyg.jas.common.tool.config.JasExceptResolver"></bean>
+<!--    <bean class="com.zyg.jas.common.tool.config.JasExceptResolver"></bean>-->
 
 
 

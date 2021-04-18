@@ -3,19 +3,34 @@ package com.zyg.jas.managerport.service.impl;
 import com.zyg.jas.common.pojo.SysManager;
 import com.zyg.jas.common.tool.constant.JasConstant;
 import com.zyg.jas.common.tool.util.EmailUtil;
+import com.zyg.jas.common.tool.util.Fileutil;
 import com.zyg.jas.common.tool.util.JedisPoolUtil;
+import com.zyg.jas.common.tool.util.ResultEntity;
 import com.zyg.jas.managerport.dao.SysManagerDao;
 import com.zyg.jas.managerport.service.SysManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import javax.print.DocFlavor;
 import java.util.List;
 import java.util.Random;
 
 @Service
 public class SysManagerServiceImpl implements SysManagerService {
+
+    // 发布的作业存放位置
+    @Value("${jobPath}")
+    private String jobPath;
+    // 提交的作业存放位置
+    @Value("${submitPath}")
+    private String submitPath;
+    // 报表存放的位置
+    @Value("${autoCreateExcel}")
+    private String autoCreateExcel;
+
     @Autowired
     private SysManagerDao sysManagerDao;
     @Override
@@ -72,6 +87,22 @@ public class SysManagerServiceImpl implements SysManagerService {
     @Override
     public void resetPwdByAuthCode(String account, String newPWD) {
         sysManagerDao.updatePwdByAuthCode(account,newPWD);
+    }
+
+    @Override
+    public String newYear(String account,String pwd) {
+        SysManager sysManager = sysManagerDao.selectSysByAccount(account);
+        if (sysManager.getPassword().equals(pwd)){
+            sysManagerDao.deleteAllCmt();
+            sysManagerDao.deleteALlStudents();
+            sysManagerDao.deleteAllTeachers();
+            Fileutil.delAllFile(jobPath);
+            Fileutil.delAllFile(submitPath);
+            Fileutil.delAllFile(autoCreateExcel);
+            return ResultEntity.successWithoutData().getResult();
+        }else {
+            return JasConstant.NEW_YEAR_PWD_ERROR;
+        }
     }
 
     // 生成六位数字的验证码

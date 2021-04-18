@@ -30,6 +30,24 @@ public class Score implements Serializable {
 
     private String commitedJobPath;
 
+    public Score() {
+    }
+
+    public Score(Integer id, Integer hId, Homework homework, String sNo, Student student, String comId, Committee committee, Double score, String comment, Date correctDate, String commitedJobUrl, String commitedJobPath) {
+        this.id = id;
+        this.hId = hId;
+        this.homework = homework;
+        this.sNo = sNo;
+        this.student = student;
+        this.comId = comId;
+        this.committee = committee;
+        this.score = score;
+        this.comment = comment;
+        this.correctDate = correctDate;
+        this.commitedJobUrl = commitedJobUrl;
+        this.commitedJobPath = commitedJobPath;
+    }
+
     public Integer getId() {
         return id;
     }

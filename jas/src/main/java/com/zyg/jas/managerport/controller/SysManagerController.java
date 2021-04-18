@@ -39,6 +39,15 @@ public class SysManagerController {
     private SysManagerService sysManagerService;
 
     // 根据学号修改密码为newPWD
+    @RequestMapping(value = "/new/year",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultEntity<String> newYearHandler(@RequestParam("pwd") String pwd,@RequestParam("account") String account){
+        System.out.println("密码："+ pwd+"账号"+account);
+        String result = sysManagerService.newYear(account,pwd);
+        return ResultEntity.successWithData(result);
+    }
+
+    // 根据学号修改密码为newPWD
     @RequestMapping(value = "/set/pwd/by/authcode",method = RequestMethod.POST)
     @ResponseBody
     public ResultEntity<String> resetPwdByAuthCodeHandler(@RequestParam("account") String account, @RequestParam("newPWD") String newPWD){

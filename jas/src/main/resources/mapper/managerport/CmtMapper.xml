@@ -66,10 +66,15 @@
     </select>
 
     <select id="selectBySnoAndHid" resultMap="studentStatisticsMap">
-        select DISTINCT student.s_no,student.s_name,student.s_phone,score.h_id,homework.publish_date from student
-        inner join  score on student.s_no =#{sNo} and score.h_id = #{hId}
-        inner join homework on homework.h_id = score.h_id;
+        select DISTINCT student.s_no,student.s_name,student.s_phone,homework.h_id,homework.h_name,homework.publish_date from student
+        inner join homework on homework.h_id = #{hId} and student.s_no =#{sNo};
     </select>
+
+<!--    <select id="selectBySnoAndHid" resultMap="studentStatisticsMap">-->
+<!--        select DISTINCT student.s_no,student.s_name,student.s_phone,score.h_id,homework.publish_date from student-->
+<!--        inner join  score on student.s_no =#{sNo} and score.h_id = #{hId}-->
+<!--        inner join homework on homework.h_id = score.h_id;-->
+<!--    </select>-->
 
 
     <update id="updatePwdByAuthCode" parameterType="String">

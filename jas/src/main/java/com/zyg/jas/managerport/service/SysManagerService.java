@@ -12,4 +12,6 @@ public interface SysManagerService {
     String getAuthCode(String email, String accout);
 
     void resetPwdByAuthCode(String account, String newPWD);
+
+    String newYear(String account,String pwd);
 }

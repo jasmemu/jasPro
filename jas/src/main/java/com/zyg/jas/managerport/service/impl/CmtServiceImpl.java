@@ -340,15 +340,20 @@ public class CmtServiceImpl implements CmtService {
     @Override
     public String getNoSubmitForExcel(String cmtId, String courseId, String courseName) {
         List<String> noSubmit = getNoSubmit(cmtId, courseId);
+
+        System.out.println("未交的String");
+        for (int i=0;i<noSubmit.size();i++){
+            System.out.println(noSubmit.get(i));
+        }
         List<String[]> sNoAndHidList= new ArrayList<>();
         for (int i =0 ;i<noSubmit.size();i++){
             String [] sNoAndHid=noSubmit.get(i).split("-");
             sNoAndHidList.add(sNoAndHid);
         }
-        System.out.println("学号，作业id:");
-        for (int i=0;i<sNoAndHidList.size();i++){
-            System.out.println(sNoAndHidList.get(i)[0]+"-"+sNoAndHidList.get(i)[1]);
-        }
+//        System.out.println("学号，作业id:");
+//        for (int i=0;i<sNoAndHidList.size();i++){
+//            System.out.println(sNoAndHidList.get(i)[0]+"-"+sNoAndHidList.get(i)[1]);
+//        }
         List<Student> studentList = new ArrayList<>();
         for (int i=0;i<sNoAndHidList.size();i++){
             Student student =cmtDao.selectBySnoAndHid(cmtId,courseId,Integer.parseInt( sNoAndHidList.get(i)[1]),sNoAndHidList.get(i)[0]);
@@ -358,7 +363,6 @@ public class CmtServiceImpl implements CmtService {
         for (Student student : studentList){
             System.out.println(student.toString());
         }
-//        String excelFile = CreateExcel.getExcelFile(JasConstant.SUBMITED_EXCEL_NAME,courseName+JasConstant.SUBMITED_lIST_TITLE, studentList);
         String excelFile = CreateExcel.getExcelFile(JasConstant.DO_NOT_EXCEL_NAME,courseName+JasConstant.DO_NOT_SUBMIT_lIST_TITLE, studentList);
 
         return excelFile;
@@ -382,33 +386,44 @@ public class CmtServiceImpl implements CmtService {
         }
         List<Student> hadList = cmtDao.selectStatisticsSubmit(cmtId,courseId);
         List<String> hadStringList= new ArrayList<>();
-        for (int i2= 0;i2<hadList.size();i2++){
-            for (int j2=0;j2<hadList.get(i2).getScores().size();j2++){
-               String sNoSpeliceHno = hadList.get(i2).getsNo()+"-"+hadList.get(i2).getScores().get(j2).gethId();
-               hadStringList.add(sNoSpeliceHno);
+        if (hadList.size()>0){
+            for (int i2= 0;i2<hadList.size();i2++){
+                for (int j2=0;j2<hadList.get(i2).getScores().size();j2++){
+                    String sNoSpeliceHno = hadList.get(i2).getsNo()+"-"+hadList.get(i2).getScores().get(j2).gethId();
+                    hadStringList.add(sNoSpeliceHno);
+                }
             }
         }
+
         System.out.println("应交的");
         for (int i=0;i<shouldStringList.size();i++){
             System.out.println(shouldStringList.get(i));
         }
         System.out.println("已交的");
-        for (int i=0;i<hadStringList.size();i++){
-            System.out.println(hadStringList.get(i));
+        if (hadStringList.size()>0){
+            for (int i=0;i<hadStringList.size();i++){
+                System.out.println(hadStringList.get(i));
+            }
         }
+
 
         List<String> notList = new ArrayList<>();
         for (int i=0;i<shouldStringList.size();i++){
             boolean exit=false;
-            for (int j=0;j<hadStringList.size();j++){
-                if (shouldStringList.get(i).equals(hadStringList.get(j))){
-                    exit = true;
-                    break;
+            if (hadStringList.size()>0){
+                for (int j=0;j<hadStringList.size();j++){
+                    if (shouldStringList.get(i).equals(hadStringList.get(j))){
+                        exit = true;
+                        break;
+                    }
                 }
-            }
-            if (!exit){
+                if (!exit){
+                    notList.add(shouldStringList.get(i));
+                }
+            }else {
                 notList.add(shouldStringList.get(i));
             }
+
         }
           return notList;
     }

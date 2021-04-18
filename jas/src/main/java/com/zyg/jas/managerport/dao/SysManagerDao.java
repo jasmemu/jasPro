@@ -15,4 +15,7 @@ public interface SysManagerDao {
     List<SysManager>  getSysManager();
 
     void updatePwdByAuthCode(@Param("account") String account,@Param("newPWD") String newPWD);
+    Integer deleteALlStudents();
+    Integer deleteAllCmt();
+    Integer deleteAllTeachers();
 }
