@@ -5,9 +5,9 @@ import com.zyg.jas.common.pojo.Specialty;
 import java.util.List;
 
 public interface SpecialtyService {
-    public List<Specialty> getAllSpecialty();
+     List<Specialty> getAllSpecialty();
 
+    List<Specialty> removeSpecialty(List<Specialty> specialties);
 
-
-
+    void updateOrAdd(Specialty specialty);
 }

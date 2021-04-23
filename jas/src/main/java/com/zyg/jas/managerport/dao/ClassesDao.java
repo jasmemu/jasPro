@@ -27,4 +27,6 @@ public interface ClassesDao {
     List<Classes> selectClassesForSearch(@Param("speId") Integer speId,@Param("cGrade") String cGrade,@Param("cClass") Integer cClass);
 
     List<Integer> selectNumClassesBySpeIdAndGrade(@Param("speId") Integer speId,@Param("grade") String grade);
+
+    Integer selectClassesBySpeId(Integer speId);
 }

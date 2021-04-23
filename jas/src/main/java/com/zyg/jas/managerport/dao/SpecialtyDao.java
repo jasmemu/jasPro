@@ -10,4 +10,12 @@ public interface SpecialtyDao {
     Specialty selectSpeByName(String name);
 
     Specialty selectSpeBySpeId(Integer speId);
+
+    void deleteSpecialty(String speId);
+
+    void updateBySpeNum(Specialty specialty);
+
+    void addSpecialty(Specialty specialty);
+
+    Specialty selectSpecialtyBySpeNum(String speNum);
 }

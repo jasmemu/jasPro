@@ -116,8 +116,8 @@ public class TeaController {
     @RequestMapping("/dealExcel")
     @ResponseBody
     public Map<String,String> dealExcel(@RequestParam("file") MultipartFile file) throws Exception {
-        System.out.println("接收到的Excel");
-        System.out.println(file.getOriginalFilename());
+//        System.out.println("接收到的Excel");
+//        System.out.println(file.getOriginalFilename());
         List<Teacher> teachers = this.teaService.dealExcelForTeas(file);
         String status = teachers.get(0).getName();
         Map<String,String> map =  new HashMap();

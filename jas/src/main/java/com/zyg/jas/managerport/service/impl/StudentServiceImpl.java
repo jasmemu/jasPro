@@ -6,11 +6,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zyg.jas.common.pojo.Classes;
 import com.zyg.jas.common.pojo.Sc;
+import com.zyg.jas.common.pojo.Specialty;
 import com.zyg.jas.common.pojo.Student;
 import com.zyg.jas.common.tool.util.CheckOut;
 import com.zyg.jas.common.tool.util.ExcelUtil;
 import com.zyg.jas.managerport.dao.ClassesDao;
 import com.zyg.jas.managerport.dao.ScDao;
+import com.zyg.jas.managerport.dao.SpecialtyDao;
 import com.zyg.jas.managerport.dao.StudentDao;
 import com.zyg.jas.managerport.service.StudentService;
 import org.apache.ibatis.logging.Log;
@@ -35,6 +37,8 @@ public class StudentServiceImpl implements StudentService {
     private ScDao scDao;
     @Autowired
     private ClassesDao classesDao;
+    @Autowired
+    private SpecialtyDao specialtyDao;
 
 //    public void setStudentDao(StudentDao studentDao) {
 //       this.studentDao=studentDao;
@@ -102,12 +106,17 @@ public class StudentServiceImpl implements StudentService {
         List<Student> studentList = new ArrayList<Student>();
         List<Sc> scList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
+        System.out.println("学生人数："+excelList.size());
         List<Classes> classesList = classesDao.selectAllClasses();
+        List<Specialty> specialtyList = specialtyDao.selectAllSpeCialty();
         for (int i = 0; i < excelList.size(); i++) {
             if (i==0){
                 continue;
             }
             List list = (List) excelList.get(i);
+            if (list.size() == 0 ||list ==null){
+                break;
+            }
             Student stu = new Student();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
@@ -161,13 +170,23 @@ public class StudentServiceImpl implements StudentService {
 
                 }else if (j==4){
                     if (!CheckOut.checkIsNull(list.get(j).toString())){
-                        if (list.get(j).equals("计算机科学与技术系")){
-                            stu.setSpeId(new Integer(1));
-                        }else if (list.get(j).equals("网络工程系")){
-                            stu.setSpeId(new Integer(2));
-                        }else if (list.get(j).equals("软件工程系")){
-                            stu.setSpeId(new Integer(3));
+                        for (int z=0;z<specialtyList.size();z++){
+                            if (list.get(j).equals(specialtyList.get(z).getSpeName())){
+                                stu.setSpeId(specialtyList.get(z).getSpeId());
+                                break;
+                            }else {
+                                stu.setSpeId(-1);
+                            }
                         }
+//                        if (list.get(j).equals("计算机科学与技术系")){
+//                            stu.setSpeId(new Integer(1));
+//                        }else if (list.get(j).equals("网络工程系")){
+//                            stu.setSpeId(new Integer(2));
+//                        }else if (list.get(j).equals("软件工程系")){
+//                            stu.setSpeId(new Integer(3));
+//                        }else {
+//                            stu.setSpeId(-1);
+//                        }
                     }else {
                         List<Student> list1 = new ArrayList<>();
                         Student student = new Student();

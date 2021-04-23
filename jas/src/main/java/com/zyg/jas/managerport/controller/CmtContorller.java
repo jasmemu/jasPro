@@ -224,6 +224,7 @@ public class CmtContorller {
     @ResponseBody
     public Committee cmtLoginHandler(@RequestParam("loginAccount") String loginAccount, @RequestParam("loginPassword") String loginPassword){
         Committee committee= this.cmtService.getCmtByAccount(loginAccount,loginPassword);
+        // 执行sql时如果查不到会报空指针异常，这里的committee并不是null
         return committee;
     }
 }

@@ -108,7 +108,7 @@ public class CmtServiceImpl implements CmtService {
         List<Committee> cmtList = new ArrayList<Committee>();
         List<CC> ccList = new ArrayList<>();
         List excelList = ExcelUtil.getExcelData(file);
-        List<Specialty> specialties = this.specialtyDao.selectAllSpeCialty();
+        List<Specialty> specialties = specialtyDao.selectAllSpeCialty();
         System.out.println("excel中共有: "+excelList.size()+"  条数据");
         List<Classes>classesList = classesDao.selectAllClasses();
         for (int i = 0; i < excelList.size(); i++) {
@@ -116,6 +116,10 @@ public class CmtServiceImpl implements CmtService {
                 continue;
             }
             List list = (List) excelList.get(i);
+            //21.4.23
+            if (list.size() == 0 ||list ==null){
+                break;
+            }
             Committee committee = new Committee();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){
@@ -123,6 +127,9 @@ public class CmtServiceImpl implements CmtService {
                         for (int m=0;m<specialties.size();m++){
                             if (list.get(j).toString().equals(specialties.get(m).getSpeName())){
                                 committee.setSpecialty(specialties.get(m));
+                                break;
+                            }else {
+                                committee.setSpecialty(new Specialty("error"));
                             }
                         }
                     }else {
@@ -256,6 +263,7 @@ public class CmtServiceImpl implements CmtService {
     public Committee getCmtByAccount(String loginAccount, String loginPassword) {
 
         Committee committee = this.cmtDao.selectCmtByAccount(loginAccount);
+        // 如果根据账号没有查到学委，这里会出现空指针异常
         if (committee.getPassword().equals(loginPassword)){
             return committee;
         }else{

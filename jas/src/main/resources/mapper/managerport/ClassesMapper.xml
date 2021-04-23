@@ -92,4 +92,8 @@
         </foreach>
     </delete>
 
+    <select id="selectClassesBySpeId" parameterType="Integer" resultType="Integer">
+        select count(id) from classes where spe_id =#{speId};
+    </select>
+
 </mapper>

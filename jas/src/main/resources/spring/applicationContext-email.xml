@@ -14,22 +14,22 @@
      http://www.springframework.org/schema/cache 
      http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
 
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <!-- 去QQ官网查出来的 -->
-        <property name="host" value="smtp.qq.com" />
-        <property name="port" value="587" />
-        <!-- 发送邮件的邮箱号 -->
-        <property name="username" value="2585196949@qq.com" />
-        <!-- 授权码，注意这里不是邮箱号的密码哦 -->
-        <property name="password" value="jpcwlepltenyebgh" />
-        <property name="protocol" value="smtp" />
-        <property name="defaultEncoding" value="utf-8" />
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">true</prop>
-            </props>
-        </property>
-    </bean>
+<!--    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+<!--        &lt;!&ndash; 去QQ官网查出来的 &ndash;&gt;-->
+<!--        <property name="host" value="smtp.qq.com" />-->
+<!--        <property name="port" value="587" />-->
+<!--        &lt;!&ndash; 发送邮件的邮箱号 &ndash;&gt;-->
+<!--        <property name="username" value="2585196949@qq.com" />-->
+<!--        &lt;!&ndash; 授权码，注意这里不是邮箱号的密码哦 &ndash;&gt;-->
+<!--        <property name="password" value="jpcwlepltenyebgh" />-->
+<!--        <property name="protocol" value="smtp" />-->
+<!--        <property name="defaultEncoding" value="utf-8" />-->
+<!--        <property name="javaMailProperties">-->
+<!--            <props>-->
+<!--                <prop key="mail.smtp.auth">true</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--    </bean>-->
 </beans>
 
 

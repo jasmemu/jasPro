@@ -102,6 +102,11 @@ public class CourseServiceImpl implements CourseService {
                 continue;
             }
             List list = (List) excelList.get(i);
+            //21.4.23
+            if (list.size() == 0 ||list ==null){
+                break;
+            }
+
             Course course = new Course();
             for (int j = 0; j < list.size(); j++) {
                 if (j==0){

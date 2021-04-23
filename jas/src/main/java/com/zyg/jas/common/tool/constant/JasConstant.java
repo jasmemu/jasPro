@@ -26,4 +26,6 @@ public class JasConstant {
 
     public static final String NEW_YEAR_PWD_ERROR="密码错误，清空失败！";
 
+    public static final String DELETE_SPECIALTY_FAILED="部分删除失败，专业下存在班级！";
+
 }

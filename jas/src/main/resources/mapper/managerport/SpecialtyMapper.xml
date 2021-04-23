@@ -10,7 +10,24 @@
     <resultMap id="specialtyMap" type="com.zyg.jas.common.pojo.Specialty">
         <id property="speId" column="spe_id" />
         <result property="speName" column="spe_name"/>
+        <result property="setDate" column="set_date"/>
+        <result property="speNum" column="spe_num"/>
     </resultMap>
+
+    <insert id="addSpecialty" parameterType="com.zyg.jas.common.pojo.Specialty">
+        insert into specialty(spe_name, set_date, spe_num)
+        values (#{speName},#{setDate},#{speNum})
+    </insert>
+
+    <update id="updateBySpeNum" parameterType="com.zyg.jas.common.pojo.Specialty">
+        update specialty set spe_name=#{speName},set_date=#{setDate}
+        where  spe_num = #{speNum};
+    </update>
+
+    <delete id="deleteSpecialty" parameterType="String">
+        delete from specialty where spe_num  = #{speNum};
+    </delete>
+
     <select id="selectAllSpeCialty" resultMap="specialtyMap">
 		select * from specialty;
 	</select>
@@ -21,6 +38,10 @@
     <select id="selectSpeBySpeId" resultMap="specialtyMap" parameterType="Integer">
 		select spe_id,spe_name from specialty where  spe_id =#{speId};
 	</select>
+
+    <select id="selectSpecialtyBySpeNum" parameterType="String" resultMap="specialtyMap">
+        select spe_id, spe_name, set_date, spe_num from specialty where spe_num =#{speNum};
+    </select>
 
 
 
