@@ -184,6 +184,8 @@
                         } else {
                             alert("上传失败！"+resp.data.status)
                         }
+                    }).catch(function (error) {
+                        alert('文件内容格式错误，请重新上传！')
                     })
                 }else {
                     alert("请上传xls类型文件")

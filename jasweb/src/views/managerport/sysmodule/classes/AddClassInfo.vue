@@ -4,7 +4,7 @@
       <h5 v-show="showH5a">添加班级信息</h5>
       <h5 v-show="showH5u">修改班级信息</h5>
     </div>
-    <div class="formBlock">
+    <div class="formBlock" style="margin-top: 40px">
       <el-form ref="elForm"  :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-form-item label="专业"  prop="speId">
           <el-select v-model="formData.speId"  :disabled="updateClass" placeholder="请选择专业" clearable :style="{width: '100%'}" size="mini">

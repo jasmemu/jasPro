@@ -178,6 +178,8 @@ import axios from 'axios'
                         } else {
                             alert("上传失败！"+resp.data.status+"格式错误！")
                         }
+                    }).catch(function (errir) {
+                        alert('文件内容格式错误，请重新上传！')
                     })
                 }else {
                     alert("请上传xls类型文件")

@@ -70,9 +70,10 @@
                     </el-menu-item-group>
                   </el-submenu>
                   <el-submenu index="5">
-                    <template slot="title"><i class="el-icon-menu"></i>班级管理</template>
+                    <template slot="title"><i class="el-icon-menu"></i>计算机学院管理</template>
                     <el-menu-item-group>
-                      <el-menu-item index="5-1" class="routeInCecter"><router-link tag="li" to="/SysMainPage/ClassMainDiv"  activeClass="myClass">班级信息</router-link></el-menu-item>
+                      <el-menu-item index="5-1" class="routeInCecter"><router-link tag="li" to="/SysMainPage/SpecialtyMainDiv"  activeClass="myClass">专业信息</router-link></el-menu-item>
+                      <el-menu-item index="5-2" class="routeInCecter"><router-link tag="li" to="/SysMainPage/ClassMainDiv"  activeClass="myClass">班级信息</router-link></el-menu-item>
                     </el-menu-item-group>
                   </el-submenu>
                 </el-menu>

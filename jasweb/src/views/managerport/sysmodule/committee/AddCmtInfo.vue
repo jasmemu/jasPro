@@ -4,7 +4,7 @@
       <h5 v-show="showH5a">添加学习委员信息</h5>
       <h5 v-show="showH5u">修改学习委员信息</h5>
     </div>
-    <div class="formBlock">
+    <div class="formBlock" style="margin-top: 40px">
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-form-item label="学号" prop="comId">
           <el-input v-model="formData.comId" placeholder="请输入学号" clearable :style="{width: '100%'}" size="mini"></el-input>

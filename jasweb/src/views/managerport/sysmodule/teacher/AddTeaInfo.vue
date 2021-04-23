@@ -4,7 +4,7 @@
        <h5 v-show="showH5a">添加教师信息</h5>
        <h5 v-show="showH5u">修改教师信息</h5>
    </div>
-    <div class="formBlock">
+    <div class="formBlock" style="margin-top: 40px">
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-form-item label="教师编号" prop="tNo">
           <el-input v-model="formData.tNo" placeholder="请输入教师编号" clearable :style="{width: '100%'}" size="mini"></el-input>

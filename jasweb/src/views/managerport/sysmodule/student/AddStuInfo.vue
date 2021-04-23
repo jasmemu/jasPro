@@ -4,7 +4,7 @@
        <h5 v-show="showH5a">添加学生信息</h5>
        <h5 v-show="showH5u">修改学生信息</h5>
    </div>
-    <div class="formBlock">
+    <div class="formBlock" style="margin-top: 40px">
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-form-item label="学号" prop="sNo">
           <el-input v-model="formData.sNo" placeholder="请输入学号" clearable :style="{width: '100%'}" size="mini"></el-input>
@@ -218,6 +218,8 @@ import axios from 'axios'
         if (this.formData.speId != undefined) {
           console.log(this.formData.speId + "-" + this.formData.sGrade)
           axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.sGrade).then(function (resp) {
+            // console.log('班级')
+            // console.log(resp.data)
             that.sClassOptions= []
             var numClasses = resp.data.data
             for (var i=0;i<numClasses.length;i++){
@@ -234,6 +236,8 @@ import axios from 'axios'
         if (this.formData.sGrade!=undefined) {
           //console.log(this.formData.speId+"-"+this.formData.sGrade)
           axios.get(this.api+'/mport/classes/get/numclass/'+this.formData.speId+'/'+this.formData.sGrade).then(function (resp) {
+            // console.log('班级')
+            // console.log(resp.data)
             that.sClassOptions= []
             var numClasses = resp.data.data
             for (var i=0;i<numClasses.length;i++){

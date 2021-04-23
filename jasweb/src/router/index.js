@@ -34,6 +34,9 @@ import AddClassInfo from  "@/views/managerport/sysmodule/classes/AddClassInfo"
 import ViewClassesInfo from  "@/views/managerport/sysmodule/classes/ViewClassesInfo"
 import ViewStuInfoByClasses from "@/views/managerport/sysmodule/classes/ViewStuInfoByClasses"
 
+import SpecialtyMainDiv from "@/views/managerport/sysmodule/specialty/SpecialtyMainDiv"
+import AddSpecialtyInfo from "@/views/managerport/sysmodule/specialty/AddSpecialtyInfo"
+
   //下列属于课程管理员端url
 import CmtLogin from "@/views/managerport/cmtmodule/CmtLogin"
 import CmtMainPage from "@/views/managerport/cmtmodule/CmtMainPage"
@@ -347,6 +350,16 @@ const routes = [
         name: 'ViewStuInfoByClasses',
         component: ViewStuInfoByClasses
       },
+      {
+        path: '/SysMainPage/SpecialtyMainDiv',
+        name: 'SpecialtyMainDiv',
+        component: SpecialtyMainDiv
+      },
+      {
+        path: '/SysMainPage/AddSpecialtyInfo',
+        name: 'AddSpecialtyInfo',
+        component: AddSpecialtyInfo
+      }
     ]
   },
 ]

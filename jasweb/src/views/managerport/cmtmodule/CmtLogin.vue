@@ -144,8 +144,6 @@
                 formDate.append("loginAccount",this.loginAccountForCmt)
                 formDate.append("loginPassword",this.loginPassword)
                 axios.post('http://localhost:8080/jas/mport/cmt/login',formDate).then(function (resp) {
-                    console.log(resp)
-                    console.log(resp.data)
                     if (resp.data !=null &&resp.data!=''){
                         sessionStorage.setItem("cmtLogin", '100')
                         sessionStorage.setItem("cmtName",resp.data.name)
@@ -154,6 +152,9 @@
                     }else {
                         _this.isShow = true
                     }
+                }).catch(function (error) {
+                    //当出现500时（因为是根据输入的用户名和密码执行sql,可能出现空指针异常）
+                    _this.isShow = true
                 })
 
             }

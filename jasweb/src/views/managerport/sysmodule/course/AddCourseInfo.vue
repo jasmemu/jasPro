@@ -4,7 +4,7 @@
        <h5 v-show="showH5a">添加课程信息</h5>
        <h5 v-show="showH5u">修改课程信息</h5>
    </div>
-    <div class="formBlock">
+    <div class="formBlock" style="margin-top: 40px">
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-form-item label="课程编号" prop="courseId">
           <el-input v-model="formData.courseId" placeholder="请输入课程编号" clearable :style="{width: '100%'}" size="mini"></el-input>
