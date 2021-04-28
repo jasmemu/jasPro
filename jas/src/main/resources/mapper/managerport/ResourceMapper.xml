@@ -54,5 +54,10 @@
         </foreach>
     </delete>
 
+<!--学生端使用-->
+    <select id="getResourceWithoutId"  resultMap="resourceMap" >
+        select * from resources;
+    </select>
+
 
 </mapper>

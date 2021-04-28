@@ -89,4 +89,14 @@ public class NoticeController {
     public Integer getTotalHandler(@PathVariable("cmtId") String cmtId){
         return this.noticeService.getTotal(cmtId);
     }
+
+
+//学生端使用
+    // 获取发布的公告
+    @RequestMapping(value = "/getNoticeWithoutId")
+    @ResponseBody
+    public List<Notice> getAllNoticeHandler(){
+        List<Notice> notices= this.noticeService.selectAllNoticeWithoutId();
+        return notices;
+    }
 }

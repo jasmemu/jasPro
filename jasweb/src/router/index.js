@@ -74,6 +74,17 @@ import Statistics from "@/views/managerport/cmtmodule/Statistics"
 
 //下列属于学生端url
 import StudentMainPage from  "@/views/studentport/studentmodule/StudentMainPage"
+import StudentLogin from "@/views/studentport/studentmodule/StudentLogin";
+import SetStudentInfo from "@/views/studentport/studentmodule/SelfInfoChange/SetStudentInfo";
+import AnnounceMainPage from "@/views/studentport/studentmodule/Announcement/AnnounceMainPage";
+import StudentCoursesMain from "@/views/studentport/studentmodule/Course/StudentCoursesMain";
+import HomeworkMain from "@/views/studentport/studentmodule/Homework/HomeworkMain";
+import CourseType from "@/views/studentport/studentmodule/Course/CourseType";
+import ResourceMain from "@/views/studentport/studentmodule/Resource/ResourceMain";
+import CourseHomework from "@/views/studentport/studentmodule/Course/CourseHomework";
+import FeedbackOfHomework from "@/views/studentport/studentmodule/Feedback/FeedbackOfHomework";
+import ReplyFromManager from "@/views/studentport/studentmodule/Feedback/ReplyFromManager";
+import HomeworkDetail from "@/views/studentport/studentmodule/Homework/HomeworkDetail";
 
 Vue.use(VueRouter)
 const routes = [
@@ -120,6 +131,11 @@ const routes = [
     component: CmtLogin
   },
   {
+    path: '/StudentLogin',
+    name: 'StudentLogin',
+    component: StudentLogin
+  },
+  {
     path: '/SetSysInfo',
     name: 'SetSysInfo',
     component: SetSysInfo
@@ -133,6 +149,11 @@ const routes = [
     path: '/SetCmtInfo',
     name: 'SetCmtInfo',
     component: SetCmtInfo
+  },
+  {
+    path: '/SetStudentInfo',
+    name: 'SetStudentInfo',
+    component: SetStudentInfo
   },
   {
     path: '/StudentMainPage',
@@ -362,6 +383,67 @@ const routes = [
       }
     ]
   },
+  //学生端的路由
+  {
+    path: '/StudentMainPage',
+    name: 'StudentMainPage',
+    component: StudentMainPage,
+    meta:{auth:true},  // 设置当前路由需要校验   不需要校验的路由就不用写了；
+    children: [
+      {
+        path: '/StudentMainPage/AnnounceMainPage',
+        name: 'AnnounceMainPage',
+        component: AnnounceMainPage,
+      },
+      {
+        path: '/StudentMainPage/StudentCoursesMain',
+        name: 'StudentCoursesMain',
+        component: StudentCoursesMain,
+      },
+      {
+        path: '/StudentMainPage/HomeworkMain',
+        name: 'HomeworkMain',
+        component: HomeworkMain,
+      },
+      {
+        path: '/StudentMainPage/CourseType',
+        name: 'CourseType',
+        component: CourseType,
+      },
+      {
+        path: '/StudentMainPage/ResourceMain',
+        name: 'ResourceMain',
+        component: ResourceMain,
+      },
+      {
+        path: '/StudentMainPage/CourseHomework',
+        name: 'CourseHomework',
+        component: CourseHomework,
+      },
+      {
+        path: '/StudentMainPage/FeedbackOfHomework',
+        name: 'FeedbackOfHomework',
+        component: FeedbackOfHomework,
+      },
+      {
+        path: '/StudentMainPage/ReplyFromManager',
+        name: 'ReplyFromManager',
+        component: ReplyFromManager,
+      },
+      {
+        path: '/StudentMainPage/HomeworkDetail',
+        name: 'HomeworkDetail',
+        component: HomeworkDetail,
+      },
+      // {
+      //   path: '/StudentMainPage/SetStudentInfo',
+      //   name: 'SetStudentInfo',
+      //   component: SetStudentInfo
+      // },
+
+    ]
+  },
+
 ]
 
 // 解决 NavigationDuplicated: Avoided redundant navigation to current location（21/4/11）

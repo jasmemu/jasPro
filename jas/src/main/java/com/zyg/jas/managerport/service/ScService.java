@@ -11,5 +11,7 @@ import java.util.List;
 public interface ScService {
      public int AddSc(Sc sc);
      public List<String> getCourseBySno(String sNo);
+//     学生端使用
+     public List<String> getCourseIdBySno(String sNo);
 
 }

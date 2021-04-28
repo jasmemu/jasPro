@@ -20,4 +20,6 @@ public interface HomeworkService {
     List<Homework> getForSearch(String comId,String hName);
 
     Integer removeByBatch(List<Homework> homeworks);
+//    学生端使用
+    List<Homework> getHomeworkByCourseid(String courseid);
 }

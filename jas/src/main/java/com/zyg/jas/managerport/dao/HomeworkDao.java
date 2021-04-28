@@ -20,4 +20,6 @@ public interface HomeworkDao {
     Homework selectJobByHid(Integer hId);
 
     Integer deleteByBatch(@Param("homeworks") List<Homework> homeworks);
+//    学生端使用
+    public List<Homework> selectHomeworkByCourseid(String courseid);
 }

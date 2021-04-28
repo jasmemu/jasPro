@@ -21,4 +21,7 @@ public interface ResourceService {
     Resources getResourceById(Integer id);
 
     Integer removeByBatch(List<Resources> resources);
+
+//    学生端使用
+    List<Resources> getResourceWithoutId();
 }

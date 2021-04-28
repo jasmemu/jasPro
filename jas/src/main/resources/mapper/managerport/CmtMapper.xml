@@ -146,5 +146,14 @@
     </delete>
 
 
+    <!--    学生端使用该功能-->
+
+    <select id="searchComidByStu"  resultMap="cmtMap">
+        select com_id from committee
+        where spe_id = #{speId} and c_grade=#{cGrade} and c_class=#{cClass}
+    </select>
+
+
+
 
 </mapper>

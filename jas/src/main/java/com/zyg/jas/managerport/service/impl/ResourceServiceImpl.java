@@ -94,4 +94,10 @@ public class ResourceServiceImpl implements ResourceService {
         }
         return resourceDao.deleteByBatch(resources);
     }
+
+//    学生端使用
+    @Override
+    public List<Resources> getResourceWithoutId() {
+        return this.resourceDao.getResourceWithoutId();
+    }
 }

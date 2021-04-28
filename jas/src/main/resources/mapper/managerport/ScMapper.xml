@@ -23,7 +23,10 @@
     <delete id="deleteScBySno" parameterType="String">
         delete from SC where s_no = #{sNo}
     </delete>
-    
 
+<!--    学生端使用-->
+    <select id="selectCourseIdBySno" resultType="java.lang.String">
+        select sc_id from sc where s_no = #{sNo};
+    </select>
 
 </mapper>

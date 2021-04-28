@@ -64,6 +64,10 @@
         </if>
     </select>
 
+<!--学生端使用-->
+    <select id="selectCourseByName" resultMap="courseMap" parameterType="String">
+        select * from course where cs_name = #{name}
+    </select>
 
 
 

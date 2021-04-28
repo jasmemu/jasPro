@@ -21,4 +21,7 @@ public interface NoticeDao {
      List<Notice> selectForSearch(Map map);
 
     Integer deleteByBatch(@Param("noticeList") List<Notice> noticeList);
+
+     //不用学委id即可获取所有公告，学生端使用该功能读取公告信息
+     List<Notice> selectAllNoticeWithoutId();
 }

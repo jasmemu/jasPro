@@ -61,4 +61,9 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
     public Integer removeByBatch(List<LeaveMessage> leaveMessages) {
         return leaveMessageDao.deleteByBatch(leaveMessages);
     }
+//学生端使用
+    @Override
+    public List<LeaveMessage> selectMessageBySno(String sNo) {
+        return leaveMessageDao.selectMessageBySno(sNo);
+    }
 }

@@ -56,4 +56,11 @@ public class NoticeServiceImpl implements NoticeService {
     public Integer removeByBatch(List<Notice> noticeList) {
         return noticeDao.deleteByBatch(noticeList);
     }
+
+    //学生端使用该功能：不用id获取公告信息
+    @Override
+    public List<Notice> selectAllNoticeWithoutId() {
+        List<Notice> list = this.noticeDao.selectAllNoticeWithoutId();
+        return list;
+    }
 }

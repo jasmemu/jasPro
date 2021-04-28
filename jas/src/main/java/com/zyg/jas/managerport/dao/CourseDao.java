@@ -24,4 +24,6 @@ public interface CourseDao {
     public Course selectCourseForSearch(Course course); //前端搜索框使用
 
     Integer deleteByBatch(@Param("courseList") List<Course> courseList);
+//学生端使用
+    public Course selectCourseByName(String name);//根据course name查询一条记录
 }

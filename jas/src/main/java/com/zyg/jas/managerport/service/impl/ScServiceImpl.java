@@ -22,4 +22,9 @@ public class ScServiceImpl implements ScService {
     public List<String> getCourseBySno(String sNo) {
         return this.scDao.selectCourseBySno(sNo);
     }
+
+    @Override
+    public List<String> getCourseIdBySno(String sNo) {
+        return this.scDao.selectCourseIdBySno(sNo);
+    }
 }

@@ -105,7 +105,7 @@
         methods:{
             goLoginPage(val){
                 if (val == 'student') {
-                    this.$router.push('/StudentMainPage')
+                    this.$router.push('/StudentLogin')
                 }else if (val== 'cmt'){
                     this.$router.push('/CmtLogin')
                 }else if (val=='manager') {

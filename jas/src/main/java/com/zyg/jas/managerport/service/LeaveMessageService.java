@@ -22,4 +22,6 @@ public interface LeaveMessageService {
    Integer removeById(Integer id);
 
     Integer removeByBatch(List<LeaveMessage> leaveMessages);
+//学生端使用
+   List<LeaveMessage>selectMessageBySno(String sNo);
 }

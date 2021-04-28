@@ -64,7 +64,15 @@
           and m.com_id =#{comId}  and m.reply_message is not null and m.reply_message != '';
     </select>
 
+    <!--    以下学生端使用-->
+    <insert id="sendMessageByStu" parameterType="LeaveMessage" >
+        insert into leave_message(com_id,s_no,leave_message,lm_date)
+        values (#{comId},#{sNo},#{leaveMessage},#{lmDate});
+    </insert>
 
+    <select id="selectMessageBySno"  resultMap="messageMap" parameterType="String">
+        select * from leave_message where s_no =#{sNo}
+    </select>
 
 
 </mapper>

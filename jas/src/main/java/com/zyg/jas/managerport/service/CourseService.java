@@ -29,4 +29,6 @@ public interface CourseService {
     List<Course> getForNameByCmtId(String cmtId);
 
      List<Course> getForName();
+//学生端使用
+    Course getCourseByName(String name);
 }

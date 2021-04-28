@@ -90,4 +90,9 @@ public class HomeworkServiceImpl implements HomeworkService {
         }
         return homeworkDao.deleteByBatch(homeworks);
     }
+//学生端使用
+    @Override
+    public List<Homework> getHomeworkByCourseid(String courseid) {
+        return this.homeworkDao.selectHomeworkByCourseid(courseid);
+    }
 }

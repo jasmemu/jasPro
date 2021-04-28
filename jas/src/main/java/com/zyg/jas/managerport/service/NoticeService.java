@@ -19,4 +19,7 @@ public interface NoticeService {
     List<Notice> getNoticesForSearch(String cmtId,String publishDate,String noticeTitle);
 
     Integer removeByBatch(List<Notice> noticeList);
+
+    //不用id获取公告信息，学生端使用
+    List<Notice> selectAllNoticeWithoutId();
 }

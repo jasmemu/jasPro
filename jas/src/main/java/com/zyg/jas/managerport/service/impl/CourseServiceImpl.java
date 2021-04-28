@@ -78,6 +78,8 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> getForName() {
         return this.courseDao.selectForName();
     }
+
+
     @Override
     public List<Course> getForNameByCmtId(String cmtId) {
         return courseDao.selectForNameByCmtId(cmtId);
@@ -222,6 +224,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Integer removeByBatch(List<Course> courseList) {
         return courseDao.deleteByBatch(courseList);
+    }
+
+//学生端使用
+    @Override
+    public Course getCourseByName(String name) {
+        return this.courseDao.selectCourseByName(name);
     }
 
 }

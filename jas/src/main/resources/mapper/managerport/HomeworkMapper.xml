@@ -57,5 +57,9 @@
         </foreach>
     </delete>
 
+<!--学生端使用-->
+    <select id="selectHomeworkByCourseid" resultMap="jobMap" >
+        select  h_name,com_id,h_url,publish_date,end_date,h_path,mark from homework where course_id = #{courseId}
+    </select>
 
 </mapper>

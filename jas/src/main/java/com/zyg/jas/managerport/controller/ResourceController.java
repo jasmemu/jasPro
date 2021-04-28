@@ -78,4 +78,12 @@ public class ResourceController {
         }
     }
 
+//学生端使用
+    // 获取资料信息not with id
+    @RequestMapping(value = "/getResourceWithoutId",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Resources> getResourceHandler()  {
+        return this.resourceService.getResourceWithoutId();
+    }
+
 }

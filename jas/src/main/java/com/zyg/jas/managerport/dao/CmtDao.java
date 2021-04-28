@@ -45,4 +45,7 @@ public interface CmtDao {
     // 根据查询出来的学号和作业id查询未提交作业的学生信息
     Student selectBySnoAndHid(@Param("cmtId") String cmtId,@Param("courseId") String courseId,
                                      @Param("hId") Integer hId,@Param("sNo") String sNo);
+
+    //学生端使用该功能
+    Committee searchComidByStu(@Param("speId") int speId,@Param("cGrade") String sGrade,@Param("cClass") int sClass);
 }

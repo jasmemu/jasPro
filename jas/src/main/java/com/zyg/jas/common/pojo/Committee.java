@@ -19,12 +19,14 @@ public class Committee implements Serializable {
     private String cGrade;
     private Integer cClass;
 
+    private Integer speId;
+
     private List<Course> courses; //一个学习委员可能管理多门课程的作业
 
     public Committee() {
     }
 
-    public Committee(String comId, String password, String name, String phone, String email, Specialty specialty, String cGrade, Integer cClass, List<Course> courses) {
+    public Committee(String comId, String password, String name, String phone, String email, Specialty specialty, String cGrade, Integer cClass, Integer speId, List<Course> courses) {
         this.comId = comId;
         this.password = password;
         this.name = name;
@@ -33,6 +35,7 @@ public class Committee implements Serializable {
         this.specialty = specialty;
         this.cGrade = cGrade;
         this.cClass = cClass;
+        this.speId = speId;
         this.courses = courses;
     }
 
@@ -106,6 +109,14 @@ public class Committee implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Integer getSpeId() {
+        return speId;
+    }
+
+    public void setSpeId(Integer speId) {
+        this.speId = speId;
     }
 
     @Override

@@ -20,4 +20,6 @@ public interface ResourceDao {
     Resources selectResourceById(Integer id);
 
     Integer deleteByBatch(@Param("resourcesList") List<Resources> resources);
+//    学生端使用
+    List<Resources> getResourceWithoutId();
 }
