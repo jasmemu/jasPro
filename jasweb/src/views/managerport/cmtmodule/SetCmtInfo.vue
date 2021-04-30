@@ -1,9 +1,9 @@
 <template>
     <div style="width: 100%">
-        <div style="float: left">
-            <h1>课程管理员个人信息设置</h1>
+        <div style="text-align: center">
+            <h3>课程管理员个人信息设置</h3>
         </div>
-        <div class="formBlock" >
+        <div class="formBlock" style="margin-left: 30%" >
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-form-item label="账号" prop="comId">
                     <el-input v-model="formData.comId" placeholder="请输入账号" readonly clearable :style="{width: '100%'}" size="mini"></el-input>
@@ -12,7 +12,7 @@
                     <el-input v-model="formData.name" placeholder="请输入姓名" readonly clearable :style="{width: '100%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" >
-                    <el-input v-model="formData.password" placeholder="请输入密码"  clearable :style="{width: '100%'}" size="mini">
+                    <el-input v-model="formData.password"  show-password placeholder="请输入密码"  clearable :style="{width: '100%'}" size="mini">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="电话" prop="phone">
@@ -166,6 +166,6 @@
         width: 50%;
         margin-left: 150px;
         float: left;
-        margin-top: 110px;
+        margin-top: 50px;
     }
 </style>

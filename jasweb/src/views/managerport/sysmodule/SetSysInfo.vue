@@ -1,34 +1,34 @@
 <template>
     <div style="width: 100%">
-        <div style="float: left">
-            <h1>系统管理员个人信息设置</h1>
+        <div style="text-align: center">
+            <h3>系统管理员个人信息设置</h3>
         </div>
-        <div class="formBlock" >
+        <div class="formBlock"  style="margin-left: 30%">
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-form-item label="账号" prop="account">
-                    <el-input v-model="formData.account" placeholder="请输入账号" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.account" placeholder="请输入账号" clearable :style="{width: '50%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" prop="name">
-                    <el-input v-model="formData.name" placeholder="请输入姓名" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.name" placeholder="请输入姓名" clearable :style="{width: '50%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" >
-                    <el-input v-model="formData.password" placeholder="请输入密码"  clearable :style="{width: '100%'}" size="mini">
+                    <el-input v-model="formData.password" placeholder="请输入密码"  clearable :style="{width: '50%'}" size="mini">
                     </el-input>
                 </el-form-item>
                 <el-form-item label="电话" prop="phone">
-                    <el-input v-model="formData.phone" placeholder="请输入电话" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.phone" placeholder="请输入电话" clearable :style="{width: '50%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="formData.email" placeholder="请输入邮箱" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.email" placeholder="请输入邮箱" clearable :style="{width: '50%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱授权码" prop="qqAuthCode">
-                    <el-input v-model="formData.qqAuthCode" placeholder="请输入邮箱授权码" clearable :style="{width: '100%'}" size="mini"></el-input>
+                    <el-input v-model="formData.qqAuthCode" placeholder="请输入邮箱授权码" clearable :style="{width: '50%'}" size="mini"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号" prop="identify">
-                    <el-input v-model="formData.identify" placeholder="请输入身份证号" clearable :style="{width: '100%'}" size="mini">
+                    <el-input v-model="formData.identify" placeholder="请输入身份证号" clearable :style="{width: '50%'}" size="mini">
                     </el-input>
                 </el-form-item>
-                <el-form-item size="small" style="margin-left: 250px">
+                <el-form-item size="small" style="margin-left: 10%">
                     <el-button type="primary" @click="submitForm">提交</el-button>
                     <el-button @click="resetForm">重置</el-button>
                     <el-button @click="goBack">返回</el-button>
@@ -182,6 +182,6 @@
         width: 50%;
         margin-left: 150px;
         float: left;
-        margin-top: 110px;
+        margin-top: 50px;
     }
 </style>

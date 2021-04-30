@@ -1,7 +1,7 @@
 <template>
     <div style="text-align: center;">
-        <h1>留言详情</h1>
-        <table style="width: 90%">
+        <h3>留言详情</h3>
+        <table style="width: 80%;margin-left: 1%">
             <tr>
                 <td class="td1">
                     留言人姓名：
@@ -98,7 +98,7 @@ import axios from 'axios'
 
 <style lang="scss" scoped>
 .td1{
-    width: 20%;
+    width: 15%;
     text-align: right;
 }
     .td2{

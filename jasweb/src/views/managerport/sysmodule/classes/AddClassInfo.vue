@@ -22,7 +22,7 @@
           <el-input v-model="formData.numClass" :readonly="updateClass"  placeholder="请输入班级号（如1、2、3）"  clearable :style="{width: '100%'}" size="mini">
           </el-input>
         </el-form-item>
-        <el-form-item label="班主任教师编号"  prop="charge">
+        <el-form-item label="班主任编号"  prop="charge">
           <el-input v-model="formData.charge" placeholder="请输入班主任教师编号" clearable :style="{width: '100%'}" size="mini"></el-input>
         </el-form-item>
         <el-form-item size="small" style="margin-left: 250px">

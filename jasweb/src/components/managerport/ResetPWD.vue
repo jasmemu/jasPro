@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="width: 40%;margin-left: 20%;margin-top: 100px;background-color: #E9EEF3">
+        <div style="width: 40%;margin-left: 30%;margin-top: 100px;">
             <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
                 <el-form-item label="新密码" prop="newPWD">
                     <el-input v-model="formData.newPWD" show-password placeholder="" clearable :style="{width: '60%'}" size="mini"></el-input>

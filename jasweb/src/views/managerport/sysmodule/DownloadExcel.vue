@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div >
-            <h1>excel模板</h1>
+        <div style="text-align: center">
+            <h3>系统管理员个人信息设置</h3>
         </div>
         <hr>
         <div style="width: 80%;margin-left: 200px;">
@@ -53,7 +53,7 @@
         },
         methods:{
             goBack(){
-                this.$router.push('/SysMainPage')
+                this.$router.push('/SysMainPage/StuMainDiv')
             },
             downloadExcel(row) {
                 console.log(row.excelUrl)
