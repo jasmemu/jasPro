@@ -164,7 +164,7 @@ export default {
   },
   mounted(){
     var _this = this
-    axios.get('http://localhost:8080/jas/mport/notice/getNoticeWithoutId').then(function (resp) {
+    axios.get('http://localhost:8080/jas/sport/notice/getNoticeWithoutId').then(function (resp) {
       console.log(resp.data)
       _this.tableData = resp.data
     })
