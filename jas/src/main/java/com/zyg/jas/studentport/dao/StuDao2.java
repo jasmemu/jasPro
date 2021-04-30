@@ -2,7 +2,7 @@ package com.zyg.jas.studentport.dao;
 
 import com.zyg.jas.common.pojo.Student;
 
-public interface StuDao {
+public interface StuDao2 {
     Student selectStudentById(String sNo);//学生端登录查询使用
     Student selectStudentByIdWith(String id);//根据id查询一条记录，联合查询
     Integer updateStudentPersonal(Student student);//在学生端改变自己可以改变的信息

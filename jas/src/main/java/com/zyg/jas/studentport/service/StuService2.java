@@ -6,7 +6,7 @@ import com.zyg.jas.common.pojo.Student;
 import java.util.Date;
 import java.util.List;
 
-public interface StuService {
+public interface StuService2 {
     Student getStudentByAccount(String LoginAccount, String loginPassword);
     int saveStu(Student student);
     List<Student> getAllStu(Integer pageNo, Integer pageSize);

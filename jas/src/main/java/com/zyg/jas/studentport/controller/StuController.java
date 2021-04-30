@@ -1,11 +1,11 @@
 package com.zyg.jas.studentport.controller;
 
 import com.zyg.jas.common.pojo.*;
-import com.zyg.jas.managerport.service.CourseService;
-import com.zyg.jas.managerport.service.HomeworkService;
-import com.zyg.jas.managerport.service.LeaveMessageService;
-import com.zyg.jas.managerport.service.ScService;
-import com.zyg.jas.studentport.service.StuService;
+import com.zyg.jas.studentport.service.CourseService2;
+import com.zyg.jas.studentport.service.HomeworkService2;
+import com.zyg.jas.studentport.service.LeaveMessageService2;
+import com.zyg.jas.studentport.service.ScService2;
+import com.zyg.jas.studentport.service.StuService2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,15 @@ import java.util.List;
 public class StuController {
     private static final Logger logger = LoggerFactory.getLogger(StuController.class);
     @Autowired
-    private StuService stuService;
+    private StuService2 stuService;
     @Autowired
-    private ScService scService;
+    private ScService2 scService;
     @Autowired
-    private CourseService courseService;
+    private CourseService2 courseService;
     @Autowired
-    private HomeworkService homeworkService;
+    private HomeworkService2 homeworkService;
     @Autowired
-    private LeaveMessageService leaveMessageService;
+    private LeaveMessageService2 leaveMessageService;
 
     //根据loginAccount，password登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)

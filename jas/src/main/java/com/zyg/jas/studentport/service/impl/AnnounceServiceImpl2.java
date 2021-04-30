@@ -2,8 +2,8 @@ package com.zyg.jas.studentport.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.zyg.jas.common.pojo.Notice;
-import com.zyg.jas.studentport.dao.AnnounceDao;
-import com.zyg.jas.studentport.service.AnnounceService;
+import com.zyg.jas.studentport.dao.AnnounceDao2;
+import com.zyg.jas.studentport.service.AnnounceService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AnnounceServiceImpl implements AnnounceService {
+public class AnnounceServiceImpl2 implements AnnounceService2 {
    @Autowired
-    private AnnounceDao announceDao;
+    private AnnounceDao2 announceDao;
 
     @Override
     public List<Notice> getNoticeByCmtId(String cmtId, Integer pageNo, Integer pageSize) {

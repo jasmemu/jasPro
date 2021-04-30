@@ -2,10 +2,10 @@ package com.zyg.jas.studentport.service.impl;
 
 import com.zyg.jas.common.pojo.Committee;
 import com.zyg.jas.common.pojo.Student;
-import com.zyg.jas.managerport.dao.CmtDao;
-import com.zyg.jas.managerport.dao.LeaveMessageDao;
-import com.zyg.jas.studentport.dao.StuDao;
-import com.zyg.jas.studentport.service.StuService;
+import com.zyg.jas.studentport.dao.CmtDao2;
+import com.zyg.jas.studentport.dao.LeaveMessageDao2;
+import com.zyg.jas.studentport.dao.StuDao2;
+import com.zyg.jas.studentport.service.StuService2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class StuServiceImpl implements StuService {
+public class StuServiceImpl2 implements StuService2 {
     @Autowired
-    private StuDao stuDao;
+    private StuDao2 stuDao;
     @Autowired
-    private CmtDao cmtDao;
+    private CmtDao2 cmtDao;
     @Autowired
-    private LeaveMessageDao leaveMessageDao;
+    private LeaveMessageDao2 leaveMessageDao;
 //    @Autowired
 //    private NoticeDao noticeDao;
 //    @Autowired
