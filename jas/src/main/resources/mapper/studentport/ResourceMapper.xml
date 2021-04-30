@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.ResourceDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="resourceMap" type="com.zyg.jas.common.pojo.Resources">
+        <id property="id" column="id" />
+        <result property="comId" column="com_id"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourceUrl" column="resource_url"/>
+        <result property="uploadTime" column="upload_time"/>
+        <result property="resourceType" column="resource_type"/>
+        <result property="resourcePath" column="resource_path"/>
+        <association property="committee" javaType="com.zyg.jas.common.pojo.Committee">
+            <id property="comId" column="com_id" />
+            <result property="name" column="cmt_name"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertResource" parameterType="com.zyg.jas.common.pojo.Resources">
+        insert into resources(com_id, resource_name, resource_url, upload_time, resource_Type,resource_path)
+        values (#{comId},#{resourceName},#{resourceUrl},#{uploadTime},#{resourceType},#{resourcePath});
+    </insert>
+
+    <select id="selectResources" resultMap="resourceMap" parameterType="String">
+        select r.*,c.com_id,c.cmt_name from resources r inner join committee c on r.com_id =c.com_id and r.com_id=#{comId}
+    </select>
+
+    <select id="selectCountByCmtId" resultType="Integer" parameterType="String">
+        select count(com_id) from resources where com_id = #{comId};
+    </select>
+
+    <select id="selectForSearch"  resultMap="resourceMap">
+         select r.*,c.com_id,c.cmt_name from resources r inner join committee c on r.com_id =c.com_id and
+         r.com_id=#{comId} and  r.resource_name like concat('%',#{resourceName},'%');
+    </select>
+
+    <select id="selectResourceById" parameterType="Integer" resultMap="resourceMap" >
+        select * from resources where id =#{id};
+    </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from resources where id = #{id};
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from resources where id  in
+        <foreach collection="resourcesList" item="re" open="(" separator="," close=")">
+            #{re.id}
+        </foreach>
+    </delete>
+
+<!--学生端使用-->
+    <select id="getResourceWithoutId"  resultMap="resourceMap" >
+        select * from resources;
+    </select>
+
+
+</mapper>

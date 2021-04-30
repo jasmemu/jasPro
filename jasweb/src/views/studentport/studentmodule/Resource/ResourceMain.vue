@@ -86,7 +86,7 @@ export default {
   created(){
     // this.comId =sessionStorage.getItem('cmtComId')
     var that = this
-    axios.get('http://localhost:8080/jas/mport/resource/getResourceWithoutId').then(function (resp) {
+    axios.get('http://localhost:8080/jas/sport/resource/getResourceWithoutId').then(function (resp) {
       // that.total = resp.data
       that.tableData = resp.data
     })
