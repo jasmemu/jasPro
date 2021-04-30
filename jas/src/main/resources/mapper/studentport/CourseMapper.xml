@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zyg.jas.managerport.dao.CourseDao">
+<mapper namespace="com.zyg.jas.studentport.dao.CourseDao2">
     <!--开启本Mapper的二级缓存-->
     <cache></cache>
 
@@ -64,6 +64,10 @@
         </if>
     </select>
 
+<!--学生端使用-->
+    <select id="selectCourseByName" resultMap="courseMap" parameterType="String">
+        select * from course where cs_name = #{name}
+    </select>
 
 
 

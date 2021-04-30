@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zyg.jas.managerport.dao.CmtDao">
+<mapper namespace="com.zyg.jas.managerport.dao.CmtDao2">
     <!--开启本Mapper的二级缓存-->
     <cache></cache>
 
@@ -144,6 +144,15 @@
             #{cmt.comId}
         </foreach>
     </delete>
+
+
+    <!--    学生端使用该功能-->
+
+    <select id="searchComidByStu"  resultMap="cmtMap">
+        select com_id from committee
+        where spe_id = #{speId} and c_grade=#{cGrade} and c_class=#{cClass}
+    </select>
+
 
 
 

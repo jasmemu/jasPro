@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.StuDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="stuMap" type="com.zyg.jas.common.pojo.Student">
+        <id property="sNo" column="s_no" />
+        <result property="password" column="s_password"/>
+        <result property="name" column="s_name"/>
+        <result property="phone" column="s_phone"/>
+        <result property="email" column="s_email"/>
+        <result property="sGrade" column="s_grade"/>
+        <result property="sClass" column="s_class"/>
+        <result property="speId" column="spe_id"/>
+<!--        <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">-->
+<!--            <result property="speId" column="spe_id"/>-->
+<!--            <result property="speName" column="spe_name"/>-->
+<!--        </association>-->
+<!--        <collection property="courses" ofType="com.zyg.jas.common.pojo.Course" >-->
+<!--            <id property="courseId" column="course_id" />-->
+<!--            <result property="name" column="cs_name"/>-->
+<!--            <result property="period" column="cs_period"/>-->
+<!--            <result property="credit" column="cs_credit"/>-->
+<!--            <result property="beginDate" column="begin_date"/>-->
+<!--            <result property="endDate" column="end_date"/>-->
+<!--        </collection>-->
+    </resultMap>
+<!--    <resultMap id="noticeMap" type="com.zyg.jas.common.pojo.Notice">-->
+<!--        <id property="id" column="id" />-->
+<!--        <result property="comId" column="com_id"/>-->
+<!--        <result property="publishDate" column="publish_date"/>-->
+<!--        <result property="content" column="notice_content"/>-->
+<!--        <result property="noticeTitle" column="notice_title"/>-->
+<!--        &lt;!&ndash; association用于一对一    &ndash;&gt;-->
+<!--        <association property="committee" javaType="com.zyg.jas.common.pojo.Committee">-->
+<!--            <id property="comId" column="com_id" />-->
+<!--            <result property="name" column="cmt_name"/>-->
+<!--            <result property="phone" column="cmt_phone"/>-->
+<!--            <result property="email" column="cmt_email"/>-->
+<!--            <result property="cGrade" column="c_grade"/>-->
+<!--            <result property="cClass" column="c_class"/>-->
+<!--            &lt;!&ndash; association用于一对一       &ndash;&gt;-->
+<!--            <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">-->
+<!--                <id property="speId" column="spe_id" />-->
+<!--                <result property="speName" column="spe_name"/>-->
+<!--            </association>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+    <select id="selectStudentById" resultMap="stuMap" parameterType="String">
+        select * from student where s_no = #{sNo};
+    </select>
+
+    <update id="updateStudentById" parameterType="com.zyg.jas.common.pojo.Student">
+        update student set s_name=#{name},s_phone=#{phone},s_grade=#{sGrade},
+                             s_class=#{sClass}, s_email=#{email} ,s_password =#{password} where  s_no=#{sNo};
+    </update>
+
+    <update id="updateStudentPersonal" parameterType="com.zyg.jas.common.pojo.Student">
+        update student set s_name=#{name},s_phone=#{phone},
+                             s_email=#{email} ,s_password =#{password} where  s_no=#{sNo};
+    </update>
+
+
+    <select id="selectStudentByIdWith" resultMap="stuMap" parameterType="String">
+        SELECT com1.* , cou1.*,spe1.* from CC c1 LEFT JOIN committee com1 on com1.com_id = c1.com_id
+                                                 LEFT JOIN course cou1 ON cou1.cs_name = c1.cs_name INNER JOIN specialty spe1 ON spe1.spe_id = com1.spe_id
+        where com1.s_no=#{sNo};
+    </select>
+
+<!--    下面是公告查询等操作-->
+<!--    <select id="selectByIdWith" parameterType="Integer" resultMap="noticeMap">-->
+<!--        select n.*,c.*,s.* from notice n inner join committee c   on n.com_id = c.com_id and n.id = #{id}-->
+<!--                                         inner join specialty s  on s.spe_id = c.spe_id;-->
+<!--    </select>-->
+
+<!--    <select id="selectTotal" resultType="Integer" parameterType="String">-->
+<!--        select count(*) from notice where com_id = #{cmtId};-->
+<!--    </select>-->
+
+<!--    <select id="selectAllNotice" resultMap="noticeMap" parameterType="String">-->
+<!--        select * from notice where com_id = #{cmtId}-->
+<!--    </select>-->
+
+<!--    <select id="selectForSearch"  resultMap="noticeMap" >-->
+<!--        select * from notice where  com_id= #{cmtId}-->
+<!--        <if test="publishDate != null and publishDate != ''">-->
+<!--            and publish_date = #{publishDate}-->
+<!--        </if>-->
+<!--        <if test="noticeTitle != null and noticeTitle != ''">-->
+<!--            and notice_title like concat('%',#{noticeTitle},'%')-->
+<!--        </if>-->
+<!--    </select>-->
+</mapper>

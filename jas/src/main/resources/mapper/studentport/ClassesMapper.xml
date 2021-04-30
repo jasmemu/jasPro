@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.managerport.dao.ClassesDao2">
+    <!--开启本Mapper的二级缓存-->
+<!--    <cache></cache>-->
+
+    <resultMap id="classesMap" type="com.zyg.jas.common.pojo.Classes">
+        <id property="id" column="id" />
+        <result property="speId" column="spe_id"/>
+        <result property="numClass" column="num_class"/>
+        <result property="grade" column="grade"/>
+        <result property="charge" column="charge"/>
+        <!-- association用于一对一       -->
+        <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
+            <id property="speId" column="spe_id" />
+            <result property="speName" column="spe_name"/>
+        </association>
+        <!-- association用于一对一       -->
+        <association property="teacher" javaType="com.zyg.jas.common.pojo.Teacher">
+            <id property="tNo" column="t_no" />
+            <result property="name" column="tea_name"/>
+            <result property="identify" column="tea_identify"/>
+            <result property="phone" column="tea_phone"/>
+            <result property="email" column="tea_email"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="classVoMap" type="com.zyg.jas.common.tool.vo.ClassVO">
+        <result property="speId" column="spe_id" />
+        <result property="sGrade" column="s_grade"/>
+        <result property="sClass" column="s_class"/>
+        <result property="num" column="num"/>
+    </resultMap>
+    
+    <select id="selectAllClasses" resultMap="classesMap">
+        select c.id, c.spe_id, c.num_class, c.grade, c.charge ,s.spe_id,s.spe_name ,t.t_no,t.tea_name,
+        t.tea_identify,t.tea_phone,t.tea_email from classes c
+         inner join specialty s on c.spe_id = s.spe_id inner join teacher t on c.charge = t.t_no order by c.id desc
+    </select>
+    <select id="selectClassesForSearch" resultMap="classesMap">
+        select c.id, c.spe_id, c.num_class, c.grade, c.charge ,s.spe_id,s.spe_name ,t.t_no,t.tea_name,
+        t.tea_identify,t.tea_phone,t.tea_email from classes c
+        inner join specialty s on c.spe_id = s.spe_id inner join teacher t on c.charge = t.t_no
+        where  1=1
+        <if test="speId != null">
+            and c.spe_id=#{speId}
+        </if>
+        <if test="cGrade != null and cGrade != ''">
+            and c.grade=#{cGrade}
+        </if>
+        <if test="cClass != null">
+            and c.num_class=#{cClass}
+        </if>
+    </select>
+
+    <select id="selectTotal" resultType="Integer">
+        select count(id) from classes;
+    </select>
+
+    <select id="selectCountBySpecialtyGradeClass" resultMap="classVoMap" >
+        select spe_id,s_grade,s_class,count(*) as num from student group by spe_id,s_grade,s_class;
+    </select>
+
+    <select id="selectClassNoRepetition" resultType="Integer">
+        select MAX(num_class) from classes;
+    </select>
+
+    <select id="selectNumClassesBySpeIdAndGrade" resultType="Integer">
+        select distinct num_class from classes where spe_id=#{speId} and grade=#{grade};
+    </select>
+
+    <insert id="addClasses" parameterType="com.zyg.jas.common.pojo.Classes" >
+        insert  into classes(spe_id, grade, num_class, charge) values (#{speId},#{grade},#{numClass},#{charge});
+    </insert>
+
+    <update id="updateClasses" parameterType="com.zyg.jas.common.pojo.Classes">
+        update classes set charge = #{charge}  where spe_id=#{speId} and  grade=#{grade} and
+        num_class=#{numClass};
+    </update>
+
+    <delete id="deleteClassesById" parameterType="Integer">
+        delete from classes where id =#{id};
+    </delete>
+
+    <delete id="deleteClassBatchById" parameterType="int">
+        DELETE FROM classes WHERE Id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectClassesBySpeId" parameterType="Integer" resultType="Integer">
+        select count(id) from classes where spe_id =#{speId};
+    </select>
+
+</mapper>

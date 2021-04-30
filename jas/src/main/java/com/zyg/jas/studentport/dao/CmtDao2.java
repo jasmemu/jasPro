@@ -1,4 +1,4 @@
-package com.zyg.jas.managerport.dao;
+package com.zyg.jas.studentport.dao;
 
 import com.zyg.jas.common.pojo.Committee;
 import com.zyg.jas.common.pojo.Student;
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 
-public interface CmtDao {
+public interface CmtDao2 {
 
     public int insertCmt(Committee committee); //添加一个学委记录
 
@@ -31,23 +31,21 @@ public interface CmtDao {
 
     Integer  deleteByBatch(@Param("committeeList") List<Committee> committeeList);
 
-    void updatePwdByAuthCode(@Param("stuNo") String stuNo,@Param("newPwd") String newPWD);
+    void updatePwdByAuthCode(@Param("stuNo") String stuNo, @Param("newPwd") String newPWD);
 
     // 查询本学期没有交作业的学生
-    List<Student> selectStatisticsNotSumbmitByCourseId(@Param("cmtId") String cmtId,@Param("courseId") String courseId);
+    List<Student> selectStatisticsNotSumbmitByCourseId(@Param("cmtId") String cmtId, @Param("courseId") String courseId);
 
     // 查询已提交作业的学生
-    List<Student> selectStatisticsSubmit(@Param("cmtId") String cmtId,@Param("courseId") String courseId);
+    List<Student> selectStatisticsSubmit(@Param("cmtId") String cmtId, @Param("courseId") String courseId);
 
     // 查询应该提交作业的学生
-    List<Student> selectShouldSubmit(@Param("cmtId") String cmtId,@Param("courseId") String courseId);
+    List<Student> selectShouldSubmit(@Param("cmtId") String cmtId, @Param("courseId") String courseId);
 
     // 根据查询出来的学号和作业id查询未提交作业的学生信息
-    Student selectBySnoAndHid(@Param("cmtId") String cmtId,@Param("courseId") String courseId,
-                                     @Param("hId") Integer hId,@Param("sNo") String sNo);
+    Student selectBySnoAndHid(@Param("cmtId") String cmtId, @Param("courseId") String courseId,
+                              @Param("hId") Integer hId, @Param("sNo") String sNo);
 
-
-    //学生端=============
     //学生端使用该功能
-//    Committee searchComidByStu(@Param("speId") int speId,@Param("cGrade") String sGrade,@Param("cClass") int sClass);
+    Committee searchComidByStu(@Param("speId") int speId, @Param("cGrade") String sGrade, @Param("cClass") int sClass);
 }

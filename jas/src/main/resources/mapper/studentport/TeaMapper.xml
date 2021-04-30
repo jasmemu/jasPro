@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.TeaDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="teaMap" type="com.zyg.jas.common.pojo.Teacher">
+        <id property="tNo" column="t_no" />
+        <result property="password" column="tea_password"/>
+        <result property="name" column="tea_name"/>
+        <result property="identify" column="tea_identify"/>
+        <result property="phone" column="tea_phone"/>
+        <result property="email" column="tea_email"/>
+    </resultMap>
+    <select id="selectAllTea" resultMap="teaMap">
+		select * from teacher
+	</select>
+
+    <select id="selectCountOfTea" resultType="Integer">
+        select count(*) from teacher;
+    </select>
+    <insert id="insertToTeacher" parameterType="com.zyg.jas.common.pojo.Teacher">
+        insert into  teacher(t_no, tea_password,tea_name,tea_identify,tea_phone,tea_email)
+        values (#{tNo},#{password},#{name},#{identify},#{phone},#{email});
+    </insert>
+
+    <select id="selectTeaByTno" resultMap="teaMap" parameterType="String">
+        select * from teacher where t_no = #{tNo}
+    </select>
+
+    <update id="updateTea" parameterType="com.zyg.jas.common.pojo.Teacher">
+        update teacher set tea_password=#{password},tea_name=#{name},tea_identify=#{identify},tea_phone=#{phone},
+        tea_email=#{email} where t_no = #{tNo}
+    </update>
+
+
+    <select id="selectTeaForSearch" parameterType="com.zyg.jas.common.pojo.Teacher"  resultMap="teaMap" >
+        select * from teacher where 1=1
+        <if test="tNo!=null and tNo!=''">
+            and t_no=#{tNo}
+        </if>
+        <if test="name!=null and name!=''">
+            and tea_name=#{name}
+        </if>
+    </select>
+
+    <delete id="deleteByTno" parameterType="String">
+        delete from teacher where t_no = #{tNo}
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from teacher where t_no  in
+        <foreach collection="teacherList" item="tea" open="(" separator="," close=")">
+            #{tea.tNo}
+        </foreach>
+    </delete>
+
+
+
+</mapper>

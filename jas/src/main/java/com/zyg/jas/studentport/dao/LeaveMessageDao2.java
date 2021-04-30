@@ -1,4 +1,4 @@
-package com.zyg.jas.managerport.dao;
+package com.zyg.jas.studentport.dao;
 
 import com.zyg.jas.common.pojo.LeaveMessage;
 import org.apache.ibatis.annotations.Param;
@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public interface LeaveMessageDao {
+public interface LeaveMessageDao2 {
 
     Integer insertMessage(LeaveMessage leaveMessage);
 
@@ -24,8 +24,7 @@ public interface LeaveMessageDao {
     Integer deleteById(Integer id);
 
     Integer deleteByBatch(@Param("leaveMessages") List<LeaveMessage> leaveMessages);
-
-    //学生端使用
-//    List<LeaveMessage> selectMessageBySno(String sNo);
-//    void sendMessageByStu(@Param("comId") String comId, @Param("sNo") String sNo,@Param("leaveMessage") String leaveMessage,@Param("lmDate") Date lmDate);
+//学生端使用
+    List<LeaveMessage> selectMessageBySno(String sNo);
+    void sendMessageByStu(@Param("comId") String comId, @Param("sNo") String sNo, @Param("leaveMessage") String leaveMessage, @Param("lmDate") Date lmDate);
 }

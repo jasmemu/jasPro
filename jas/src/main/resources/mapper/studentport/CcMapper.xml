@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zyg.jas.managerport.dao.CCDao">
+<mapper namespace="com.zyg.jas.studentport.dao.CCDao2">
     <!--开启本Mapper的二级缓存-->
     <cache></cache>
 
     <resultMap id="ccMap" type="com.zyg.jas.common.pojo.CC">
         <id property="id" column="id" />
         <result property="comId" column="com_id"/>
-        <result property="courseId" column="course_id"/>
+        <result property="courseId" column="cs_name"/>
         <association property="committee" javaType="com.zyg.jas.common.pojo.Committee">
             <id property="comId" column="com_id" />
             <result property="name" column="cmt_name"/>

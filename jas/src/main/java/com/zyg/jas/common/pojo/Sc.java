@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Sc implements Serializable {
     private Integer scId;
 
+    //courseId课程名称
     private String courseId;
 
     private String sNo;

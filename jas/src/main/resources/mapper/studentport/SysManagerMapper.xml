@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.SysManagerDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="sysManagerMap" type="com.zyg.jas.common.pojo.SysManager">
+        <id property="id" column="id" />
+        <result property="name" column="sys_name"/>
+        <result property="phone" column="sys_phone"/>
+        <result property="account" column="sys_account"/>
+        <result property="password" column="sys_password"/>
+        <result property="email" column="sys_email"/>
+        <result property="identify" column="sys_identify"/>
+        <result property="qqAuthCode" column="qq_auth_code"/>
+    </resultMap>
+
+    <update id="updatePwdByAuthCode" parameterType="String">
+        update sys_manager set sys_password =#{newPWD} where sys_account =#{account};
+    </update>
+
+    <update id="updateSys" parameterType="com.zyg.jas.common.pojo.SysManager">
+        update sys_manager set sys_name=#{name},sys_phone=#{phone},sys_account=#{account},
+        sys_password=#{password},sys_email=#{email},qq_auth_code=#{qqAuthCode},sys_identify =#{identify};
+    </update>
+
+
+    <select id="selectSysForLogin" resultMap="sysManagerMap">
+         select sys_name,sys_account,sys_password from sys_manager where
+         sys_account=#{account} and sys_password =#{password};
+    </select>
+
+    <select id="selectSysByAccount" resultMap="sysManagerMap" parameterType="String">
+        select * from sys_manager where sys_account = #{account}
+    </select>
+
+    <select id="getSysManager" resultMap="sysManagerMap">
+      select * from sys_manager;
+    </select>
+
+    <delete id="deleteALlStudents">
+        delete from student;
+    </delete>
+
+    <delete id="deleteAllCmt">
+        delete from committee;
+    </delete>
+
+    <delete id="deleteAllTeachers">
+        delete from teacher;
+    </delete>
+
+
+
+    
+
+
+</mapper>

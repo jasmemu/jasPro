@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.StudentDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="studentMap" type="com.zyg.jas.common.pojo.Student">
+        <id property="sNo" column="s_no" />
+        <result property="name" column="s_name" />
+        <result property="password" column="s_password" />
+        <result property="phone" column="s_phone"/>
+        <result property="identify" column="s_identify"/>
+        <result property="speId" column="spe_id" />
+        <result property="enrollment" column="s_enrollment"/>
+        <result property="email" column="s_email" />
+        <result property="sGrade" column="s_grade"/>
+        <result property="sClass" column="s_class" />
+        <!-- association用于一对一    -->
+        <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
+            <id property="speId" column="spe_id" />
+            <result property="speName" column="spe_name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectStudentByClasses" resultMap="studentMap" parameterType="com.zyg.jas.common.pojo.Classes">
+        select student.*,specialty.* from student inner join specialty on  student.spe_id = specialty.spe_id
+        where student.spe_id =#{speId} and student.s_grade= #{grade} and student.s_class=#{numClass};
+    </select>
+
+    <select id="selectAllStu" resultMap="studentMap">
+		select * from student s inner join specialty spe on s.spe_id=spe.spe_id
+	</select>
+
+    <select id="selectCountOfStu" resultType="Integer">
+        select count(*) from student;
+    </select>
+
+    <select id="selectStuBySno" resultMap="studentMap" parameterType="String">
+        select * from student where s_no = #{sNo}
+    </select>
+
+    <insert id="insertStudent" parameterType="com.zyg.jas.common.pojo.Student">
+        insert into  student(s_no, s_name, s_password, s_phone, s_identify, spe_id, s_enrollment, s_email, s_grade, s_class)
+        values (#{sNo},#{name},#{password},#{phone},#{identify},#{speId},#{enrollment},#{email},#{sGrade},#{sClass});
+    </insert>
+
+    <update id="updateStudent" parameterType="com.zyg.jas.common.pojo.Student">
+        update student set s_name=#{name},s_password=#{password},s_phone=#{phone},s_identify=#{identify},spe_id=#{speId},
+        s_enrollment=#{enrollment},s_email=#{email},s_grade=#{sGrade},s_class=#{sClass} where s_no = #{sNo}
+    </update>
+
+    <select id="selectStuForSearch" parameterType="com.zyg.jas.common.pojo.Student"  resultMap="studentMap" >
+          select * from student where 1=1
+              <if test="sNo!=null and sNo!=''">
+                 and s_no=#{sNo}
+              </if>
+              <if test="name!=null and name!=''">
+                  and s_name=#{name}
+              </if>
+    </select>
+
+    <delete id="deleteBySno" parameterType="String">
+        delete from student where s_no = #{sNo}
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from student where s_no  in
+        <foreach collection="studentList" item="stu" open="(" separator="," close=")">
+            #{stu.sNo}
+        </foreach>
+    </delete>
+
+</mapper>

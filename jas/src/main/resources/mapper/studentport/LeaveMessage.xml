@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.LeaveMessageDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="messageMap" type="com.zyg.jas.common.pojo.LeaveMessage">
+        <id property="id" column="id" />
+        <result property="comId" column="com_id"/>
+        <result property="sNo" column="s_no"/>
+        <result property="leaveMessage" column="leave_message"/>
+        <result property="replyMessage" column="reply_message"/>
+        <result property="lmDate" column="lm_date"/>
+        <result property="rmDate" column="rm_date"/>
+        <!-- association用于一对一       -->
+        <association property="student" javaType="com.zyg.jas.common.pojo.Student">
+            <id property="sNo" column="s_no" />
+            <result property="name" column="s_name" />
+        </association>
+    </resultMap>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from leave_message where id =#{id};
+    </delete>
+
+    <delete id="deleteByBatch" parameterType="java.util.List">
+        delete from leave_message where id  in
+        <foreach collection="leaveMessages" item="message" open="(" separator="," close=")">
+            #{message.id}
+        </foreach>
+    </delete>
+
+    <update id="updateReplyById" parameterType="LeaveMessage">
+        update leave_message set reply_message =#{replyMessage},rm_date=#{rmDate} where id =#{id};
+    </update>
+
+    <insert id="insertMessage" parameterType="LeaveMessage">
+        insert into leave_message(com_id, s_no, leave_message, reply_message, lm_date, rm_date)
+        values (#{comId},#{sNo},#{leaveMessage},#{replyMessage},#{lmDate},#{rmDate});
+    </insert>
+
+    <select id="selectMessageByCmtIdWith"  resultMap="messageMap" parameterType="String">
+        select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no and m.com_id =#{comId}
+    </select>
+
+    <select id="selectCountByCmtId" parameterType="String" resultType="Integer">
+        select count(com_id) from leave_message where com_id = #{comId};
+    </select>
+
+    <select id="selectById" parameterType="Integer" resultMap="messageMap">
+        select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no and m.id =#{id};
+    </select>
+
+    <select id="selectForSearchNotReplyWith" resultMap="messageMap">
+          select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no
+          and m.com_id =#{comId}  and m.reply_message is null or m.reply_message='' ;
+    </select>
+
+    <select id="selectForSearchIsReplyWith" resultMap="messageMap">
+          select m.*,s.s_no,s.s_name from leave_message m inner join student s on m.s_no=s.s_no
+          and m.com_id =#{comId}  and m.reply_message is not null and m.reply_message != '';
+    </select>
+
+    <!--    以下学生端使用-->
+    <insert id="sendMessageByStu" parameterType="LeaveMessage" >
+        insert into leave_message(com_id,s_no,leave_message,lm_date)
+        values (#{comId},#{sNo},#{leaveMessage},#{lmDate});
+    </insert>
+
+    <select id="selectMessageBySno"  resultMap="messageMap" parameterType="String">
+        select * from leave_message where s_no =#{sNo}
+    </select>
+
+
+</mapper>

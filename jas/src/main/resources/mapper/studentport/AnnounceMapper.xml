@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zyg.jas.studentport.dao.AnnounceDao2">
+    <!--开启本Mapper的二级缓存-->
+    <cache></cache>
+
+    <resultMap id="announceMap" type="com.zyg.jas.common.pojo.Notice">
+        <id property="id" column="id" />
+        <result property="comId" column="com_id"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="content" column="notice_content"/>
+        <result property="noticeTitle" column="notice_title"/>
+        <!-- association用于一对一    -->
+        <association property="committee" javaType="com.zyg.jas.common.pojo.Committee">
+            <id property="comId" column="com_id" />
+            <result property="name" column="cmt_name"/>
+            <result property="phone" column="cmt_phone"/>
+            <result property="email" column="cmt_email"/>
+            <result property="cGrade" column="c_grade"/>
+            <result property="cClass" column="c_class"/>
+            <!-- association用于一对一       -->
+            <association property="specialty" javaType="com.zyg.jas.common.pojo.Specialty">
+                <id property="speId" column="spe_id" />
+                <result property="speName" column="spe_name"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="selectAnnounceById" parameterType="Integer" resultMap="announceMap">
+        select n.*,c.*,s.* from notice n inner join committee c   on n.com_id = c.com_id and n.id = #{id}
+                                         inner join specialty s  on s.spe_id = c.spe_id;
+    </select>
+
+    <select id="selectTotalA" resultType="Integer" parameterType="String">
+        select count(*) from notice where com_id = #{cmtId};
+    </select>
+
+    <select id="selectAllAnnounce" resultMap="announceMap" parameterType="String">
+        select * from notice where com_id = #{cmtId}
+    </select>
+
+    <select id="selectForSearching"  resultMap="announceMap" >
+        select * from notice where  com_id= #{cmtId}
+        <if test="publishDate != null and publishDate != ''">
+            and publish_date = #{publishDate}
+        </if>
+        <if test="noticeTitle != null and noticeTitle != ''">
+            and notice_title like concat('%',#{noticeTitle},'%')
+        </if>
+    </select>
+
+
+
+
+
+</mapper>

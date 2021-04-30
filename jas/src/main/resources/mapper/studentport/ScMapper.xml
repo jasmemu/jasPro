@@ -3,12 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.zyg.jas.managerport.dao.ScDao">
+<mapper namespace="com.zyg.jas.studentport.dao.ScDao2">
     <!--开启本Mapper的二级缓存-->
     <cache></cache>
 
     <resultMap id="ScMap" type="com.zyg.jas.common.pojo.Sc">
-        <id property="courseId" column="course_id" />
+        <id property="courseId" column="cs_name" />
         <result property="sNo" column="s_no"/>
     </resultMap>
     <insert id="insertToSc" parameterType="com.zyg.jas.common.pojo.Sc">
@@ -23,7 +23,10 @@
     <delete id="deleteScBySno" parameterType="String">
         delete from SC where s_no = #{sNo}
     </delete>
-    
 
+<!--    学生端使用-->
+    <select id="selectCourseIdBySno" resultType="java.lang.String">
+        select sc_id from sc where s_no = #{sNo};
+    </select>
 
 </mapper>

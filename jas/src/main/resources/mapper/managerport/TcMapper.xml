@@ -9,16 +9,16 @@
 
     <resultMap id="tcMap" type="com.zyg.jas.common.pojo.Tc">
         <id property="tcId" column="tc_id" />
-        <result property="courseId" column="course_id"/>
+        <result property="courseId" column="cs_name"/>
         <result property="tNo" column="t_no"/>
     </resultMap>
     <insert id="insertToTc" parameterType="com.zyg.jas.common.pojo.Tc">
-        insert into  TC(tc_id,course_id, t_no)
+        insert into  TC(tc_id,cs_name, t_no)
         values (#{tcId},#{courseId},#{tNo});
     </insert>
 
     <select id="selectCourseByTno" resultType="java.lang.String">
-		select course_id from TC where t_no = #{tNo};
+		select cs_name from TC where t_no = #{tNo};
 	</select>
 
     <delete id="deleteTcByTno" parameterType="String">

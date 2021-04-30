@@ -6,7 +6,8 @@ public class CC implements Serializable {
     private Integer id;
     private String comId;
     private Committee committee;
-    private String courseId; //课程名称
+    //courseId课程名称
+    private String courseId;
     private Course course;
 
     public CC() {
